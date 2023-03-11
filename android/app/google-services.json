@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "990973164997",
+    "project_id": "rentease-f31f4",
+    "storage_bucket": "rentease-f31f4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:990973164997:android:5c88ff6111b0bd3b461fac",
+        "android_client_info": {
+          "package_name": "in.brototype.rentease"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "990973164997-7ehtb6spdges1q276flncj9d73uund84.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "in.brototype.rentease",
+            "certificate_hash": "4645937912cb5d66bfac562f3329b8f0c04603e5"
+          }
+        },
+        {
+          "client_id": "990973164997-cslrmkgmbef7u52j0mnlaahcuf5b4g0q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCkh488JnOCAA64dP3jbbN5Ky2AvKurcz8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "990973164997-cslrmkgmbef7u52j0mnlaahcuf5b4g0q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
