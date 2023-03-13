@@ -9,9 +9,7 @@ import 'package:rentease/view/core/const_colors.dart';
 import 'package:rentease/view/core/string_consts.dart';
 import 'package:rentease/view/core/textformfield.dart';
 import 'package:rentease/view/core/widgets.dart';
-import 'package:rentease/view/homepage/additem/additem_screen2.dart';
 import 'package:rentease/view/homepage/additem/widgets/amount_widget.dart';
-import 'package:rentease/view/signuppage/widget/image_widget.dart';
 
 class AddItemScreen extends StatelessWidget {
   const AddItemScreen({super.key});
