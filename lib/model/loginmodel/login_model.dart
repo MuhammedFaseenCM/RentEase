@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 class LoginModel extends GetxController {
   TextEditingController signinemailController = TextEditingController();
   TextEditingController signinpasswordController = TextEditingController();
-  final formKey = GlobalKey<FormState>();
+  
   bool _passwordVisible = false;
 
   bool get passwordVisible => _passwordVisible;

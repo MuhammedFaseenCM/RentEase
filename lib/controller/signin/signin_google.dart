@@ -1,10 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:rentease/main.dart';
 import 'package:rentease/view/core/utils.dart';
-import 'package:rentease/view/homepage/home_page.dart';
 
-Future<void> siginInWithGoogle({
+siginInWithGoogle({
   required context,
 }) async {
   showDialog(
@@ -22,13 +22,9 @@ Future<void> siginInWithGoogle({
     AuthCredential credential = GoogleAuthProvider.credential(
         accessToken: googleSignInAuthentication.accessToken,
         idToken: googleSignInAuthentication.idToken);
-    await auth.signInWithCredential(credential);
-
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(
-        builder: (context) => const MainScreen(),
-      ),
-    );
+    final signin = await auth.signInWithCredential(credential);
+    navigatorKey.currentState!.popUntil((route) => route.isFirst);
+    return signin;
   } on Exception catch (e) {
     Utils.showSnackBar(e.toString());
   }

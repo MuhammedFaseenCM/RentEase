@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rentease/view/core/utils.dart';
 import 'package:rentease/view/homepage/home_page.dart';
-import 'package:rentease/view/loginpage/widgets/login_page_widget.dart';
+import 'package:rentease/view/loginpage/login_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -48,22 +48,8 @@ class MyApp extends StatelessWidget {
       );
 }
 
-// class BoxDecWidget extends StatelessWidget {
-//   const BoxDecWidget({super.key});
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return BoxDecoration(
-//       gradient: LinearGradient(
-//         begin: Alignment.topLeft,
-//         end: Alignment.bottomRight,
-//         colors: [Colors.orange[900]!, Colors.orange[800]!, Colors.orange[400]!],
-//       ),
-//     );
-
-//   }
-// }
-boxDecoration() => BoxDecoration(
+final boxDecoration = BoxDecoration(
       gradient: LinearGradient(
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,

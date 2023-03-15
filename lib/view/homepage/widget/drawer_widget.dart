@@ -5,8 +5,7 @@ import 'package:rentease/controller/signout/signout_function.dart';
 
 class DrawerWidget extends StatelessWidget {
   final String email;
-  final GoogleSignIn googleSignIn;
-  const DrawerWidget({super.key, required this.email, required this.googleSignIn});
+  const DrawerWidget({super.key, required this.email});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +28,7 @@ class DrawerWidget extends StatelessWidget {
               color: Colors.blueGrey,
               text: "Logout",
               onpressed: (context) {
-                signOutFunc(context: context, googleSignIn: googleSignIn);
+                signOutFunc(context: context);
               })
         ],
       ),

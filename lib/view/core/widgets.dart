@@ -6,6 +6,9 @@ const kheight20 = SizedBox(
 const kheight10 = SizedBox(
   height: 10.0,
 );
+const kwidth10 = SizedBox(
+  width: 10.0,
+);
 
 class AppBarContainer extends StatelessWidget {
   const AppBarContainer({super.key});

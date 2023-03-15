@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:rentease/view/loginpage/widgets/login_page_widget.dart';
+import 'package:rentease/view/loginpage/login_screen.dart';
 import 'package:rentease/view/signuppage/signup_screen.dart';
 
 class AuthPage extends StatefulWidget {

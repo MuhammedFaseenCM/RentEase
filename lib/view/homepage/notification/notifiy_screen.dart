@@ -8,7 +8,7 @@ class NotifyScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return  Container(
       width: MediaQuery.of(context).size.width,
-      decoration: boxDecoration(),
+      decoration: boxDecoration,
       child: Center(
         child: Text("Notification"),
       ),

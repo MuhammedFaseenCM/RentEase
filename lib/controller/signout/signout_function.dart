@@ -1,9 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:rentease/main.dart';
-import 'package:rentease/view/loginpage/widgets/login_page_widget.dart';
 
-Future<void> signOutFunc({required context, required googleSignIn}) async {
+Future<void> signOutFunc({required context}) async {
+  final GoogleSignIn googleSignIn = GoogleSignIn();
   showDialog(
     context: context,
     builder: (context) => const Center(
@@ -13,11 +14,4 @@ Future<void> signOutFunc({required context, required googleSignIn}) async {
   FirebaseAuth.instance.signOut();
   googleSignIn.signOut();
   navigatorKey.currentState!.popUntil((route) => route.isFirst);
-  Navigator.of(context).pushReplacement(
-    MaterialPageRoute(
-      builder: (context) {
-        return const LoginPage();
-      },
-    ),
-  );
 }

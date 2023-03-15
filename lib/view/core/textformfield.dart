@@ -1,7 +1,6 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:provider/provider.dart';
 import 'package:rentease/model/loginmodel/login_model.dart';
 import 'package:rentease/model/signupmodel/signup_model.dart';
 
@@ -19,6 +18,7 @@ class TextFieldWidget extends StatelessWidget {
   final bool isPswd;
   final IconData? icon;
   final IconData? prefixIcon;
+  final Function(String value)? validator;
   const TextFieldWidget({
     super.key,
     required this.hintText,
@@ -34,6 +34,7 @@ class TextFieldWidget extends StatelessWidget {
     this.isPswd = false,
     this.icon,
     this.prefixIcon,
+    this.validator,
   });
   static final SignUpModel signupmodel = Get.put(SignUpModel());
   static LoginModel loginmodel = Get.put(LoginModel());
@@ -67,22 +68,18 @@ class TextFieldWidget extends StatelessWidget {
         keyboardType: keyboardType,
         obscureText: obscureText,
         autovalidateMode: AutovalidateMode.onUserInteraction,
-        validator: (value) {
-          if (isEmail) {
-            if (value != null && !EmailValidator.validate(value)) {
-              return 'Enter a valid email';
-            } else {
-              return null;
-            }
-          } else if (isPswd) {
-            if (value != null && value.length < 6) {
-              return "Enter minimum 6 characters";
-            } else {
-              return null;
-            }
-          }
-          return null;
-        },
+        validator: isEmail
+            ? (value) {
+                if (isEmail) {
+                  if (value != null && !EmailValidator.validate(value)) {
+                    return '\t\tEnter a valid email\n';
+                  } else {
+                    return null;
+                  }
+                }
+                return null;
+              }
+            : ((value) => validator!(value!)),
         decoration: InputDecoration(
             border: InputBorder.none,
             hintText: hintText,

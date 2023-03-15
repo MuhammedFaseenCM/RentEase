@@ -14,34 +14,6 @@ import 'package:rentease/view/loginpage/widgets/forgotpswd_screen.dart';
 import 'package:rentease/view/loginpage/widgets/google_widget.dart';
 import 'package:rentease/view/signuppage/signup_screen.dart';
 
-class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: const PreferredSize(
-        preferredSize: Size.fromHeight(60),
-        child: AppBarWidget(title: StringConsts.appName),
-      ),
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        decoration: boxDecoration(),
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(0.0),
-            child: Column(
-              children: const [HeaderSection(), LoginSection()],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
 class HeaderSection extends StatelessWidget {
   const HeaderSection({super.key});
 
@@ -81,7 +53,7 @@ class HeaderSection extends StatelessWidget {
 
 class LoginSection extends StatelessWidget {
   const LoginSection({super.key});
-  static final loginKey = GlobalKey<FormState>();
+  static final loginFormKey = GlobalKey<FormState>();
   static LoginModel loginmodel = Get.put(LoginModel());
   @override
   Widget build(BuildContext context) {
@@ -100,7 +72,7 @@ class LoginSection extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(10.0),
           child: Form(
-            key: loginKey,
+            key: loginFormKey,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -121,6 +93,13 @@ class LoginSection extends StatelessWidget {
                   suffixIcon: true,
                   isPswd: true,
                   prefixIcon: Icons.lock,
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return "\t\tEnter password\n";
+                    } else if (value.length < 6) {
+                      return "\t\tEnter a valid password";
+                    }
+                  },
                 ),
                 kheight20,
                 kheight20,
@@ -141,7 +120,7 @@ class LoginSection extends StatelessWidget {
                 ButtonWidget(
                   text: StringConsts.logintext,
                   onpressed: (context) {
-                    final isValid = loginKey.currentState!.validate();
+                    final isValid = loginFormKey.currentState!.validate();
                     if (!isValid) return;
                     signIn(
                         context: context,

@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rentease/model/itemmodel/item_model.dart';
@@ -28,6 +26,14 @@ class AmountContainer extends StatelessWidget {
           }
           itemModel.onPriceChange();
         },
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return "Enter a valid amount";
+          } else {
+            return null;
+          }
+        },
+        keyboardType: TextInputType.number,
         textAlign: TextAlign.center,
         decoration: InputDecoration(
             border: InputBorder.none,

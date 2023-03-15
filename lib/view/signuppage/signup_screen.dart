@@ -21,7 +21,7 @@ class SignUpScreen extends StatelessWidget {
         child: Container(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
-          decoration: boxDecoration(),
+          decoration: boxDecoration,
           child: Padding(
             padding: const EdgeInsets.all(10.0),
             child: Form(
@@ -30,15 +30,26 @@ class SignUpScreen extends StatelessWidget {
                 children: [
                   kheight20,
                   TextFieldWidget(
-                      hintText: "name",
-                      controller: fullnameController,
-                      prefixIcon: Icons.person),
+                    hintText: "Full name",
+                    controller: signupmodel.fullnameController,
+                    prefixIcon: Icons.person,
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return "\t\tEnter a valid name\n";
+                      }
+                    },
+                  ),
                   kheight20,
                   TextFieldWidget(
                     hintText: "Phone number",
-                    controller: numberController,
+                    controller: signupmodel.numberController,
                     keyboardType: TextInputType.number,
                     prefixIcon: Icons.phone,
+                    validator: (value) {
+                      if (value.isEmpty || value.length != 10) {
+                        return "\t\tEnter a valid phone number\n";
+                      }
+                    },
                   ),
                   kheight20,
                   TextFieldWidget(
@@ -52,18 +63,30 @@ class SignUpScreen extends StatelessWidget {
                     hintText: "Password",
                     controller: signupmodel.passwordController,
                     obscureText: !signupmodel.passwordVisible,
-                    isPswd: true,
                     prefixIcon: Icons.lock,
                     suffixIcon: true,
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return "\t\tEnter valid password\n";
+                      } else if (value.length < 6) {
+                        return "\t\tEnter atleast 6 characters\n";
+                      }
+                    },
                   ),
                   kheight20,
                   TextFieldWidget(
                     hintText: "Confirm password",
-                    controller: confirmpasswordController,
+                    controller: signupmodel.confirmpasswordController,
                     obscureText: !signupmodel.passwordVisible,
-                    isPswd: true,
                     suffixIcon: true,
                     prefixIcon: Icons.lock,
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return "Enter valid password";
+                      } else if (value != signupmodel.passwordController.text) {
+                        return "\t\tPassword doesn't match\n";
+                      }
+                    },
                   ),
                   kheight20,
                   ButtonWidget(
@@ -103,8 +126,3 @@ class SignUpTextFieldWidget extends StatelessWidget {
     );
   }
 }
-
-TextEditingController fullnameController = TextEditingController();
-TextEditingController numberController = TextEditingController();
-TextEditingController usernameController = TextEditingController();
-TextEditingController confirmpasswordController = TextEditingController();

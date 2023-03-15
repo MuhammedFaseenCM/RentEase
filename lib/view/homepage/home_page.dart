@@ -21,9 +21,9 @@ class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser!;
-    final GoogleSignIn googleSignIn = GoogleSignIn();
+    
     return Scaffold(
-        drawer: DrawerWidget(email: user.email!, googleSignIn: googleSignIn),
+        drawer: DrawerWidget(email: user.email!),
         appBar: const PreferredSize(
           preferredSize: Size.fromHeight(60),
           child: AppBarWidget(title: StringConsts.appName),
@@ -32,21 +32,14 @@ class MainScreen extends StatelessWidget {
         body: Obx(() {
           return IndexedStack(
               index: controller.selectedIndex.value,
-              children: const [
-                HomeScreen(),
-                AddItemScreen(),
-                NotifyScreen(),
-                OrderSCreen(),
-                ProfileScreen()
+              children:  [
+                const HomeScreen(),
+                AddItemScreen(email: user.email),
+                const NotifyScreen(),
+                const OrderSCreen(),
+                const ProfileScreen()
               ]);
         }));
   }
 }
 
-const pages = [
-  HomeScreen(),
-  AddItemScreen(),
-  NotifyScreen(),
-  OrderSCreen(),
-  ProfileScreen()
-];

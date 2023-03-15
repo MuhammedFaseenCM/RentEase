@@ -5,8 +5,13 @@ import 'package:image_picker/image_picker.dart';
 class SignUpModel extends GetxController {
   TextEditingController signupemailController = TextEditingController();
   TextEditingController signuppasswordController = TextEditingController();
+  TextEditingController fullnameController = TextEditingController();
+  TextEditingController numberController = TextEditingController();
+  TextEditingController usernameController = TextEditingController();
+  TextEditingController confirmpasswordController = TextEditingController();
+  TextEditingController locationController = TextEditingController();
   final signupformKey = GlobalKey<FormState>();
-  String picture = '';
+  var picture = ''.obs;
   final ImagePicker picker = ImagePicker();
   bool _passwordVisible = false;
 
@@ -32,9 +37,17 @@ class SignUpModel extends GetxController {
     if (image == null) {
       return;
     }
-    picture = image.path;
+    picture.value = image.path;
     Navigator.of(context).pop();
   }
 
-  
+  void clearAll() {
+    fullnameController.clear();
+    numberController.clear();
+    emailController.clear();
+    passwordController.clear();
+    confirmpasswordController.clear();
+    locationController.clear();
+    picture = ''.obs;
+  }
 }

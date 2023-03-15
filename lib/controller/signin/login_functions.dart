@@ -1,7 +1,8 @@
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:rentease/view/core/utils.dart';
+import 'package:get/get.dart';
+import 'package:rentease/main.dart';
+import 'package:rentease/view/core/const_colors.dart';
 
 Future signIn({required context, required email, required password}) async {
   showDialog(
@@ -13,8 +14,19 @@ Future signIn({required context, required email, required password}) async {
   try {
     await FirebaseAuth.instance
         .signInWithEmailAndPassword(email: email, password: password);
+    Get.snackbar(
+      "Signed in as $email",
+      "",
+      backgroundColor: kgreenColor,
+      colorText: kwhiteColor,
+    );
   } on FirebaseAuthException catch (e) {
-    Utils.showSnackBar(e.message);
+    Get.snackbar(
+      e.toString(),
+      "",
+      backgroundColor: kredColor,
+      colorText: kwhiteColor,
+    );
   }
-  Navigator.of(context).popUntil((route) => route.isFirst);
+  navigatorKey.currentState!.popUntil((route) => route.isFirst);
 }

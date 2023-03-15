@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class Utils {
   static final messengerKey = GlobalKey<ScaffoldMessengerState>();
-  static showSnackBar(String? text,{color}) {
-    final snackBar = SnackBar(
-      behavior: SnackBarBehavior.floating,
-      margin: const EdgeInsets.all(10),
-      content: Text(text!),
-      backgroundColor:color?? Colors.red,
-    );
+  static showSnackBar(String? text, {color, textColor,snackPosition}) {
+    Get.snackbar(text!, "", backgroundColor: color, colorText: textColor,snackPosition: snackPosition);
 
-    messengerKey.currentState!
-      ..removeCurrentSnackBar()
-      ..showSnackBar(snackBar);
+    // messengerKey.currentState!
+    //   ..removeCurrentSnackBar()
+    //   ..sNackBar;
   }
 }
