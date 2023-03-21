@@ -32,12 +32,12 @@ class MainScreen extends StatelessWidget {
         body: Obx(() {
           return IndexedStack(
               index: controller.selectedIndex.value,
-              children:  [
-                const HomeScreen(),
-                AddItemScreen(email: user.email),
-                const NotifyScreen(),
-                const OrderSCreen(),
-                const ProfileScreen()
+              children:  const [
+                HomeScreen(),
+                AddItemScreen(),
+                NotifyScreen(),
+                OrderSCreen(),
+                ProfileScreen()
               ]);
         }));
   }

@@ -52,6 +52,7 @@ class HomeScreen extends StatelessWidget {
                   itemCount: items.length,
                   itemBuilder: (context, index) {
                     Map thisItem = items[index];
+
                     return InkWell(
                       onTap: () => Get.to(() => ItemScreen(
                             itemMap: thisItem,
@@ -59,7 +60,8 @@ class HomeScreen extends StatelessWidget {
                       child: ItemContainer(
                         image: thisItem['image1'],
                         title: thisItem['title'] ?? "Title not available",
-                        perday: thisItem['dayPrice'],
+                        perday: thisItem['dayPrice'] ?? "Price not available",
+                        location: thisItem['location'] ?? "Unlocated",
                       ),
                     );
                   },

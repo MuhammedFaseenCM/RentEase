@@ -31,7 +31,7 @@ class BottomNavigationBarWidget extends GetView<HomeGetx> {
                 icon: IconButtonWidget(icon: Icons.drive_folder_upload_sharp),
                 label: "Orders"),
             BottomNavigationBarItem(
-                icon: IconButtonWidget(icon: Icons.person), label: "Profile"),
+                icon: IconButtonWidget(icon: Icons.person), label: "Account"),
           ]),
     );
   }

@@ -1,10 +1,13 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:rentease/controller/profile/fetch_profile_details.dart';
 import 'package:rentease/main.dart';
 import 'package:rentease/view/core/const_colors.dart';
 
@@ -18,15 +21,9 @@ class ItemModel extends GetxController {
   var dropdownValue = 'Electronics'.obs;
 
   final ImagePicker imagePicker = ImagePicker();
-
+  static ProfileControl profileControl = ProfileControl();
   void onDropdownChanged(String value) {
     dropdownValue.value = value;
-  }
-
-  void onPriceChange() {
-    int day = int.parse(dayController.text);
-    weekController.text = (day * 7).toString();
-    monthController.text = (day * 30).toString();
   }
 
   String image1Url = '';
@@ -85,6 +82,15 @@ class ItemModel extends GetxController {
     String weekPrice = weekController.text.trim();
     String monthPrice = monthController.text.trim();
     final docUser = FirebaseFirestore.instance.collection("RentEase");
+    final snapshot = profileControl.docRef
+        .doc(FirebaseAuth.instance.currentUser!.email.toString());
+    Map? data;
+    var docsnapshot = await snapshot.get();
+
+    if (docsnapshot.exists) {
+      data = docsnapshot.data();
+      log(data?['location']);
+    }
 
     Map<String, String> dataToSend = {
       'title': itemTitle,
@@ -96,6 +102,8 @@ class ItemModel extends GetxController {
       'image1': image1Url,
       'image2': image2Url,
       'image3': image3Url,
+      'email': FirebaseAuth.instance.currentUser!.email.toString(),
+      'location': data?['location'] ?? 'Location not available'
     };
 
     docUser.add(dataToSend);

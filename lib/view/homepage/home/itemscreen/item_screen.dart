@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:rentease/main.dart';
 import 'package:rentease/view/core/appbar_widget.dart';
@@ -22,6 +23,11 @@ class ItemScreen extends StatelessWidget {
     String bulletText = '';
     for (String line in lines) {
       bulletText += '\u2022 $line\n';
+    }
+    bool isOwner = false;
+
+    if (itemMap['email'] == FirebaseAuth.instance.currentUser!.email) {
+      isOwner = true;
     }
     return Scaffold(
       appBar: const PreferredSize(
@@ -52,21 +58,29 @@ class ItemScreen extends StatelessWidget {
             kheight20,
             Text(
               itemMap['title'] ?? "Name not available",
-              style:
-                  const TextStyle(fontSize: 40.0, fontWeight: FontWeight.bold),
+              style: const TextStyle(
+                  fontSize: 40.0,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Times-New-Roman'),
             ),
             kheight10,
             Text(
               itemMap['dayPrice'] != null
                   ? "Rs.${itemMap['dayPrice']}/day"
                   : "Price not available",
-              style: const TextStyle(fontSize: 25.0),
+              style: const TextStyle(fontSize: 25.0, fontFamily: 'Roboto'),
             ),
-            ButtonWidget(
-              text: "Select a plan",
-              onpressed: (p0) {},
-              color: kBlue900,
-            ),
+            isOwner
+                ? ButtonWidget(
+                    text: "Edit your item",
+                    onpressed: (p0) {},
+                    color: kBlue900,
+                  )
+                : ButtonWidget(
+                    text: "Select a plan",
+                    onpressed: (p0) {},
+                    color: kgreenColor,
+                  ),
             const Text(
               "Details",
               style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold),

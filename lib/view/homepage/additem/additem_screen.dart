@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rentease/main.dart';
@@ -13,8 +14,8 @@ import 'package:rentease/view/homepage/additem/widgets/dropdownlist_widget.dart'
 import 'package:rentease/view/homepage/additem/widgets/image_select_widget.dart';
 
 class AddItemScreen extends StatelessWidget {
-  final String? email;
-  const AddItemScreen({super.key, required this.email});
+
+  const AddItemScreen({super.key});
   static ItemModel itemModel = Get.put(ItemModel());
   @override
   Widget build(BuildContext context) {
@@ -35,7 +36,7 @@ class AddItemScreen extends StatelessWidget {
                   controller: itemModel.itemTitleController,
                   prefixIcon: Icons.add_circle_outline_outlined,
                   validator: (value) {
-                    if (value == null ||  value.isEmpty) {
+                    if (value == null || value.isEmpty) {
                       return "\tEnter a valid title\n";
                     } else {
                       return null;
@@ -63,18 +64,35 @@ class AddItemScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     AmountContainer(
-                        hinText: StringConsts.dayText,
-                        controller: itemModel.dayController),
+                      hinText: StringConsts.dayText,
+                      controller: itemModel.dayController,
+                      onChanged: (value) {
+                        int day = int.tryParse(value) ?? 0;
+                        itemModel.weekController.text =
+                            (day * 7).ceil().toString();
+                        itemModel.monthController.text =
+                            (day * 30).ceil().toString();
+                      },
+                      width: 100.0,
+                    ),
                     AmountContainer(
-                        hinText: StringConsts.weekText,
-                        controller: itemModel.weekController),
+                      hinText: StringConsts.weekText,
+                      controller: itemModel.weekController,
+                      width: 100.0,
+                    ),
                     AmountContainer(
                       hinText: StringConsts.monthText,
                       controller: itemModel.monthController,
+                      width: 100.0,
                     )
                   ],
                 ),
                 kheight10,
+                const Text(
+                  StringConsts.upload3imageText,
+                  style: TextStyle(
+                      color: kwhiteColor, fontWeight: FontWeight.w500),
+                ),
                 ButtonWidget(
                   text: StringConsts.imagesText,
                   onpressed: (context) {
@@ -97,7 +115,7 @@ class AddItemScreen extends StatelessWidget {
                       if (!isValid) return;
                       itemModel.storeToFirestore(
                           categoryValue: itemModel.dropdownValue.value,
-                          email: email);
+                          email: FirebaseAuth.instance.currentUser!.email.toString());
                     },
                     color: kgreenColor,
                   ),

@@ -7,4 +7,4 @@ final kOrange900 = Colors.orange[900];
 final kBlue900 = Colors.blue[900];
 final kgrey = Colors.grey[700];
 const kredColor = Colors.red;
-const kgreenColor = Colors.green;
+final kgreenColor = Colors.green[700];

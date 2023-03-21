@@ -5,11 +5,13 @@ class ItemContainer extends StatelessWidget {
   final String image;
   final String? title;
   final String? perday;
+  final String? location;
   const ItemContainer(
       {super.key,
       required this.image,
       required this.title,
-      required this.perday});
+      required this.perday,
+      required this.location});
 
   @override
   Widget build(BuildContext context) {
@@ -32,19 +34,40 @@ class ItemContainer extends StatelessWidget {
             borderRadius: BorderRadius.circular(20.0),
           ),
           child: GridTile(
-            footer: GridTileBar(
-              backgroundColor: kwhiteColor,
-              subtitle: Text(
-                  perday != null ? "Rs.$perday/day" : "Price not available",
+            footer: ClipRRect(
+              borderRadius: const BorderRadius.only(
+                  bottomLeft: Radius.circular(20.0),
+                  bottomRight: Radius.circular(20.0)),
+              child: GridTileBar(
+                backgroundColor: kwhiteColor,
+                subtitle: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("Rs.$perday/day",
+                        style: const TextStyle(
+                          color: kblackColor,
+                        )),
+                    Row(
+                      children: [
+                        const Icon(
+                          Icons.location_on,
+                          color: kblackColor,
+                        ),
+                        Text("$location",
+                            style: const TextStyle(
+                              color: kblackColor,
+                            )),
+                      ],
+                    ),
+                  ],
+                ),
+                title: Text(
+                  title!,
                   style: const TextStyle(
-                    color: kblackColor,
-                  )),
-              title: Text(
-                title ?? "Name not available",
-                style: const TextStyle(
-                    color: kblackColor,
-                    fontSize: 17.0,
-                    fontWeight: FontWeight.bold),
+                      color: kblackColor,
+                      fontSize: 17.0,
+                      fontWeight: FontWeight.bold),
+                ),
               ),
             ),
             child: ClipRRect(

@@ -23,4 +23,5 @@ class StringConsts {
   static const idImageText = "Upload ID Image";
   static const imagesText = "Upload Images";
   static const nextText = "Next";
+  static const upload3imageText = "Upload 3 images*";
 }

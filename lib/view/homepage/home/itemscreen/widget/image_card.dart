@@ -15,6 +15,7 @@ class ImageCard extends StatelessWidget {
         width: 300.0,
         height: 250.0,
         fit: BoxFit.cover,
+        
         loadingBuilder: (context, child, loadingProgress) {
           if (loadingProgress == null) {
             return child;

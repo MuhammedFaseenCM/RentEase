@@ -6,29 +6,35 @@ import 'package:rentease/view/core/const_colors.dart';
 class AmountContainer extends StatelessWidget {
   final String hinText;
   final TextEditingController controller;
+  final Function(String)? onChanged;
+  final double? height;
+  final double? width;
   const AmountContainer(
-      {super.key, required this.hinText, required this.controller});
+      {super.key,
+      required this.hinText,
+      required this.controller,
+      this.onChanged,
+      this.height,
+      this.width});
   static ItemModel itemModel = Get.put(ItemModel());
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.only(top: 8.0),
-      height: 60,
-      width: 60,
+      height: height ?? 60,
+      width: width ?? 60,
       decoration: BoxDecoration(
           color: kwhiteColor, borderRadius: BorderRadius.circular(20.0)),
       child: TextFormField(
         controller: controller,
-        onChanged: (value) {
-          if (itemModel.dayController.text.isEmpty) {
-            itemModel.monthController.clear();
-            itemModel.weekController.clear();
-          }
-          itemModel.onPriceChange();
-        },
+        onChanged: onChanged,
         validator: (value) {
           if (value == null || value.isEmpty) {
             return "Enter a valid amount";
+          }
+          final n = int.tryParse(value);
+          if (n == null) {
+            return 'Please enter a valid number';
           } else {
             return null;
           }
