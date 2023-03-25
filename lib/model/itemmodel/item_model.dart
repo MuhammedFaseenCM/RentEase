@@ -1,6 +1,5 @@
 import 'dart:developer';
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -10,6 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:rentease/controller/profile/fetch_profile_details.dart';
 import 'package:rentease/main.dart';
 import 'package:rentease/view/core/const_colors.dart';
+import 'package:rentease/view/core/string_consts.dart';
 
 class ItemModel extends GetxController {
   TextEditingController itemTitleController = TextEditingController();
@@ -52,7 +52,7 @@ class ItemModel extends GetxController {
   Future<void> storeToFirestore(
       {required categoryValue, required email}) async {
     if (imageFileList.length != 3) {
-      Get.snackbar("Add 3 images*", "",
+      Get.snackbar(upload3imageText, "",
           backgroundColor: kredColor,
           colorText: kwhiteColor,
           snackPosition: SnackPosition.BOTTOM);
@@ -81,7 +81,7 @@ class ItemModel extends GetxController {
     String dayPrice = dayController.text.trim();
     String weekPrice = weekController.text.trim();
     String monthPrice = monthController.text.trim();
-    final docUser = FirebaseFirestore.instance.collection("RentEase");
+    final docUser = FirebaseFirestore.instance.collection(appName);
     final snapshot = profileControl.docRef
         .doc(FirebaseAuth.instance.currentUser!.email.toString());
     Map? data;
@@ -103,7 +103,7 @@ class ItemModel extends GetxController {
       'image2': image2Url,
       'image3': image3Url,
       'email': FirebaseAuth.instance.currentUser!.email.toString(),
-      'location': data?['location'] ?? 'Location not available'
+      'location': data?['location'] ?? locationNullText
     };
 
     docUser.add(dataToSend);

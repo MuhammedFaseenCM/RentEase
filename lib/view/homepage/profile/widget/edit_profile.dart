@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rentease/controller/profile/fetch_profile_details.dart';
@@ -20,7 +18,7 @@ class EditProfile extends StatelessWidget {
     return Scaffold(
       appBar: const PreferredSize(
         preferredSize: Size.fromHeight(60),
-        child: AppBarWidget(title: StringConsts.appName),
+        child: AppBarWidget(title: appName),
       ),
       body: Container(
         padding: const EdgeInsets.all(10.0),
@@ -43,7 +41,7 @@ class EditProfile extends StatelessWidget {
                     controller: value.nameController,
                     validator: (name) {
                       if (name.isEmpty) {
-                        return "Enter valid name";
+                        return validNameText;
                       }
                     },
                   );
@@ -58,11 +56,11 @@ class EditProfile extends StatelessWidget {
                 init: ProfileControl(),
                 builder: (value) {
                   return TextFieldWidget(
-                    hintText: "Phone number",
+                    hintText: numberText,
                     controller: value.phoneController,
                     validator: (phone) {
                       if (phone.isEmpty) {
-                        return "Enter valid number";
+                        return validNumberText;
                       }
                     },
                   );
@@ -77,11 +75,11 @@ class EditProfile extends StatelessWidget {
                 init: ProfileControl(),
                 builder: (value) {
                   return TextFieldWidget(
-                    hintText: "Location",
+                    hintText: locationText,
                     controller: value.locationController,
                     validator: (location) {
                       if (location.isEmpty) {
-                        return "Enter valid location";
+                        return validLocationText;
                       }
                     },
                   );
@@ -91,7 +89,7 @@ class EditProfile extends StatelessWidget {
                 init: ProfileControl(),
                 builder: (value) {
                   return ButtonWidget(
-                    text: "Save",
+                    text: saveText,
                     onpressed: (p0) {
                       
                       profileControl.updateDoc(

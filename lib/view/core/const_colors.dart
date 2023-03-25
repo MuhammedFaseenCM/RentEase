@@ -8,3 +8,7 @@ final kBlue900 = Colors.blue[900];
 final kgrey = Colors.grey[700];
 const kredColor = Colors.red;
 final kgreenColor = Colors.green[700];
+const kbluegreyColor = Colors.blueGrey;
+
+TextStyle kTextStyle =
+    const TextStyle(fontWeight: FontWeight.bold, fontSize: 14);

@@ -3,13 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rentease/main.dart';
 import 'package:rentease/view/core/const_colors.dart';
+import 'package:rentease/view/core/string_consts.dart';
 import 'package:rentease/view/homepage/home/itemscreen/item_screen.dart';
 import 'package:rentease/view/homepage/home/widget/item_container.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
   static CollectionReference reference =
-      FirebaseFirestore.instance.collection("RentEase");
+      FirebaseFirestore.instance.collection(appName);
 
   static Stream<QuerySnapshot> stream = reference.snapshots();
 
@@ -35,11 +36,11 @@ class HomeScreen extends StatelessWidget {
               } else if (snapshot.hasData) {
                 QuerySnapshot? querySnapshot = snapshot.data;
                 List<QueryDocumentSnapshot> documents = querySnapshot!.docs;
-                List<Map> items =
-                    documents.map((e) => e.data() as Map).toList();
+                List<Map<String,dynamic>> items =
+                    documents.map((e) => e.data() as Map<String,dynamic>).toList();
                 if (items.isEmpty) {
                   return const Center(
-                    child: Text("Items not available",
+                    child: Text(noGadgetsText,
                         style: TextStyle(color: kwhiteColor, fontSize: 18.0)),
                   );
                 }
@@ -51,18 +52,18 @@ class HomeScreen extends StatelessWidget {
                       mainAxisSpacing: 10),
                   itemCount: items.length,
                   itemBuilder: (context, index) {
-                    Map thisItem = items[index];
-
+                    Map<String,dynamic> thisItem = items[index];
                     return InkWell(
                       onTap: () => Get.to(() => ItemScreen(
                             itemMap: thisItem,
+                            doc: documents[index].id,
                           )),
                       child: ItemContainer(
-                        image: thisItem['image1'],
-                        title: thisItem['title'] ?? "Title not available",
-                        perday: thisItem['dayPrice'] ?? "Price not available",
-                        location: thisItem['location'] ?? "Unlocated",
-                      ),
+                          image: thisItem[firstImageText],
+                          title: thisItem[titleInMapText] ?? titleNullText,
+                          perday: thisItem[dayPriceInMapText] ?? priceNullText,
+                          location:
+                              thisItem[locationInMapText] ?? locationNullText),
                     );
                   },
                 );

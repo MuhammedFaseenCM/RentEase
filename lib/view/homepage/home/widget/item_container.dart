@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:rentease/view/core/const_colors.dart';
+import 'package:rentease/view/homepage/home/itemscreen/item_screen.dart';
 
 class ItemContainer extends StatelessWidget {
   final String image;
   final String? title;
   final String? perday;
   final String? location;
+
   const ItemContainer(
       {super.key,
       required this.image,
@@ -30,7 +33,7 @@ class ItemContainer extends StatelessWidget {
                     const Offset(0, 3), // changes the position of the shadow
               ),
             ],
-            color: Colors.white,
+            color: kwhiteColor,
             borderRadius: BorderRadius.circular(20.0),
           ),
           child: GridTile(
@@ -70,27 +73,45 @@ class ItemContainer extends StatelessWidget {
                 ),
               ),
             ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(20.0),
-              child: Image.network(
-                image,
-                fit: BoxFit.cover,
-                loadingBuilder: (context, child, loadingProgress) {
-                  if (loadingProgress == null) {
-                    return child;
-                  } else {
-                    return const Center(
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2.0,
-                      ),
-                    );
-                  }
-                },
-                errorBuilder: (context, error, stackTrace) {
-                  return const Center(
-                    child: Icon(Icons.error),
-                  );
-                },
+            child: Hero(
+              tag: image,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: kgrey,
+                  ),
+                  width: 300.0,
+                  height: 250.0,
+                  child: Image.network(
+                    image,
+                    fit: BoxFit.cover,
+                    loadingBuilder: (context, child, loadingProgress) {
+                      if (loadingProgress == null) {
+                        return child;
+                      } else {
+                        return Center(
+                          child: BlurHash(
+                            imageFit: BoxFit.cover,
+                            duration: const Duration(seconds: 4),
+                            curve: Curves.bounceInOut,
+                            hash: 'LHA-Vc_4s9ad4oMwt8t7RhXTNGRj',
+                            image: image,
+                          ),
+                        );
+                      }
+                    },
+                    errorBuilder: (context, error, stackTrace) {
+                      return const Center(
+                        child: Icon(
+                          Icons.error,
+                          color: kwhiteColor,
+                          size: 25.0,
+                        ),
+                      );
+                    },
+                  ),
+                ),
               ),
             ),
           ),

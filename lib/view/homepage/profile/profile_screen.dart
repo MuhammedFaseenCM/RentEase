@@ -6,6 +6,7 @@ import 'package:rentease/controller/profile/fetch_profile_details.dart';
 import 'package:rentease/main.dart';
 import 'package:rentease/view/core/const_colors.dart';
 import 'package:rentease/view/core/logout_button.dart';
+import 'package:rentease/view/core/string_consts.dart';
 import 'package:rentease/view/core/widgets.dart';
 import 'package:rentease/view/homepage/profile/widget/edit_profile.dart';
 import 'package:rentease/view/homepage/profile/widget/listtile_widget.dart';
@@ -24,7 +25,7 @@ class ProfileScreen extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             return const Center(
-              child: Text("something went wrong"),
+              child: Text(wrongText),
             );
           }
           if (snapshot.hasData) {
@@ -46,7 +47,7 @@ class ProfileScreen extends StatelessWidget {
                     ),
                     kheight10,
                     Text(
-                      data!["name"] ?? "Name not available",
+                      data![nameInMapText] ?? nameNullText,
                       style: const TextStyle(
                           fontSize: 20.0,
                           color: kwhiteColor,
@@ -54,7 +55,7 @@ class ProfileScreen extends StatelessWidget {
                     ),
                     kheight10,
                     Text(
-                      data["email"] ??
+                      data[emailInMapText] ??
                           "${FirebaseAuth.instance.currentUser!.email}",
                       style: const TextStyle(
                         fontSize: 18.0,
@@ -73,13 +74,13 @@ class ProfileScreen extends StatelessWidget {
                               side: BorderSide.none,
                               shape: const StadiumBorder()),
                           child: const Text(
-                            "Edit profile",
+                           editProfText,
                             style: TextStyle(color: kblackColor),
                           )),
                     ),
                     kheight20,
                     ListTileWidget(
-                      title: "My Gadgets",
+                      title: myGadgetsText,
                       icon: Icons.local_grocery_store_rounded,
                       onTap: () {
                         Get.to(() => const MyGadgetsScreen());
@@ -87,13 +88,13 @@ class ProfileScreen extends StatelessWidget {
                     ),
                     kheight20,
                     ListTileWidget(
-                      title: "Terms and Policies",
+                      title: termsText,
                       icon: Icons.assignment,
                       onTap: () {},
                     ),
                     kheight20,
                     ListTileWidget(
-                      title: "About",
+                      title: aboutText,
                       icon: Icons.info,
                       onTap: () {},
                     ),

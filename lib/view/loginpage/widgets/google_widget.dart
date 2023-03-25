@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rentease/view/core/const_colors.dart';
 import 'package:rentease/view/core/images.dart';
 
 class SignInContainer extends StatelessWidget {
@@ -10,10 +11,10 @@ class SignInContainer extends StatelessWidget {
       height: 50.0,
       width: 50.0,
       decoration: BoxDecoration(
-          color: Colors.white,
+          color:kwhiteColor,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.5),
+              color: kblackColor.withOpacity(0.5),
               spreadRadius: 2,
               blurRadius: 5,
               offset: const Offset(0, 3), // changes the position of the shadow

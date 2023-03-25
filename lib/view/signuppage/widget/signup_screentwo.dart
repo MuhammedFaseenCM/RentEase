@@ -23,7 +23,7 @@ class SignUpSecondScreen extends StatelessWidget {
     return Scaffold(
       appBar: const PreferredSize(
           preferredSize: Size.fromHeight(60),
-          child: AppBarWidget(title: "Signup")),
+          child: AppBarWidget(title: signupText)),
       body: SingleChildScrollView(
         child: Container(
           height: MediaQuery.of(context).size.height,
@@ -36,12 +36,12 @@ class SignUpSecondScreen extends StatelessWidget {
                 children: [
                   kheight20,
                   TextFieldWidget(
-                    hintText: "Location",
+                    hintText: locationText,
                     controller: signupmodel.locationController,
                     prefixIcon: Icons.location_on,
                     validator: (value) {
                       if (value.isEmpty) {
-                        return "\t\tEnter a valid location\n";
+                        return validLocationText;
                       }
                     },
                   ),
@@ -58,7 +58,7 @@ class SignUpSecondScreen extends StatelessWidget {
                         child: signupmodel.picture.value == ''
                             ? const ImageWidget(
                                 image: "",
-                                imageText: StringConsts.idImageText,
+                                imageText: idImageText,
                               )
                             : ImageWidget(
                                 image: signupmodel.picture.value,
@@ -67,19 +67,17 @@ class SignUpSecondScreen extends StatelessWidget {
                   ),
                   kheight20,
                   ButtonWidget(
-                    text: "Signup",
+                    text: signupText,
                     onpressed: (context) async {
                       final isValid = signupformKey.currentState!.validate();
                       if (!isValid) return;
                       if (signupmodel.picture.isEmpty) {
-                        Get.snackbar("Add ID image*", "",
+                        Get.snackbar(addIDText, "",
                             backgroundColor: kredColor, colorText: kwhiteColor);
                         return;
                       }
                       await signUp(
                           context: context, email: email, password: password);
-
-                      
                     },
                   ),
                 ],

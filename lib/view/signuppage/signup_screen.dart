@@ -4,6 +4,7 @@ import 'package:rentease/main.dart';
 import 'package:rentease/model/signupmodel/signup_model.dart';
 import 'package:rentease/view/core/appbar_widget.dart';
 import 'package:rentease/view/core/button_widget.dart';
+import 'package:rentease/view/core/string_consts.dart';
 import 'package:rentease/view/core/textformfield.dart';
 import 'package:rentease/view/core/widgets.dart';
 import 'package:rentease/view/signuppage/widget/signup_screentwo.dart';
@@ -16,7 +17,7 @@ class SignUpScreen extends StatelessWidget {
     return Scaffold(
       appBar: const PreferredSize(
           preferredSize: Size.fromHeight(60),
-          child: AppBarWidget(title: "Signup")),
+          child: AppBarWidget(title: signupText)),
       body: SingleChildScrollView(
         child: Container(
           height: MediaQuery.of(context).size.height,
@@ -30,67 +31,67 @@ class SignUpScreen extends StatelessWidget {
                 children: [
                   kheight20,
                   TextFieldWidget(
-                    hintText: "Full name",
+                    hintText: fullnameText,
                     controller: signupmodel.fullnameController,
                     prefixIcon: Icons.person,
                     validator: (value) {
                       if (value.isEmpty) {
-                        return "\t\tEnter a valid name\n";
+                        return validNameText;
                       }
                     },
                   ),
                   kheight20,
                   TextFieldWidget(
-                    hintText: "Phone number",
+                    hintText: numberText,
                     controller: signupmodel.numberController,
                     keyboardType: TextInputType.number,
                     prefixIcon: Icons.phone,
                     validator: (value) {
                       if (value.isEmpty || value.length != 10) {
-                        return "\t\tEnter a valid phone number\n";
+                        return validNumberText;
                       }
                     },
                   ),
                   kheight20,
                   TextFieldWidget(
-                    hintText: "Email address",
+                    hintText: mailText,
                     controller: signupmodel.emailController,
                     keyboardType: TextInputType.emailAddress,
                     isEmail: true,
                   ),
                   kheight20,
                   TextFieldWidget(
-                    hintText: "Password",
+                    hintText: passwordText,
                     controller: signupmodel.passwordController,
                     obscureText: !signupmodel.passwordVisible,
                     prefixIcon: Icons.lock,
                     suffixIcon: true,
                     validator: (value) {
                       if (value.isEmpty) {
-                        return "\t\tEnter valid password\n";
+                        return validPassowrdText;
                       } else if (value.length < 6) {
-                        return "\t\tEnter atleast 6 characters\n";
+                        return validPassowrdText;
                       }
                     },
                   ),
                   kheight20,
                   TextFieldWidget(
-                    hintText: "Confirm password",
+                    hintText: confirmPassText,
                     controller: signupmodel.confirmpasswordController,
                     obscureText: !signupmodel.passwordVisible,
                     suffixIcon: true,
                     prefixIcon: Icons.lock,
                     validator: (value) {
                       if (value.isEmpty) {
-                        return "Enter valid password";
+                        return validPassowrdText;
                       } else if (value != signupmodel.passwordController.text) {
-                        return "\t\tPassword doesn't match\n";
+                        return validMatchPassText;
                       }
                     },
                   ),
                   kheight20,
                   ButtonWidget(
-                    text: "Next",
+                    text: nextText,
                     color: Colors.grey[800],
                     onpressed: (context) {
                       final isValid =

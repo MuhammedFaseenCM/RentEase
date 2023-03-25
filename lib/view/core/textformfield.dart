@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rentease/model/loginmodel/login_model.dart';
 import 'package:rentease/model/signupmodel/signup_model.dart';
+import 'package:rentease/view/core/string_consts.dart';
 
 class TextFieldWidget extends StatelessWidget {
   final String hintText;
@@ -72,7 +73,7 @@ class TextFieldWidget extends StatelessWidget {
             ? (value) {
                 if (isEmail) {
                   if (value != null && !EmailValidator.validate(value)) {
-                    return '\t\tEnter a valid email\n';
+                    return validEmailText;
                   } else {
                     return null;
                   }

@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:rentease/model/homemodel/home_model.dart';
 import 'package:rentease/view/core/appbar_widget.dart';
 import 'package:rentease/view/core/string_consts.dart';
@@ -26,7 +25,7 @@ class MainScreen extends StatelessWidget {
         drawer: DrawerWidget(email: user.email!),
         appBar: const PreferredSize(
           preferredSize: Size.fromHeight(60),
-          child: AppBarWidget(title: StringConsts.appName),
+          child: AppBarWidget(title: appName),
         ),
         bottomNavigationBar: const BottomNavigationBarWidget(),
         body: Obx(() {

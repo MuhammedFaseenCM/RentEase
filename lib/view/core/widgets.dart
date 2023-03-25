@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rentease/view/core/const_colors.dart';
 
 const kheight20 = SizedBox(
   height: 20,
@@ -6,8 +7,14 @@ const kheight20 = SizedBox(
 const kheight10 = SizedBox(
   height: 10.0,
 );
+const kheight5 = SizedBox(
+  height: 5.0,
+);
 const kwidth10 = SizedBox(
   width: 10.0,
+);
+const kwidth20 = SizedBox(
+  width: 20.0,
 );
 
 class AppBarContainer extends StatelessWidget {
@@ -19,13 +26,13 @@ class AppBarContainer extends StatelessWidget {
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.5),
+            color: kblackColor.withOpacity(0.5),
             spreadRadius: 2,
             blurRadius: 5,
             offset: const Offset(0, 3), // changes the position of the shadow
           ),
         ],
-        color: Colors.white,
+        color: kwhiteColor,
         borderRadius: const BorderRadius.only(
           bottomLeft: Radius.circular(30.0),
           bottomRight: Radius.circular(30.0),

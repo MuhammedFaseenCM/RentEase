@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rentease/model/itemmodel/item_model.dart';
 import 'package:rentease/view/core/const_colors.dart';
+import 'package:rentease/view/core/string_consts.dart';
 
 class AmountContainer extends StatelessWidget {
   final String hinText;
@@ -30,11 +31,11 @@ class AmountContainer extends StatelessWidget {
         onChanged: onChanged,
         validator: (value) {
           if (value == null || value.isEmpty) {
-            return "Enter a valid amount";
+            return validPriceText;
           }
           final n = int.tryParse(value);
           if (n == null) {
-            return 'Please enter a valid number';
+            return validNumberText;
           } else {
             return null;
           }

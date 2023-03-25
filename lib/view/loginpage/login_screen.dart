@@ -14,7 +14,7 @@ class LoginPage extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       appBar: const PreferredSize(
         preferredSize: Size.fromHeight(60),
-        child: AppBarWidget(title: StringConsts.appName),
+        child: AppBarWidget(title: appName),
       ),
       body: Container(
         width: MediaQuery.of(context).size.width,

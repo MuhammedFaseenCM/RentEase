@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rentease/view/core/logout_button.dart';
+import 'package:rentease/view/core/string_consts.dart';
 import 'package:rentease/view/core/widgets.dart';
 import 'package:rentease/view/homepage/profile/widget/listtile_widget.dart';
 
@@ -17,7 +18,7 @@ class DrawerWidget extends StatelessWidget {
             height: 80.0,
           ),
           const Text(
-            "Signed In as",
+            signedAsText,
             style: TextStyle(fontSize: 16),
           ),
           const SizedBox(
@@ -29,31 +30,31 @@ class DrawerWidget extends StatelessWidget {
           ),
           kheight10,
           ListTileWidget(
-            title: "My Gadgets",
+            title: myGadgetsText,
             icon: Icons.local_grocery_store_rounded,
             onTap: () {},
           ),
           kheight20,
           ListTileWidget(
-            title: "Terms and Policies",
+            title: termsText,
             icon: Icons.assignment,
             onTap: () {},
           ),
           kheight20,
           ListTileWidget(
-            title: "About",
+            title:aboutText,
             icon: Icons.info,
             onTap: () {},
           ),
           kheight20,
           ListTileWidget(
-            title: "Terms and Policies",
+            title: termsText,
             icon: Icons.assignment,
             onTap: () {},
           ),
           kheight20,
           ListTileWidget(
-            title: "About",
+            title: aboutText,
             icon: Icons.info,
             onTap: () {},
           ),

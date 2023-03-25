@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:rentease/view/core/string_consts.dart';
 import 'package:rentease/view/core/utils.dart';
 import 'package:rentease/view/homepage/home_page.dart';
 import 'package:rentease/view/loginpage/login_screen.dart';
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
         scaffoldMessengerKey: Utils.messengerKey,
         navigatorKey: navigatorKey,
         debugShowCheckedModeBanner: false,
-        title: 'RentEase',
+        title: appName,
         theme: ThemeData(primarySwatch: Colors.blueGrey),
         home: StreamBuilder<User?>(
           stream: FirebaseAuth.instance.authStateChanges(),
@@ -35,7 +36,7 @@ class MyApp extends StatelessWidget {
               );
             } else if (snapshot.hasError) {
               return const Center(
-                child: Text("Something went wrong!"),
+                child: Text(wrongText),
               );
             } else if (snapshot.hasData) {
               return const MainScreen();

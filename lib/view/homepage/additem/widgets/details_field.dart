@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:rentease/model/itemmodel/item_model.dart';
+import 'package:rentease/controller/update/update_item.dart';
 import 'package:rentease/view/core/const_colors.dart';
 import 'package:rentease/view/core/string_consts.dart';
 
 class DetailsFieldWidget extends StatelessWidget {
-  const DetailsFieldWidget({super.key});
-  static ItemModel itemModel = Get.put(ItemModel());
+  final Map<String, dynamic>? itemMap;
+  final TextEditingController controller;
+  const DetailsFieldWidget({super.key, this.itemMap, required this.controller});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -17,16 +17,16 @@ class DetailsFieldWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(20.0),
       ),
       child: TextFormField(
-        controller: itemModel.itemDetailController,
+        controller: controller,
         decoration: const InputDecoration(
           border: InputBorder.none,
-          hintText: StringConsts.detailsText,
+          hintText: detailsText,
           hintStyle: TextStyle(),
         ),
         maxLines: 5,
         validator: (value) {
           if (value == null || value.isEmpty) {
-            return "Enter valid details";
+            return validDetailsText;
           } else {
             return null;
           }

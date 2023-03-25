@@ -1,8 +1,7 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:rentease/view/core/const_colors.dart';
 import 'package:rentease/view/core/string_consts.dart';
 
 class ImageWidget extends StatelessWidget {
@@ -41,7 +40,7 @@ class ImageWidget extends StatelessWidget {
                 child: const Icon(
                   Icons.camera_alt,
                   size: 30,
-                  color: Colors.white,
+                  color: kwhiteColor,
                 ),
               ))
       ]),
@@ -63,7 +62,7 @@ class BottomSheetWidget extends StatelessWidget {
       child: Column(
         children: <Widget>[
           const Text(
-            StringConsts.chooseText,
+            chooseText,
             style: TextStyle(fontSize: 20),
           ),
           const SizedBox(
@@ -78,7 +77,7 @@ class BottomSheetWidget extends StatelessWidget {
                       source: ImageSource.gallery, context: context);
                 },
                 icon: const Icon(Icons.image),
-                label: const Text(StringConsts.galleryText),
+                label: const Text(galleryText),
               ),
               TextButton.icon(
                 onPressed: () {
@@ -86,7 +85,7 @@ class BottomSheetWidget extends StatelessWidget {
                       source: ImageSource.camera, context: context);
                 },
                 icon: const Icon(Icons.camera),
-                label: const Text(StringConsts.cameraText),
+                label: const Text(cameraText),
               )
             ],
           )
@@ -115,7 +114,7 @@ class ImageContainer extends StatelessWidget {
             height: height ?? 360,
             width: width ?? MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: kwhiteColor,
               borderRadius: BorderRadius.circular(10),
             ),
             child: Center(

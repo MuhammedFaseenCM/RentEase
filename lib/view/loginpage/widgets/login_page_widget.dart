@@ -26,7 +26,7 @@ class HeaderSection extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: const [
               Text(
-                StringConsts.logintext,
+                logintext,
                 style: TextStyle(
                     fontSize: 30.0,
                     fontWeight: FontWeight.bold,
@@ -34,7 +34,7 @@ class HeaderSection extends StatelessWidget {
                     color: kwhiteColor),
               ),
               Text(
-                StringConsts.welcomeBack,
+                welcomeBack,
                 style: TextStyle(
                     fontSize: 10.0,
                     fontWeight: FontWeight.bold,
@@ -75,7 +75,7 @@ class LoginSection extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 TextFieldWidget(
-                  hintText: StringConsts.emailText,
+                  hintText: mailText,
                   controller: loginmodel.emailController,
                   radiusBottomLeft: 0.0,
                   radiusBottomRight: 0.0,
@@ -83,7 +83,7 @@ class LoginSection extends StatelessWidget {
                   isEmail: true,
                 ),
                 TextFieldWidget(
-                  hintText: StringConsts.passwordText,
+                  hintText: passwordText,
                   controller: loginmodel.passwordController,
                   radiusRight: 0.0,
                   radiusleft: 0.0,
@@ -93,9 +93,9 @@ class LoginSection extends StatelessWidget {
                   prefixIcon: Icons.lock,
                   validator: (value) {
                     if (value.isEmpty) {
-                      return "\t\tEnter password\n";
+                      return validPassowrdText;
                     } else if (value.length < 6) {
-                      return "\t\tEnter a valid password";
+                      return validcharPasswordText;
                     }
                   },
                 ),
@@ -108,7 +108,7 @@ class LoginSection extends StatelessWidget {
                       ));
                     },
                     child: Text(
-                      StringConsts.forgotpassText,
+                      forgotpassText,
                       style: TextStyle(
                           fontSize: 15.0,
                           decorationColor: kBlue900,
@@ -116,7 +116,7 @@ class LoginSection extends StatelessWidget {
                     )),
                 kheight20,
                 ButtonWidget(
-                  text: StringConsts.logintext,
+                  text: logintext,
                   onpressed: (context) {
                     final isValid = loginFormKey.currentState!.validate();
                     if (!isValid) return;
@@ -127,7 +127,7 @@ class LoginSection extends StatelessWidget {
                   },
                 ),
                 kheight20,
-                const Text(StringConsts.signinWithText),
+                const Text(signinWithText),
                 kheight10,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -140,9 +140,9 @@ class LoginSection extends StatelessWidget {
                   ],
                 ),
                 kheight20,
-                const Text(StringConsts.noAccountText),
+                const Text(noAccountText),
                 ButtonWidget(
-                  text: StringConsts.signUpText,
+                  text: signUpText,
                   onpressed: (context) => Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => const SignUpScreen(),

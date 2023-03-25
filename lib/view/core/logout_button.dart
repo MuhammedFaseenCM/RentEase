@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rentease/controller/signout/signout_function.dart';
 import 'package:rentease/view/core/const_colors.dart';
+import 'package:rentease/view/core/string_consts.dart';
 
 class LogoutButton extends StatelessWidget {
   const LogoutButton({super.key});
@@ -15,18 +16,18 @@ class LogoutButton extends StatelessWidget {
           onPressed: () {
             Get.dialog(
               AlertDialog(
-                title: const Text("Are you sure ?"),
+                title: const Text(warningText),
                 actions: [
                   TextButton(
                       onPressed: () {
                         Get.back();
                       },
-                      child: const Text("Cancel")),
+                      child: const Text(cancelText)),
                   TextButton(
                       onPressed: () {
                         signOutFunc(context: context);
                       },
-                      child: const Text("Logout"))
+                      child: const Text(logoutText))
                 ],
               ),
             );
@@ -36,7 +37,7 @@ class LogoutButton extends StatelessWidget {
               side: BorderSide.none,
               shape: const StadiumBorder()),
           child: const Text(
-            "Logout",
+            logoutText,
             style: TextStyle(color: kwhiteColor),
           )),
     );

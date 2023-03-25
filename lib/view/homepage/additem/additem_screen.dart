@@ -14,7 +14,6 @@ import 'package:rentease/view/homepage/additem/widgets/dropdownlist_widget.dart'
 import 'package:rentease/view/homepage/additem/widgets/image_select_widget.dart';
 
 class AddItemScreen extends StatelessWidget {
-
   const AddItemScreen({super.key});
   static ItemModel itemModel = Get.put(ItemModel());
   @override
@@ -32,12 +31,12 @@ class AddItemScreen extends StatelessWidget {
               children: [
                 kheight20,
                 TextFieldWidget(
-                  hintText: StringConsts.titleText,
+                  hintText: titleText,
                   controller: itemModel.itemTitleController,
                   prefixIcon: Icons.add_circle_outline_outlined,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return "\tEnter a valid title\n";
+                      return validTitleText;
                     } else {
                       return null;
                     }
@@ -45,17 +44,17 @@ class AddItemScreen extends StatelessWidget {
                 ),
                 kheight20,
                 const Text(
-                  StringConsts.categoryText,
+                  categoryText,
                   style: TextStyle(
                       color: kwhiteColor, fontWeight: FontWeight.w500),
                 ),
                 kheight10,
                 MyDropdownList(),
                 kheight20,
-                const DetailsFieldWidget(),
+               DetailsFieldWidget(controller: itemModel.itemDetailController),
                 kheight20,
                 const Text(
-                  StringConsts.priceText,
+                  priceText,
                   style: TextStyle(
                       color: kwhiteColor, fontWeight: FontWeight.w500),
                 ),
@@ -64,7 +63,7 @@ class AddItemScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     AmountContainer(
-                      hinText: StringConsts.dayText,
+                      hinText: dayText,
                       controller: itemModel.dayController,
                       onChanged: (value) {
                         int day = int.tryParse(value) ?? 0;
@@ -76,12 +75,12 @@ class AddItemScreen extends StatelessWidget {
                       width: 100.0,
                     ),
                     AmountContainer(
-                      hinText: StringConsts.weekText,
+                      hinText: weekText,
                       controller: itemModel.weekController,
                       width: 100.0,
                     ),
                     AmountContainer(
-                      hinText: StringConsts.monthText,
+                      hinText: monthText,
                       controller: itemModel.monthController,
                       width: 100.0,
                     )
@@ -89,12 +88,12 @@ class AddItemScreen extends StatelessWidget {
                 ),
                 kheight10,
                 const Text(
-                  StringConsts.upload3imageText,
+                  upload3imageText,
                   style: TextStyle(
                       color: kwhiteColor, fontWeight: FontWeight.w500),
                 ),
                 ButtonWidget(
-                  text: StringConsts.imagesText,
+                  text: imagesText,
                   onpressed: (context) {
                     itemModel.imageFileList.clear();
                     itemModel.pickMultipleImage();
@@ -108,14 +107,15 @@ class AddItemScreen extends StatelessWidget {
                   alignment: Alignment.center,
                   child: ButtonWidget(
                     width: 150.0,
-                    text: "Submit",
+                    text: saveText,
                     onpressed: (p0) {
                       final isValid =
                           itemModel.itemformKey.currentState!.validate();
                       if (!isValid) return;
                       itemModel.storeToFirestore(
                           categoryValue: itemModel.dropdownValue.value,
-                          email: FirebaseAuth.instance.currentUser!.email.toString());
+                          email: FirebaseAuth.instance.currentUser!.email
+                              .toString());
                     },
                     color: kgreenColor,
                   ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rentease/main.dart';
+import 'package:rentease/view/core/string_consts.dart';
 
 class OrderSCreen extends StatelessWidget {
   const OrderSCreen({super.key});
@@ -10,7 +11,7 @@ class OrderSCreen extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       decoration: boxDecoration,
       child: Center(
-        child: Text("Order"),
+        child: Text(ordersText),
       ),
     );
   }
