@@ -17,8 +17,10 @@ class NotifyController extends GetxController {
   }
 
   Future<void> deleteNotify({required docId, required Map map}) async {
-    await reqQuery.doc(map['title']).update({'status': 'reject'});
-    final docUser = resQuery.doc(map['title']);
+    final docName =
+        "${FirebaseAuth.instance.currentUser!.email.toString()}_${map['title']}";
+    await reqQuery.doc(docName).update({'status': 'reject'});
+    final docUser = resQuery.doc(docName);
     docUser.set({
       'ownerEmail': FirebaseAuth.instance.currentUser!.email.toString(),
       'userEmail': map['userEmail'],
@@ -40,9 +42,13 @@ class NotifyController extends GetxController {
   }
 
   Future<void> acceptNotify(
-      {required title, required email, required image1, required price}) async {
-    final docUser = resQuery.doc(title);
-    final reqUser = reqQuery.doc(title);
+      {required title,
+      required email,
+      required image1,
+      required price,
+      required docId}) async {
+    final docUser = resQuery.doc(docId);
+    final reqUser = reqQuery.doc(docId);
     reqUser.update({'status': 'accept'});
     docUser.set({
       'ownerEmail': FirebaseAuth.instance.currentUser!.email.toString(),
@@ -50,7 +56,8 @@ class NotifyController extends GetxController {
       'title': title,
       'image1': image1,
       'plan': price,
-      'status': 'accept'
+      'status': 'accept',
+      'payment': 'waiting'
     });
   }
 

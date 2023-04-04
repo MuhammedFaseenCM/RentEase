@@ -20,18 +20,21 @@ class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser!;
-    
+
     return Scaffold(
         drawer: DrawerWidget(email: user.email!),
-        appBar: const PreferredSize(
-          preferredSize: Size.fromHeight(60),
-          child: AppBarWidget(title: appName),
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(60),
+          child: AppBarWidget(
+            title: appName,
+            indexValue: controller.selectedIndex.value,
+          ),
         ),
         bottomNavigationBar: const BottomNavigationBarWidget(),
         body: Obx(() {
           return IndexedStack(
               index: controller.selectedIndex.value,
-              children:  const [
+              children: const [
                 HomeScreen(),
                 AddItemScreen(),
                 NotifyScreen(),
@@ -41,4 +44,3 @@ class MainScreen extends StatelessWidget {
         }));
   }
 }
-

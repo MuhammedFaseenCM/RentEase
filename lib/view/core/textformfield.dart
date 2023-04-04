@@ -1,8 +1,8 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:rentease/model/loginmodel/login_model.dart';
-import 'package:rentease/model/signupmodel/signup_model.dart';
+import 'package:rentease/model/loginmodel/mobx/login_mobx.dart';
+import 'package:rentease/model/signupmodel/mobx/signup_model.dart';
 import 'package:rentease/view/core/string_consts.dart';
 
 class TextFieldWidget extends StatelessWidget {
@@ -18,7 +18,7 @@ class TextFieldWidget extends StatelessWidget {
   final bool isEmail;
   final bool isPswd;
   final IconData? icon;
-  final IconData? prefixIcon;
+  final dynamic? prefixIcon;
   final Function(String value)? validator;
   const TextFieldWidget({
     super.key,
@@ -89,18 +89,19 @@ class TextFieldWidget extends StatelessWidget {
                 ? const Icon(
                     Icons.mail,
                   )
-                : Icon(prefixIcon),
+                : prefixIcon,
             // fillColor: Colors.white,
             suffixIcon: suffixIcon
                 ? IconButton(
                     //color: Colors.white,
                     onPressed: () {
-                      loginmodel.passwordVisible = !loginmodel.passwordVisible;
-                      signupmodel.passwordVisible =
-                          !signupmodel.passwordVisible;
+                      // loginmodel.passwordVisible = !loginmodel.passwordVisible;
+                      // signupmodel.passwordVisible =
+                      //     !signupmodel.passwordVisible;
                     },
-                    icon: signupmodel.passwordVisible ||
-                            loginmodel.passwordVisible
+                    icon: signupmodel.passwordVisible 
+                    //||
+                           // loginmodel.passwordVisible
                         ? const Icon(Icons.visibility)
                         : const Icon(Icons.visibility_off),
                   )

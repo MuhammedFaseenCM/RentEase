@@ -1,29 +1,33 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:rentease/controller/update/update_item.dart';
+import 'package:rentease/model/homemodel/gadgets.dart';
 import 'package:rentease/view/core/appbar_widget.dart';
 import 'package:rentease/view/core/const_colors.dart';
 import 'package:rentease/view/core/screen_container_widget.dart';
 import 'package:rentease/view/core/string_consts.dart';
 import 'package:rentease/view/core/widgets.dart';
 import 'package:rentease/view/homepage/home/itemscreen/widget/image_card.dart';
+import 'package:rentease/view/homepage/home/itemscreen/widget/review_widget.dart';
 import 'package:rentease/view/homepage/home/itemscreen/widget/selectplan_screen.dart';
+import 'package:rentease/view/homepage/home/widget/rating_widget.dart';
 import 'package:rentease/view/homepage/profile/widget/update_gadgets.dart';
 
 class ItemScreen extends StatelessWidget {
-  final Map<String, dynamic> itemMap;
   final String doc;
+  final Gadgets gadget;
   const ItemScreen({
     super.key,
-    required this.itemMap,
     required this.doc,
+    required this.gadget,
   });
   static final updateGadget = UpdateController();
 
   @override
   Widget build(BuildContext context) {
-    String text = itemMap[detailsInMapText] ?? detailNullText;
+    String text = gadget.details;
     List<String> lines = text.split('\n');
     String bulletText = '';
     for (String line in lines) {
@@ -31,7 +35,7 @@ class ItemScreen extends StatelessWidget {
     }
     bool isOwner = false;
 
-    if (itemMap[emailInMapText] == FirebaseAuth.instance.currentUser!.email) {
+    if (gadget.email == FirebaseAuth.instance.currentUser!.email) {
       isOwner = true;
     }
     return Scaffold(
@@ -40,78 +44,114 @@ class ItemScreen extends StatelessWidget {
         child: AppBarWidget(title: appName),
       ),
       body: CustomContainer(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            kheight20,
-            Text(itemMap[titleInMapText] ?? titleNullText,
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              kheight20,
+              Text(gadget.title,
+                  style: Theme.of(context).textTheme.headline4!.copyWith(
+                      color: kblackColor, fontWeight: FontWeight.bold)),
+              kheight20,
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                padding: const EdgeInsets.all(12.0),
+                child: Row(
+                  children: [
+                    Hero(
+                        tag: gadget.image1,
+                        child: ImageCard(imageUrl: gadget.image1)),
+                    kwidth10,
+                    ImageCard(imageUrl: gadget.image2),
+                    kwidth10,
+                    ImageCard(imageUrl: gadget.image3)
+                  ],
+                ),
+              ),
+              kheight10,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                            text: "Price\n",
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(
+                                    color: kblackColor,
+                                    fontWeight: FontWeight.bold)),
+                        TextSpan(
+                            text: "₹${gadget.dayPrice}/day",
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline4!
+                                .copyWith(
+                                    color: kblackColor,
+                                    fontWeight: FontWeight.bold))
+                      ],
+                    ),
+                  ),
+                  RatingWidget(ownerEmail: gadget.email, title: gadget.title)
+                ],
+              ),
+              kheight10,
+              kDivider(context),
+              kheight10,
+              Text(
+                detailsText,
                 style: Theme.of(context)
                     .textTheme
-                    .headline4!
-                    .copyWith(color: kwhiteColor, fontWeight: FontWeight.bold)),
-            kheight20,
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              padding: const EdgeInsets.all(12.0),
-              child: Row(
-                children: [
-                  Hero(
-                      tag: itemMap[firstImageText],
-                      child: ImageCard(imageUrl: itemMap[firstImageText])),
-                  kwidth10,
-                  ImageCard(imageUrl: itemMap[secondImageText]),
-                  kwidth10,
-                  ImageCard(imageUrl: itemMap[thirdImageText])
-                ],
+                    .headlineSmall!
+                    .copyWith(color: kblackColor, fontWeight: FontWeight.bold),
               ),
-            ),
-            kheight10,
-            RichText(
-              text: TextSpan(
-                children: [
-                  const TextSpan(text: "Price\n"),
-                  TextSpan(
-                      text: "\$${itemMap['dayPrice']}/day",
-                      style: Theme.of(context).textTheme.headline4!.copyWith(
-                          color: kwhiteColor, fontWeight: FontWeight.bold))
-                ],
+              kheight10,
+              Text(
+                bulletText,
+                style: Theme.of(context)
+                    .textTheme
+                    .labelLarge!
+                    .copyWith(color: kblackColor, fontWeight: FontWeight.bold),
               ),
-            ),
-            kheight20,
-            Text(
-              detailsText,
-              style: Theme.of(context)
-                  .textTheme
-                  .headlineSmall!
-                  .copyWith(color: kwhiteColor, fontWeight: FontWeight.bold),
-            ),
-            kheight10,
-            Text(
-              bulletText,
-              style: Theme.of(context)
-                  .textTheme
-                  .labelLarge!
-                  .copyWith(color: kwhiteColor, fontWeight: FontWeight.bold),
-            ),
-            isOwner
-                ? BookingButton(
-                    onpressed: () {
-                      Get.to(() => UpdateGadget(
-                            itemMap: itemMap,
-                            doc: doc,
-                          ));
-                    },
-                    color: kBlue900,
-                    text: editItemText)
-                : BookingButton(
-                    onpressed: () {
-                      Get.to(() => SelectPlanScreen(
-                            itemMap: itemMap,
-                          ));
-                    },
-                    color: kgreenColor,
-                    text: selectPlanText)
-          ],
+              kheight10,
+              kDivider(context),
+              kheight10,
+              isOwner
+                  ? BookingButton(
+                      onpressed: () {
+                        Get.to(() => UpdateGadget(
+                              gadget: gadget,
+                              doc: doc,
+                            ));
+                      },
+                      color: kBlue900,
+                      text: editItemText)
+                  : BookingButton(
+                      onpressed: () {
+                        gadget.available == 'true'
+                            ? Get.to(() =>
+                                SelectPlanScreen(gadget: gadget, doc: doc))
+                            : null;
+                      },
+                      color: gadget.available == 'true' ? kgreenColor : kgrey,
+                      text: gadget.available == 'true'
+                          ? selectPlanText
+                          : 'Unavailable'),
+              kheight20,
+              Text(
+                "Reviews",
+                style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                      color: kblackColor,
+                      fontWeight: FontWeight.bold,
+                    ),
+              ),
+              kheight10,
+              const ReviewWidget(),
+              const ReviewWidget()
+            ],
+          ),
         ),
       ),
     );

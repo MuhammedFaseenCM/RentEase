@@ -43,9 +43,7 @@ class AmountContainer extends StatelessWidget {
         keyboardType: TextInputType.number,
         textAlign: TextAlign.center,
         decoration: InputDecoration(
-            border: InputBorder.none,
-            hintText: hinText,
-            hintStyle: const TextStyle()),
+            border: const OutlineInputBorder(), labelText: hinText),
       ),
     );
   }

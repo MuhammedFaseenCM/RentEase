@@ -28,22 +28,22 @@ class EditProfile extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             kheight20,
-            const Text(
-              "   Full name*",
-              style: TextStyle(color: kwhiteColor),
-            ),
             kheight10,
             GetBuilder<ProfileControl>(
                 init: ProfileControl(),
                 builder: (value) {
-                  return TextFieldWidget(
-                    hintText: "Full name",
+                  return TextFormField(
                     controller: value.nameController,
                     validator: (name) {
-                      if (name.isEmpty) {
+                      if (name == null || name.isEmpty) {
                         return validNameText;
                       }
+                      return null;
                     },
+                    decoration: const InputDecoration(
+                      labelText: fullnameText,
+                      border: OutlineInputBorder(),
+                    ),
                   );
                 }),
             kheight20,
@@ -55,14 +55,18 @@ class EditProfile extends StatelessWidget {
             GetBuilder<ProfileControl>(
                 init: ProfileControl(),
                 builder: (value) {
-                  return TextFieldWidget(
-                    hintText: numberText,
+                  return TextFormField(
                     controller: value.phoneController,
-                    validator: (phone) {
-                      if (phone.isEmpty) {
+                    validator: (number) {
+                      if (number == null || number.isEmpty) {
                         return validNumberText;
                       }
+                      return null;
                     },
+                    decoration: const InputDecoration(
+                      labelText: numberText,
+                      border: OutlineInputBorder(),
+                    ),
                   );
                 }),
             kheight20,
@@ -74,7 +78,20 @@ class EditProfile extends StatelessWidget {
             GetBuilder<ProfileControl>(
                 init: ProfileControl(),
                 builder: (value) {
-                  return TextFieldWidget(
+                  return TextFormField(
+                    controller: value.locationController,
+                    validator: (location) {
+                      if (location == null || location.isEmpty) {
+                        return validNameText;
+                      }
+                      return null;
+                    },
+                    decoration: const InputDecoration(
+                      labelText: locationText,
+                      border: OutlineInputBorder(),
+                    ),
+                  );
+                  TextFieldWidget(
                     hintText: locationText,
                     controller: value.locationController,
                     validator: (location) {
@@ -91,7 +108,6 @@ class EditProfile extends StatelessWidget {
                   return ButtonWidget(
                     text: saveText,
                     onpressed: (p0) {
-                      
                       profileControl.updateDoc(
                           name: value.nameController.text,
                           phone: value.phoneController.text,

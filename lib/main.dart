@@ -2,10 +2,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:rentease/view/core/const_colors.dart';
 import 'package:rentease/view/core/string_consts.dart';
 import 'package:rentease/view/core/utils.dart';
 import 'package:rentease/view/homepage/home_page.dart';
 import 'package:rentease/view/loginpage/login_screen.dart';
+import 'package:rentease/view/signuppage/widget/verify_email.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -39,7 +41,7 @@ class MyApp extends StatelessWidget {
                 child: Text(wrongText),
               );
             } else if (snapshot.hasData) {
-              return const MainScreen();
+              return const VerifyEmailScreen();
             } else {
               return const LoginPage();
               //AuthPage();
@@ -49,11 +51,15 @@ class MyApp extends StatelessWidget {
       );
 }
 
-
-final boxDecoration = BoxDecoration(
-      gradient: LinearGradient(
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-        colors: [Colors.orange[900]!, Colors.orange[800]!, Colors.orange[400]!],
-      ),
-    );
+const boxDecoration = BoxDecoration(
+  gradient: LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      // Colors.orange[900]!,
+      // Colors.orange[800]!,
+      // Colors.orange[400]!,
+      kwhiteColor, kwhiteColor
+    ],
+  ),
+);

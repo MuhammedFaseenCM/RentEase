@@ -5,17 +5,17 @@ import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:get/get.dart';
 import 'package:rentease/controller/profile/mygadgets/mygadgets_control.dart';
 import 'package:rentease/controller/update/update_item.dart';
-import 'package:rentease/main.dart';
+import 'package:rentease/model/homemodel/gadgets.dart';
 import 'package:rentease/view/core/appbar_widget.dart';
 import 'package:rentease/view/core/const_colors.dart';
+import 'package:rentease/view/core/screen_container_widget.dart';
 import 'package:rentease/view/core/string_consts.dart';
 import 'package:rentease/view/core/widgets.dart';
-import 'package:rentease/view/homepage/home/itemscreen/item_screen.dart';
 import 'package:rentease/view/homepage/profile/widget/update_gadgets.dart';
 
 class MyGadgetsScreen extends StatelessWidget {
   const MyGadgetsScreen({super.key});
-  static final myGadget = MyGadgetsController();
+  static MyGadgetsController myGadget = MyGadgetsController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,49 +23,36 @@ class MyGadgetsScreen extends StatelessWidget {
           preferredSize: Size.fromHeight(60),
           child: AppBarWidget(title: myGadgetsText),
         ),
-        body: Container(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-          decoration: boxDecoration,
-          padding: const EdgeInsets.all(10.0),
-          child: StreamBuilder(
-              stream: myGadget.stream,
+        body: CustomContainer(
+          child: StreamBuilder<QuerySnapshot>(
+              stream: myGadget.query
+                  .where('email',
+                      isEqualTo:
+                          FirebaseAuth.instance.currentUser!.email.toString())
+                  .snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   QuerySnapshot? querySnapshot = snapshot.data;
                   List<QueryDocumentSnapshot> documents = querySnapshot!.docs;
-                  List<Map<String, dynamic>> items = documents
-                      .map((e) => e.data() as Map<String, dynamic>)
-                      .where((map) =>
-                          map[emailInMapText] ==
-                          FirebaseAuth.instance.currentUser!.email.toString())
-                      .toList();
-                  return ListView.builder(
-                    itemCount: items.length,
-                    itemBuilder: (context, index) {
-                      Map<String, dynamic> thisItem = items[index];
-                      if (items.isEmpty) {
-                        return const Center(
-                          child: Text(
-                            noGadgetsText,
-                            style: TextStyle(
-                                color: kwhiteColor,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 25.0),
-                          ),
-                        );
-                      }
 
-                      return InkWell(
-                        onTap: () => Get.to(() => ItemScreen(
-                              itemMap: thisItem,
-                              doc: documents[index].id,
-                            )),
-                        child: GadgetContainer(
-                            thisItem: thisItem,
-                            documents: documents,
-                            index: index),
-                      );
+                  if (documents.isEmpty) {
+                    return const Center(
+                      child: Text(
+                        noGadgetsText,
+                        style: TextStyle(
+                            color: kblackColor,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 25.0),
+                      ),
+                    );
+                  }
+                  return ListView.builder(
+                    itemCount: documents.length,
+                    itemBuilder: (context, index) {
+                      final gadget = Gadgets.fromSnapshot(documents[index]);
+
+                      return GadgetContainer(
+                          gadget: gadget, documents: documents, index: index);
                     },
                   );
                 } else if (snapshot.hasError) {
@@ -73,7 +60,7 @@ class MyGadgetsScreen extends StatelessWidget {
                     child: Text(
                       wrongText,
                       style: TextStyle(
-                          color: kwhiteColor,
+                          color: kblackColor,
                           fontWeight: FontWeight.bold,
                           fontSize: 25.0),
                     ),
@@ -87,30 +74,37 @@ class MyGadgetsScreen extends StatelessWidget {
 }
 
 class GadgetContainer extends StatelessWidget {
-  final Map thisItem;
   final List<QueryDocumentSnapshot> documents;
+  final Gadgets gadget;
   final int index;
   const GadgetContainer(
       {super.key,
-      required this.thisItem,
       required this.documents,
-      required this.index});
+      required this.index,
+      required this.gadget});
   static final myGadget = MyGadgetsController();
   static final updateGadget = UpdateController();
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
+        kheight20,
         Container(
-          padding: const EdgeInsets.all(10.0),
+          padding: const EdgeInsets.all(5.0),
+          margin: const EdgeInsets.all(5.0),
           height: 180.0,
           width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
-              color: kwhiteColor, borderRadius: BorderRadius.circular(10.0)),
+              color: kwhiteColor,
+              borderRadius: BorderRadius.circular(10.0),
+              boxShadow: const [
+                BoxShadow(
+                    color: Colors.grey, blurRadius: 5.0, spreadRadius: 5.0)
+              ]),
           child: Row(
             children: [
               MyGadgetImageContainer(
-                image: thisItem[firstImageText],
+                image: gadget.image1,
                 size: 150.0,
               ),
               kwidth10,
@@ -118,13 +112,13 @@ class GadgetContainer extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    thisItem[titleInMapText],
+                    gadget.title,
                     style: const TextStyle(
                         fontSize: 25.0, fontWeight: FontWeight.bold),
                   ),
                   kheight10,
                   Text(
-                    "Rs.${thisItem['dayPrice']}/day",
+                    "Rs.${gadget.dayPrice}/day",
                     style: const TextStyle(
                         fontSize: 20.0, fontWeight: FontWeight.w400),
                   ),
@@ -139,9 +133,8 @@ class GadgetContainer extends StatelessWidget {
                               final itemMap = await updateGadget.itemMap(
                                   doc: documents[index].id);
                               if (itemMap != null) {
-                           
                                 Get.to(() => UpdateGadget(
-                                      itemMap: itemMap,
+                                      gadget: gadget,
                                       doc: documents[index].id,
                                     ));
                               }
@@ -187,7 +180,6 @@ class GadgetContainer extends StatelessWidget {
             ],
           ),
         ),
-        kheight20
       ],
     );
   }
@@ -200,48 +192,55 @@ class MyGadgetImageContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(20.0),
-      child: Image.network(image,
-          fit: BoxFit.cover, height: size ?? 100.0, width: size ?? 100.0,
-          loadingBuilder: (context, child, loadingProgress) {
-        if (loadingProgress == null) {
-          return child;
-        } else {
-          return Container(
-              decoration: BoxDecoration(
-                color: kgrey,
-                borderRadius: BorderRadius.circular(20.0),
-              ),
-              width: size ?? 100.0,
-              height: size ?? 100.0,
-              child: Center(
-                child: BlurHash(
-                  imageFit: BoxFit.cover,
-                  duration: const Duration(seconds: 4),
-                  curve: Curves.bounceInOut,
-                  hash: 'LHA-Vc_4s9ad4oMwt8t7RhXTNGRj',
-                  image: image,
+    return Container(
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20.0),
+          boxShadow: const [
+            BoxShadow(color: Colors.grey, blurRadius: 5.0, spreadRadius: 5.0)
+          ]),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(20.0),
+        child: Image.network(image,
+            fit: BoxFit.cover, height: size ?? 100.0, width: size ?? 100.0,
+            loadingBuilder: (context, child, loadingProgress) {
+          if (loadingProgress == null) {
+            return child;
+          } else {
+            return Container(
+                decoration: BoxDecoration(
+                  color: kgrey,
+                  borderRadius: BorderRadius.circular(20.0),
                 ),
-              ));
-        }
-      }, errorBuilder: (context, error, stackTrace) {
-        return Container(
-          decoration: BoxDecoration(
-            color: kgrey,
-            borderRadius: BorderRadius.circular(20.0),
-          ),
-          width: size ?? 100.0,
-          height: size ?? 100.0,
-          child: const Center(
-            child: Icon(
-              Icons.error,
-              color: kwhiteColor,
-              size: 30.0,
+                width: size ?? 100.0,
+                height: size ?? 100.0,
+                child: Center(
+                  child: BlurHash(
+                    imageFit: BoxFit.cover,
+                    duration: const Duration(seconds: 4),
+                    curve: Curves.bounceInOut,
+                    hash: 'LHA-Vc_4s9ad4oMwt8t7RhXTNGRj',
+                    image: image,
+                  ),
+                ));
+          }
+        }, errorBuilder: (context, error, stackTrace) {
+          return Container(
+            decoration: BoxDecoration(
+              color: kgrey,
+              borderRadius: BorderRadius.circular(20.0),
             ),
-          ),
-        );
-      }),
+            width: size ?? 100.0,
+            height: size ?? 100.0,
+            child: const Center(
+              child: Icon(
+                Icons.error,
+                color: kwhiteColor,
+                size: 30.0,
+              ),
+            ),
+          );
+        }),
+      ),
     );
   }
 }

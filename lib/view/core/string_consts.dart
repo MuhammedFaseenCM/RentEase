@@ -1,7 +1,8 @@
 const logintext = "LOGIN";
 const logoutText = "Logout";
 const welcomeBack = "Welcome back";
-
+const welcomText = "Welcome";
+const rupee = '₹';
 const forgotpassText = "Forgot password ?";
 const signinWithText = "Signin with";
 const noAccountText = "Don't have an account?";
@@ -70,7 +71,7 @@ const saveText = "Save";
 const homeText = "Home";
 const addItemText = "Add item";
 const notifyText = "Notifications";
-const ordersText = "OrdersText";
+const ordersText = "Orders";
 const accText = "Account";
 
 ///[Keys in Firebase Firestore]
@@ -120,3 +121,29 @@ const monthlyPlanText = "Monthly";
 const oneMonthText = "30 Days";
 
 const reqSentText = "Request sent to the owner";
+
+///[Categories]
+
+List<String> categories = [
+  'Electronics',
+  'Clothing',
+  'Home appliances',
+  'Health and wellness',
+  'Gaming',
+  'Sports',
+  'Automotive',
+  'Travel gadgets',
+  'Others'
+];
+List<String> allCategories = [
+  'All',
+  'Electronics',
+  'Clothing',
+  'Home appliances',
+  'Health and wellness',
+  'Gaming',
+  'Sports',
+  'Automotive',
+  'Travel gadgets',
+  'Others'
+];

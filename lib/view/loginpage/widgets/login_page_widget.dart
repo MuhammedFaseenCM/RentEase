@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:rentease/model/loginmodel/login_model.dart';
+import 'package:rentease/model/loginmodel/mobx/login_mobx.dart';
 import 'package:rentease/view/core/button_widget.dart';
 import 'package:rentease/view/core/const_colors.dart';
 import 'package:rentease/view/core/string_consts.dart';
-import 'package:rentease/view/core/textformfield.dart';
 import 'package:rentease/view/core/widgets.dart';
 import 'package:rentease/controller/signin/login_functions.dart';
 import 'package:rentease/controller/signin/signin_google.dart';
+import 'package:rentease/view/loginpage/widgets/fields.dart/email_field.dart';
+import 'package:rentease/view/loginpage/widgets/fields.dart/password_field.dart';
 import 'package:rentease/view/loginpage/widgets/forgotpswd_screen.dart';
 import 'package:rentease/view/loginpage/widgets/google_widget.dart';
 import 'package:rentease/view/signuppage/signup_screen.dart';
 
 class HeaderSection extends StatelessWidget {
-  const HeaderSection({super.key});
+  final String title;
+  final String subtitle;
+  const HeaderSection({super.key, required this.title, required this.subtitle});
 
   @override
   Widget build(BuildContext context) {
@@ -24,18 +26,18 @@ class HeaderSection extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
+            children: [
               Text(
-                logintext,
-                style: TextStyle(
+                title,
+                style: const TextStyle(
                     fontSize: 30.0,
                     fontWeight: FontWeight.bold,
                     letterSpacing: 3.0,
                     color: kwhiteColor),
               ),
               Text(
-                welcomeBack,
-                style: TextStyle(
+                subtitle,
+                style: const TextStyle(
                     fontSize: 10.0,
                     fontWeight: FontWeight.bold,
                     letterSpacing: 3.0,
@@ -52,7 +54,7 @@ class HeaderSection extends StatelessWidget {
 class LoginSection extends StatelessWidget {
   const LoginSection({super.key});
   static final loginFormKey = GlobalKey<FormState>();
-  static LoginModel loginmodel = Get.put(LoginModel());
+  static final LoginModel loginModel = LoginModel();
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -74,30 +76,10 @@ class LoginSection extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                TextFieldWidget(
-                  hintText: mailText,
-                  controller: loginmodel.emailController,
-                  radiusBottomLeft: 0.0,
-                  radiusBottomRight: 0.0,
-                  keyboardType: TextInputType.emailAddress,
-                  isEmail: true,
-                ),
-                TextFieldWidget(
-                  hintText: passwordText,
-                  controller: loginmodel.passwordController,
-                  radiusRight: 0.0,
-                  radiusleft: 0.0,
-                  obscureText: !loginmodel.passwordVisible,
-                  suffixIcon: true,
-                  isPswd: true,
-                  prefixIcon: Icons.lock,
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return validPassowrdText;
-                    } else if (value.length < 6) {
-                      return validcharPasswordText;
-                    }
-                  },
+                EmailField(emailController: loginModel.emailController),
+                kheight20,
+                PasswordField(
+                  passwordController: loginModel.passwordController,
                 ),
                 kheight20,
                 kheight20,
@@ -122,8 +104,8 @@ class LoginSection extends StatelessWidget {
                     if (!isValid) return;
                     signIn(
                         context: context,
-                        email: loginmodel.emailController.text.trim(),
-                        password: loginmodel.passwordController.text.trim());
+                        email: loginModel.emailController.text.trim(),
+                        password: loginModel.passwordController.text.trim());
                   },
                 ),
                 kheight20,

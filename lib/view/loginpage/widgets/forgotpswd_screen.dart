@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rentease/main.dart';
-import 'package:rentease/model/loginmodel/login_model.dart';
+import 'package:rentease/model/loginmodel/mobx/login_mobx.dart';
 import 'package:rentease/view/core/appbar_widget.dart';
 import 'package:rentease/view/core/button_widget.dart';
 import 'package:rentease/view/core/const_colors.dart';

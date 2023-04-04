@@ -51,7 +51,8 @@ class ImageWidget extends StatelessWidget {
 class BottomSheetWidget extends StatelessWidget {
   final dynamic imageFunction;
   final bool isMultiImage;
-  const BottomSheetWidget({super.key, this.imageFunction, this.isMultiImage=false});
+  const BottomSheetWidget(
+      {super.key, this.imageFunction, this.isMultiImage = false});
 
   @override
   Widget build(BuildContext context) {
@@ -114,9 +115,12 @@ class ImageContainer extends StatelessWidget {
             height: height ?? 360,
             width: width ?? MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
-              color: kwhiteColor,
-              borderRadius: BorderRadius.circular(10),
-            ),
+                color: kwhiteColor,
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.grey, blurRadius: 5.0, spreadRadius: 5.0)
+                ]),
             child: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,

@@ -2,9 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blurhash/flutter_blurhash.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:rentease/controller/notification/notify_control.dart';
 import 'package:rentease/view/core/const_colors.dart';
 import 'package:rentease/view/core/screen_container_widget.dart';
+import 'package:rentease/view/core/string_consts.dart';
 import 'package:rentease/view/core/widgets.dart';
 
 class GadgetApproval extends StatelessWidget {
@@ -42,14 +44,14 @@ class GadgetApproval extends StatelessWidget {
                   children: const [
                     Icon(
                       Icons.notifications,
-                      color: kwhiteColor,
+                      color: kblackColor,
                       size: 25.0,
                     ),
                     Text(
                       "No notification yet",
                       style: TextStyle(
                           fontSize: 20.0,
-                          color: kwhiteColor,
+                          color: kblackColor,
                           fontWeight: FontWeight.bold),
                     ),
                   ],
@@ -80,12 +82,14 @@ class GadgetApproval extends StatelessWidget {
 class AcceptContainer extends StatelessWidget {
   final String docId;
   final Map resMap;
-  const AcceptContainer({super.key, required this.docId, required this.resMap});
+  AcceptContainer({super.key, required this.docId, required this.resMap});
   static final notifyControl = NotifyController();
+  final razorPay = Razorpay();
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
+        kheight20,
         Stack(
           children: [
             Container(
@@ -93,9 +97,12 @@ class AcceptContainer extends StatelessWidget {
               width: MediaQuery.of(context).size.width,
               height: 180.0,
               decoration: BoxDecoration(
-                color: kwhiteColor,
-                borderRadius: BorderRadius.circular(10.0),
-              ),
+                  color: kwhiteColor,
+                  borderRadius: BorderRadius.circular(10.0),
+                  boxShadow: const [
+                    BoxShadow(
+                        color: Colors.grey, blurRadius: 5.0, spreadRadius: 5.0)
+                  ]),
               child: Column(
                 children: [
                   kheight10,
@@ -164,7 +171,7 @@ class AcceptContainer extends StatelessWidget {
                           ),
                           kheight5,
                           Text(
-                            "Rs.${resMap['plan']}",
+                            "$rupee${resMap['plan']}",
                             style: const TextStyle(
                                 fontWeight: FontWeight.w400, fontSize: 15.0),
                           ),
@@ -172,13 +179,41 @@ class AcceptContainer extends StatelessWidget {
                               ? SizedBox(
                                   width: 130.0,
                                   child: ElevatedButton(
-                                    onPressed: () async {},
+                                    onPressed: () async {
+                                      var amount = int.parse(resMap['plan']);
+                                      if (resMap['payment'] != 'success') {
+                                        await checkout(
+                                            amount: amount,
+                                            title: resMap['title']);
+                                      } else if (resMap['payment'] ==
+                                          'success') {
+                                        try {
+                                          FirebaseFirestore.instance
+                                              .collection("PaidGadgets")
+                                              .doc(docId)
+                                              .set({
+                                            'payment': 'success',
+                                            'title': resMap['title'],
+                                            'plan': resMap['plan'],
+                                            'ownerEmail': resMap['ownerEmail'],
+                                            'userEmail': resMap['userEmail'],
+                                            'image1': resMap['image1']
+                                          });
+                                        } catch (e) {}
+                                      }
+                                    },
                                     style: ElevatedButton.styleFrom(
-                                        backgroundColor: kBlue900,
+                                        backgroundColor:
+                                            // resMap['payment'] != 'success'
+                                            //     ?
+                                            kBlue900,
+                                        //  : kgreenColor,
                                         side: BorderSide.none,
                                         shape: const StadiumBorder()),
-                                    child: const Text(
-                                      "Payments",
+                                    child: Text(
+                                      resMap['payment'] != 'success'
+                                          ? "Payments"
+                                          : "Review",
                                       maxLines: 1,
                                     ),
                                   ),
@@ -195,31 +230,122 @@ class AcceptContainer extends StatelessWidget {
               ),
             ),
             Positioned(
-                top: 0.0,
-                right: 0.0,
-                child: Container(
-                  width: 40.0,
-                  height: 40.0,
-                  decoration: BoxDecoration(
-                    color: kgrey,
-                    borderRadius: const BorderRadius.only(
-                        bottomLeft: Radius.circular(50.0)),
-                  ),
-                  child: Center(
-                    child: IconButton(
-                        onPressed: () {
-                          notifyControl.deleteRes(docId: docId);
-                        },
-                        icon: const Icon(
-                          Icons.close,
-                          color: kwhiteColor,
-                        )),
-                  ),
-                ))
+              top: 0.0,
+              right: 0.0,
+              child: Container(
+                width: 40.0,
+                height: 40.0,
+                decoration: BoxDecoration(
+                  boxShadow: const [
+                    BoxShadow(
+                        color: Colors.grey, blurRadius: 5.0, spreadRadius: 5.0)
+                  ],
+                  color: kgrey,
+                  borderRadius: const BorderRadius.only(
+                      bottomLeft: Radius.circular(50.0)),
+                ),
+                child: Center(
+                  child: IconButton(
+                      onPressed: () {
+                        notifyControl.deleteRes(docId: docId);
+                      },
+                      icon: const Icon(
+                        Icons.close,
+                        color: kwhiteColor,
+                      )),
+                ),
+              ),
+            ),
+            resMap['payment'] == 'success'
+                ? Positioned(
+                    bottom: 0.0,
+                    child: Container(
+                      //   padding: const EdgeInsets.all(10.0),
+                      width: MediaQuery.of(context).size.width,
+                      height: 30.0,
+                      decoration: BoxDecoration(
+                          color: kgreenColor,
+                          borderRadius: BorderRadius.circular(10.0),
+                          boxShadow: const [
+                            BoxShadow(
+                                color: Colors.grey,
+                                blurRadius: 5.0,
+                                spreadRadius: 5.0)
+                          ]),
+                      child: Center(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const [
+                            Icon(
+                              Icons.check,
+                              color: kwhiteColor,
+                            ),
+                            kwidth10,
+                            Text(
+                              "Payment completed",
+                              style:
+                                  TextStyle(color: kwhiteColor, fontSize: 15.0),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ))
+                : const SizedBox()
           ],
         ),
         kheight20
       ],
     );
+  }
+
+  checkout({required amount, required title}) {
+    var options = {
+      'key': 'rzp_test_gzeebjVBIEAqNT',
+      'amount': amount * 100,
+      'name': title,
+      'description': 'Hercules',
+      'timeout': 120,
+      'prefill': {'contact': '7034032788', 'email': 'faseencm0@gmail.com'}
+    };
+
+    try {
+      razorPay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+      razorPay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+      razorPay.open(options);
+    } catch (e) {
+      //
+    }
+  }
+
+  _handlePaymentSuccess(PaymentSuccessResponse response) {
+    try {
+      FirebaseFirestore.instance
+          .collection("SendRes")
+          .doc(docId)
+          .update({'payment': 'success'}).then((value) =>   FirebaseFirestore.instance
+                                              .collection("PaidGadgets")
+                                              .doc(docId)
+                                              .set({
+                                            'payment': 'success',
+                                            'title': resMap['title'],
+                                            'plan': resMap['plan'],
+                                            'ownerEmail': resMap['ownerEmail'],
+                                            'userEmail': resMap['userEmail'],
+                                            'image1': resMap['image1']
+                                          }));
+    } catch (e) {
+      //
+    }
+  }
+
+  _handlePaymentError(PaymentFailureResponse response) {
+    try {
+      FirebaseFirestore.instance
+          .collection("SendRes")
+          .doc(docId)
+          .update({'payment': 'failure'});
+    } catch (e) {
+      //
+    }
   }
 }

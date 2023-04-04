@@ -2,13 +2,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:rentease/controller/profile/fetch_profile_details.dart';
+import 'package:rentease/model/homemodel/gadgets.dart';
 import 'package:rentease/view/core/const_colors.dart';
 import 'package:rentease/view/core/string_consts.dart';
 
 class SelectPlan extends GetxController {
   ProfileControl profileControl = ProfileControl();
   Future<void> sendReq(
-      {required itemMap, required planType, required price}) async {
+      {required Gadgets gadget,
+      required planType,
+      required price,
+      required doc}) async {
     final snapshot = profileControl.docRef
         .doc(FirebaseAuth.instance.currentUser!.email.toString());
     Map? data;
@@ -24,18 +28,25 @@ class SelectPlan extends GetxController {
           colorText: kwhiteColor);
       return;
     }
-    final docUser = FirebaseFirestore.instance
-        .collection("SendReq")
-        .doc(itemMap[titleInMapText]);
+    final docName =
+        "${FirebaseAuth.instance.currentUser!.email.toString()}_${gadget.title}";
+    final docUser =
+        FirebaseFirestore.instance.collection("SendReq").doc(docName);
+
     docUser.set({
-      'ownerEmail': itemMap[emailInMapText],
+      'ownerEmail': gadget.email,
       'userEmail': FirebaseAuth.instance.currentUser!.email.toString(),
-      'title': itemMap[titleInMapText],
-      'image1': itemMap[firstImageText],
+      'title': gadget.title,
+      'image1': gadget.image1,
       'plan': planType,
       'price': price,
       'location': data['location'],
-      'status': 'waiting'
+      'status': 'waiting',
+      'idImage': data['idImage'],
+      'phoneNumber': data['phoneNumber']
     });
+    final docItem = FirebaseFirestore.instance.collection("RentEase").doc(doc);
+
+    docItem.update({'available': 'false'});
   }
 }

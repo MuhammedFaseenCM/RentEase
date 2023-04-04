@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -43,14 +41,14 @@ class GadgetRequests extends StatelessWidget {
                   children: const [
                     Icon(
                       Icons.notifications,
-                      color: kwhiteColor,
+                      color: kblackColor,
                       size: 25.0,
                     ),
                     Text(
                       "No notification yet",
                       style: TextStyle(
                           fontSize: 20.0,
-                          color: kwhiteColor,
+                          color: kblackColor,
                           fontWeight: FontWeight.bold),
                     ),
                   ],

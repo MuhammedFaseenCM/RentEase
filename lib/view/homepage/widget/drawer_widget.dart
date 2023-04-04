@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:rentease/view/core/logout_button.dart';
 import 'package:rentease/view/core/string_consts.dart';
 import 'package:rentease/view/core/widgets.dart';
 import 'package:rentease/view/homepage/profile/widget/listtile_widget.dart';
+import 'package:rentease/view/homepage/profile/widget/my_gadgets.dart';
 
 class DrawerWidget extends StatelessWidget {
   final String email;
@@ -29,28 +31,39 @@ class DrawerWidget extends StatelessWidget {
             style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
           kheight10,
+          kheight20,
+          ListTileWidget(
+            title: homeText,
+            icon: Icons.home,
+            onTap: () {},
+          ),
+          kheight20,
+          ListTileWidget(
+            title: addItemText,
+            icon: Icons.add,
+            onTap: () {},
+          ),
+          kheight20,
+          ListTileWidget(
+            title: notifyText,
+            icon: Icons.notifications,
+            onTap: () {},
+          ),
+          kheight20,
           ListTileWidget(
             title: myGadgetsText,
             icon: Icons.local_grocery_store_rounded,
-            onTap: () {},
+            onTap: () {
+              Get.to(() => const MyGadgetsScreen());
+            },
           ),
           kheight20,
           ListTileWidget(
             title: termsText,
             icon: Icons.assignment,
-            onTap: () {},
-          ),
-          kheight20,
-          ListTileWidget(
-            title:aboutText,
-            icon: Icons.info,
-            onTap: () {},
-          ),
-          kheight20,
-          ListTileWidget(
-            title: termsText,
-            icon: Icons.assignment,
-            onTap: () {},
+            onTap: () {
+              // Get.to(() => NotifyScreen());
+            },
           ),
           kheight20,
           ListTileWidget(

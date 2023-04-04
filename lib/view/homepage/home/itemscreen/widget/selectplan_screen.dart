@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rentease/controller/bookgadget/plan_select.dart';
+import 'package:rentease/model/homemodel/gadgets.dart';
 import 'package:rentease/view/core/appbar_widget.dart';
 import 'package:rentease/view/core/const_colors.dart';
 import 'package:rentease/view/core/screen_container_widget.dart';
@@ -8,8 +9,10 @@ import 'package:rentease/view/core/string_consts.dart';
 import 'package:rentease/view/core/widgets.dart';
 
 class SelectPlanScreen extends StatelessWidget {
-  final Map<String, dynamic> itemMap;
-  const SelectPlanScreen({super.key, required this.itemMap});
+  // final Map<String, dynamic> itemMap;
+  final Gadgets gadget;
+  final String doc;
+  const SelectPlanScreen({super.key, required this.doc, required this.gadget});
 
   @override
   Widget build(BuildContext context) {
@@ -33,24 +36,26 @@ class SelectPlanScreen extends StatelessWidget {
             planDetails: dayPlanDetailsText,
             planTypeText: dailyPlanText,
             validText: oneDayText,
-            priceText: itemMap[dayPriceInMapText],
-            itemMap: itemMap,
+            priceText: gadget.dayPrice,
+            doc: doc, gadget: gadget,
           ),
           kheight20,
           PlanContainerWidget(
             planDetails: weekPlanDetailsText,
             planTypeText: weeklyPlanText,
             validText: sevenWeekText,
-            priceText: itemMap[weekPriceInMapText],
-            itemMap: itemMap,
+            priceText: gadget.weekPrice,
+            doc: doc,
+            gadget: gadget,
           ),
           kheight20,
           PlanContainerWidget(
             planDetails: monthPlanDetailsText,
             planTypeText: monthlyPlanText,
             validText: oneMonthText,
-            priceText: itemMap[monthPriceInMapText],
-            itemMap: itemMap,
+            priceText: gadget.monthPrice,
+            gadget: gadget,
+            doc: doc,
           ),
           kheight20,
         ],
@@ -60,19 +65,19 @@ class SelectPlanScreen extends StatelessWidget {
 }
 
 class PlanContainerWidget extends StatelessWidget {
-  final Map itemMap;
+  final Gadgets gadget;
   final String planDetails;
   final String planTypeText;
   final String validText;
   final String priceText;
-  const PlanContainerWidget({
-    super.key,
-    required this.itemMap,
-    required this.planDetails,
-    required this.planTypeText,
-    required this.priceText,
-    required this.validText,
-  });
+  final String doc;
+  const PlanContainerWidget(
+      {super.key,
+      required this.planDetails,
+      required this.planTypeText,
+      required this.priceText,
+      required this.validText,
+      required this.doc, required this.gadget});
   static final selectPlan = SelectPlan();
 
   @override
@@ -81,7 +86,8 @@ class PlanContainerWidget extends StatelessWidget {
       onTap: () {
         Get.dialog(AlertDialog(
           title: const Text(warningText),
-          content: Text("You are Selected Rs.$priceText plan \nfor $validText"),
+          content:
+              Text("You are Selected $rupee$priceText plan \nfor $validText"),
           actions: [
             TextButton(
                 onPressed: () {
@@ -92,7 +98,10 @@ class PlanContainerWidget extends StatelessWidget {
                 onPressed: () async {
                   Get.back();
                   await selectPlan.sendReq(
-                      planType: validText, price: priceText, itemMap: itemMap);
+                      planType: validText,
+                      price: priceText,
+                      gadget: gadget,
+                      doc: doc);
                   Get.dialog(AlertDialog(
                     title: Column(
                       children: [
@@ -109,6 +118,8 @@ class PlanContainerWidget extends StatelessWidget {
                     ),
                   ));
                   await Future.delayed(const Duration(seconds: 1));
+                  Get.back();
+                  Get.back();
                   Get.back();
                 },
                 child: const Text(confirmText)),
@@ -153,7 +164,7 @@ class PlanContainerWidget extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "Rs.$priceText",
+                          "$rupee$priceText",
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.center,
                           maxLines: 1,

@@ -6,7 +6,6 @@ import 'package:rentease/model/itemmodel/item_model.dart';
 import 'package:rentease/view/core/button_widget.dart';
 import 'package:rentease/view/core/const_colors.dart';
 import 'package:rentease/view/core/string_consts.dart';
-import 'package:rentease/view/core/textformfield.dart';
 import 'package:rentease/view/core/widgets.dart';
 import 'package:rentease/view/homepage/additem/widgets/amount_widget.dart';
 import 'package:rentease/view/homepage/additem/widgets/details_field.dart';
@@ -30,10 +29,13 @@ class AddItemScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 kheight20,
-                TextFieldWidget(
-                  hintText: titleText,
+                TextFormField(
                   controller: itemModel.itemTitleController,
-                  prefixIcon: Icons.add_circle_outline_outlined,
+                  decoration: const InputDecoration(
+                      prefixIcon: Icon(Icons.add_circle_outline_outlined),
+                      labelText: titleText,
+                      
+                      border: OutlineInputBorder()),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return validTitleText;
@@ -46,12 +48,12 @@ class AddItemScreen extends StatelessWidget {
                 const Text(
                   categoryText,
                   style: TextStyle(
-                      color: kwhiteColor, fontWeight: FontWeight.w500),
+                      color: kblackColor, fontWeight: FontWeight.w500),
                 ),
                 kheight10,
                 MyDropdownList(),
                 kheight20,
-               DetailsFieldWidget(controller: itemModel.itemDetailController),
+                DetailsFieldWidget(controller: itemModel.itemDetailController),
                 kheight20,
                 const Text(
                   priceText,

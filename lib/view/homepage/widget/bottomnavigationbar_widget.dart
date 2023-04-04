@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:rentease/controller/notification/notify_control.dart';
 import 'package:rentease/model/homemodel/home_model.dart';
@@ -14,73 +15,49 @@ class BottomNavigationBarWidget extends GetView<HomeGetx> {
   Widget build(BuildContext context) {
     return Obx(
       () => BottomNavigationBar(
+          backgroundColor: Colors.orange[900],
           selectedItemColor: kblackColor,
           iconSize: 30.0,
           currentIndex: controller.selectedIndex.value,
           onTap: controller.changeTabIndex,
           items: [
-            const BottomNavigationBarItem(
+            BottomNavigationBarItem(
+                //  backgroundColor: Colors.orange[900],
                 icon: Icon(
-                  Icons.home,
+                  FontAwesomeIcons.house,
+                  size: 20.0,
                   color: kblackColor,
                 ),
                 label: homeText),
-            const BottomNavigationBarItem(
-                icon: IconButtonWidget(icon: Icons.add), label: addItemText),
             BottomNavigationBarItem(
-                icon: Stack(
-                  children: [
-                    const Icon(
-                      Icons.notifications,
-                      color: kblackColor,
-                    ),
-                    GetBuilder(
-                        init: NotifyController(),
-                        builder: (value) {
-                          return Positioned(
-                              top: 0.0,
-                              right: 0.0,
-                              child: value.notfyIconController
-                                  ? Container(
-                                      decoration: BoxDecoration(
-                                          color: kredColor,
-                                          borderRadius:
-                                              BorderRadius.circular(50.0)),
-                                      height: 15.0,
-                                      width: 15.0,
-                                      // child: Center(
-                                      //   child: Text(
-                                      //     value.itemsLength.toString(),
-                                      //     style: const TextStyle(
-                                      //         fontSize: 10.0,
-                                      //         color: kwhiteColor),
-                                      //   ),
-                                      // ),
-                                    )
-                                  : const SizedBox());
-                        })
-                  ],
+                icon: Icon(
+                  FontAwesomeIcons.plus,
+                  color: kblackColor,
+                  size: 20.0,
+                ),
+                label: addItemText),
+            BottomNavigationBarItem(
+                icon: Icon(
+                  FontAwesomeIcons.bell,
+                  color: kblackColor,
+                  size: 20.0,
                 ),
                 label: notifyText),
-            const BottomNavigationBarItem(
-                icon: IconButtonWidget(icon: Icons.drive_folder_upload_sharp),
+            BottomNavigationBarItem(
+                icon: Icon(
+                  FontAwesomeIcons.upload,
+                  color: kblackColor,
+                  size: 20.0,
+                ),
                 label: ordersText),
-            const BottomNavigationBarItem(
-                icon: IconButtonWidget(icon: Icons.person), label: accText),
+            BottomNavigationBarItem(
+                icon: Icon(
+                  FontAwesomeIcons.person,
+                  color: kblackColor,
+                  size: 20.0,
+                ),
+                label: accText),
           ]),
-    );
-  }
-}
-
-class IconButtonWidget extends StatelessWidget {
-  final IconData icon;
-  const IconButtonWidget({super.key, required this.icon});
-
-  @override
-  Widget build(BuildContext context) {
-    return Icon(
-      icon,
-      color: kblackColor,
     );
   }
 }

@@ -18,7 +18,9 @@ class ImageSelectWidget extends StatelessWidget {
         height: 100.0,
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
-            color: kwhiteColor, borderRadius: BorderRadius.circular(10.0)),
+            border: Border.all(color: kblackColor),
+            color: kwhiteColor,
+            borderRadius: BorderRadius.circular(10.0)),
         child: GridView.builder(
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3, crossAxisSpacing: 10, mainAxisSpacing: 10),

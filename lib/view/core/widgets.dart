@@ -17,6 +17,14 @@ const kwidth20 = SizedBox(
   width: 20.0,
 );
 
+Widget kDivider(context) {
+  return Container(
+    width: MediaQuery.of(context).size.width,
+    height: 5.0,
+    color: kgreylight,
+  );
+}
+
 class AppBarContainer extends StatelessWidget {
   const AppBarContainer({super.key});
 
@@ -32,7 +40,7 @@ class AppBarContainer extends StatelessWidget {
             offset: const Offset(0, 3), // changes the position of the shadow
           ),
         ],
-        color: kwhiteColor,
+        color: korangeColor,
         borderRadius: const BorderRadius.only(
           bottomLeft: Radius.circular(30.0),
           bottomRight: Radius.circular(30.0),

@@ -37,20 +37,19 @@ class ProfileScreen extends StatelessWidget {
                 child: Column(
                   children: [
                     kheight20,
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(50.0),
-                      child: Container(
-                        color: kwhiteColor,
-                        width: 100.0,
-                        height: 100.0,
-                      ),
+                    Text(
+                      "WELCOME",
+                      style: TextStyle(
+                          fontSize: 15.0,
+                          color: kOrange900,
+                          fontWeight: FontWeight.bold),
                     ),
                     kheight10,
                     Text(
                       data![nameInMapText] ?? nameNullText,
                       style: const TextStyle(
                           fontSize: 20.0,
-                          color: kwhiteColor,
+                          color: kblackColor,
                           fontWeight: FontWeight.bold),
                     ),
                     kheight10,
@@ -59,7 +58,7 @@ class ProfileScreen extends StatelessWidget {
                           "${FirebaseAuth.instance.currentUser!.email}",
                       style: const TextStyle(
                         fontSize: 18.0,
-                        color: kwhiteColor,
+                        color: kblackColor,
                       ),
                     ),
                     kheight20,
@@ -70,12 +69,12 @@ class ProfileScreen extends StatelessWidget {
                             Get.to(() => const EditProfile());
                           },
                           style: ElevatedButton.styleFrom(
-                              backgroundColor: kwhiteColor,
+                              backgroundColor: kOrange900,
                               side: BorderSide.none,
                               shape: const StadiumBorder()),
                           child: const Text(
-                           editProfText,
-                            style: TextStyle(color: kblackColor),
+                            editProfText,
+                            style: TextStyle(color: kwhiteColor),
                           )),
                     ),
                     kheight20,

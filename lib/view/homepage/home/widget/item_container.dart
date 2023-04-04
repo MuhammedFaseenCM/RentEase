@@ -1,28 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blurhash/flutter_blurhash.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:rentease/model/homemodel/gadgets.dart';
 import 'package:rentease/view/core/const_colors.dart';
-import 'package:rentease/view/homepage/home/itemscreen/item_screen.dart';
+import 'package:rentease/view/homepage/home/widget/rating_widget.dart';
 
 class ItemContainer extends StatelessWidget {
   final String image;
   final String? title;
   final String? perday;
   final String? location;
-
+final Gadgets gadget;
   const ItemContainer(
       {super.key,
       required this.image,
       required this.title,
       required this.perday,
-      required this.location});
+      required this.location, required this.gadget});
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
         Container(
-          height: 210,
-          width: 180,
+          margin: const EdgeInsets.all(10.0),
           decoration: BoxDecoration(
             boxShadow: [
               BoxShadow(
@@ -46,10 +47,19 @@ class ItemContainer extends StatelessWidget {
                 subtitle: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Rs.$perday/day",
-                        style: const TextStyle(
-                          color: kblackColor,
-                        )),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text("₹$perday/day",
+                            style: const TextStyle(
+                              color: kblackColor,
+                            )),
+                         RatingWidget(
+                          ownerEmail: gadget.email,
+                          title: gadget.title,
+                        )
+                      ],
+                    ),
                     Row(
                       children: [
                         const Icon(
@@ -81,8 +91,8 @@ class ItemContainer extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: kgrey,
                   ),
-                  width: 300.0,
-                  height: 250.0,
+                  width: 180.0,
+                  height: 240.0,
                   child: Image.network(
                     image,
                     fit: BoxFit.cover,
