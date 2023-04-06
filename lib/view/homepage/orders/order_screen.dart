@@ -43,12 +43,12 @@ class OrderSCreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: const [
                     Icon(
-                      Icons.notifications,
+                      Icons.upload,
                       color: kblackColor,
                       size: 25.0,
                     ),
                     Text(
-                      "No notification yet",
+                      "No orders yet",
                       style: TextStyle(
                           fontSize: 20.0,
                           color: kblackColor,
@@ -69,7 +69,7 @@ class OrderSCreen extends StatelessWidget {
             );
           } else {
             return const Center(
-              child: Text("No notification yet"),
+              child: Text("No orders yet"),
             );
           }
         },

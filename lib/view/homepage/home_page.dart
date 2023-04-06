@@ -11,6 +11,7 @@ import 'package:rentease/view/homepage/orders/order_screen.dart';
 import 'package:rentease/view/homepage/profile/profile_screen.dart';
 import 'package:rentease/view/homepage/widget/bottomnavigationbar_widget.dart';
 import 'package:rentease/view/homepage/widget/drawer_widget.dart';
+import 'package:flutter_gen/gen_l10n/app_localization.dart';
 
 final HomeGetx controller = Get.put(HomeGetx());
 
@@ -26,8 +27,8 @@ class MainScreen extends StatelessWidget {
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(60),
           child: AppBarWidget(
-            title: appName,
-            indexValue: controller.selectedIndex.value,
+            title: AppLocalizations.of(context)!.appName,
+            //indexValue: controller.selectedIndex.value,
           ),
         ),
         bottomNavigationBar: const BottomNavigationBarWidget(),

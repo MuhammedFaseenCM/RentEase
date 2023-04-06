@@ -1,0 +1,32 @@
+{
+    "language": "عربي",
+    "welcome": "مرحباً",
+    "appName": "رينت إيز",
+    "order": "طلب",
+    "notification": "إشعار",
+    "addItem": "إضافة عنصر",
+    "account": "حساب",
+    "home": "منزل",
+    "editProfile": "تعديل الملف الشخصي",
+    "logout": "الخروج",
+    "login": "لدخول",
+    "about": "حول",
+    "myGadget": "جهازي",
+    "termsAndPolicies": "الشروط والسياسات",
+    "all": "الكل",
+    "electronics": "الإلكترونيات",
+    "clothing": "الملابس",
+    "homeAppliances": "الأجهزة المنزلية",
+    "healthAndWellness": "الصحة والعافية",
+    "gaming": "الألعاب", 
+    "sports": "الرياضة",
+    "automotive": "السيارات",
+    "travelGadgets": "أجهزة السفر",
+    "others": "آخرين",
+    "selectLanguage": "اختر اللغة",
+    "myBookings": "حجوزاتي",
+    "savedAddresses": "العناوين المحفوظة"
+
+}
+
+

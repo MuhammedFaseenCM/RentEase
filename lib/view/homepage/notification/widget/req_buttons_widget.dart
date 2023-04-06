@@ -24,7 +24,7 @@ class ReqButtonsWidget extends StatelessWidget {
                       child: ElevatedButton(
                         onPressed: () async {
                           await notifyControl.acceptNotify(
-                            docId: docId,
+                              docId: docId,
                               email: map['userEmail'],
                               image1: map['image1'],
                               price: map['price'],
@@ -42,36 +42,38 @@ class ReqButtonsWidget extends StatelessWidget {
                       )),
                   kwidth10,
                   SizedBox(
-                      width: 100.0,
-                      child: ElevatedButton(
-                          onPressed: () {
-                            Get.dialog(AlertDialog(
-                              title: const Text(warningText),
-                              actions: [
-                                TextButton(
-                                    onPressed: () {
-                                      Get.back();
-                                    },
-                                    child: const Text(cancelText)),
-                                TextButton(
-                                    onPressed: () async {
-                                      await notifyControl.deleteNotify(
-                                          docId: docId, map: map);
-                                      Get.back();
-                                      Get.snackbar("Rejected", "",
-                                          snackPosition: SnackPosition.BOTTOM,
-                                          backgroundColor: kgreenColor,
-                                          colorText: kwhiteColor);
-                                    },
-                                    child: const Text(confirmText))
-                              ],
-                            ));
-                          },
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: kredColor,
-                              side: BorderSide.none,
-                              shape: const StadiumBorder()),
-                          child: const Text("Reject"))),
+                    width: 100.0,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Get.dialog(AlertDialog(
+                          title: const Text(warningText),
+                          actions: [
+                            TextButton(
+                                onPressed: () {
+                                  Get.back();
+                                },
+                                child: const Text(cancelText)),
+                            TextButton(
+                                onPressed: () async {
+                                  await notifyControl.deleteNotify(
+                                      docId: docId, map: map);
+                                  Get.back();
+                                  Get.snackbar("Rejected", "",
+                                      snackPosition: SnackPosition.BOTTOM,
+                                      backgroundColor: kgreenColor,
+                                      colorText: kwhiteColor);
+                                },
+                                child: const Text(confirmText))
+                          ],
+                        ));
+                      },
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: kredColor,
+                          side: BorderSide.none,
+                          shape: const StadiumBorder()),
+                      child: const Text("Reject"),
+                    ),
+                  ),
                 ],
               )
             : Row(

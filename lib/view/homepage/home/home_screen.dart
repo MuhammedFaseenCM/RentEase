@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:rentease/main.dart';
 import 'package:rentease/view/core/const_colors.dart';
 import 'package:rentease/view/core/string_consts.dart';
 import 'package:rentease/view/homepage/home/widget/streambuilder_widget.dart';
@@ -10,7 +9,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: allCategories.length,
+      length: allCategories(context: context).length,
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: kwhiteColor,
@@ -21,13 +20,15 @@ class HomeScreen extends StatelessWidget {
               labelStyle: kTextStyle,
               unselectedLabelColor: kblackColor,
               unselectedLabelStyle: unselectedTextStyle,
-              tabs: List.generate(allCategories.length,
-                  (index) => Tab(child: Text(allCategories[index])))),
+              tabs: List.generate(
+                  allCategories(context: context).length,
+                  (index) => Tab(
+                      child: Text(allCategories(context: context)[index])))),
         ),
         body: TabBarView(
           children: List.generate(
-            allCategories.length,
-            (index) => StreamBuilderWidget(category: allCategories[index]),
+            allCategories(context: context).length,
+            (index) => StreamBuilderWidget(category: allcategories[index]),
           ),
         ),
       ),

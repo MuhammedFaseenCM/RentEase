@@ -8,8 +8,10 @@ import 'package:rentease/view/core/string_consts.dart';
 
 class SelectPlan extends GetxController {
   ProfileControl profileControl = ProfileControl();
+
   Future<void> sendReq(
       {required Gadgets gadget,
+      required address,
       required planType,
       required price,
       required doc}) async {
@@ -28,8 +30,7 @@ class SelectPlan extends GetxController {
           colorText: kwhiteColor);
       return;
     }
-    final docName =
-        "${FirebaseAuth.instance.currentUser!.email.toString()}_${gadget.title}";
+    final docName = "${gadget.email}_${gadget.title}";
     final docUser =
         FirebaseFirestore.instance.collection("SendReq").doc(docName);
 
@@ -40,7 +41,7 @@ class SelectPlan extends GetxController {
       'image1': gadget.image1,
       'plan': planType,
       'price': price,
-      'location': data['location'],
+      'address': address,
       'status': 'waiting',
       'idImage': data['idImage'],
       'phoneNumber': data['phoneNumber']

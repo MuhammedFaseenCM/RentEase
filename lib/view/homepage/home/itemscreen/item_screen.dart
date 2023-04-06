@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:rentease/controller/update/update_item.dart';
 import 'package:rentease/model/homemodel/gadgets.dart';
@@ -50,7 +49,7 @@ class ItemScreen extends StatelessWidget {
             children: [
               kheight20,
               Text(gadget.title,
-                  style: Theme.of(context).textTheme.headline4!.copyWith(
+                  style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                       color: kblackColor, fontWeight: FontWeight.bold)),
               kheight20,
               SingleChildScrollView(
@@ -87,7 +86,7 @@ class ItemScreen extends StatelessWidget {
                             text: "₹${gadget.dayPrice}/day",
                             style: Theme.of(context)
                                 .textTheme
-                                .headline4!
+                                .headlineSmall!
                                 .copyWith(
                                     color: kblackColor,
                                     fontWeight: FontWeight.bold))
@@ -110,10 +109,9 @@ class ItemScreen extends StatelessWidget {
               kheight10,
               Text(
                 bulletText,
-                style: Theme.of(context)
-                    .textTheme
-                    .labelLarge!
-                    .copyWith(color: kblackColor, fontWeight: FontWeight.bold),
+                style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                      color: kblackColor,
+                    ),
               ),
               kheight10,
               kDivider(context),
@@ -148,8 +146,10 @@ class ItemScreen extends StatelessWidget {
                     ),
               ),
               kheight10,
-              const ReviewWidget(),
-              const ReviewWidget()
+              ReviewWidget(
+                ownerEmail: gadget.email,
+                title: gadget.title,
+              ),
             ],
           ),
         ),

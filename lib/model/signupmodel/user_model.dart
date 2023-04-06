@@ -5,13 +5,13 @@ class CreateUser {
   final String phoneNumber;
   final String email;
   final String password;
-  final String? location;
+  final List<Map<String,dynamic>>? addresses;
   final String? idImage;
   CreateUser({
     required this.name,
     required this.email,
     required this.password,
-    this.location,
+    this.addresses,
     required this.phoneNumber,
     this.idImage,
   });
@@ -23,7 +23,7 @@ class CreateUser {
       name: data['name'],
       email: data['email'],
       password: data['password'],
-      //  location: data['location'],
+        addresses: data['addresses'],
       phoneNumber: data['phoneNumber'],
       //  idImage: data['idImage'],
     );
@@ -34,7 +34,7 @@ class CreateUser {
       'name': name,
       'email': email,
       'password': password,
-        'location':location,
+        'addresses':addresses,
       'phoneNumber': phoneNumber,
        'idImage':idImage
     };

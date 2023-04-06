@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blurhash/flutter_blurhash.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:rentease/controller/notification/notify_control.dart';
 import 'package:rentease/view/core/appbar_widget.dart';
 import 'package:rentease/view/core/const_colors.dart';
 import 'package:rentease/view/core/screen_container_widget.dart';
 import 'package:rentease/view/core/string_consts.dart';
 import 'package:rentease/view/core/widgets.dart';
 import 'package:rentease/view/homepage/notification/widget/image_widget.dart';
-import 'package:rentease/view/homepage/notification/widget/req_buttons_widget.dart';
 
 class UserRequestDetails extends StatelessWidget {
   final Map reqMap;
@@ -38,7 +35,7 @@ class UserRequestDetails extends StatelessWidget {
                             .textTheme
                             .headlineSmall!
                             .copyWith(
-                                color: kwhiteColor,
+                                color: kblackColor,
                                 fontWeight: FontWeight.bold))),
                 kheight10,
                 const TitleWidget(title: "User email"),
@@ -50,61 +47,64 @@ class UserRequestDetails extends StatelessWidget {
                 kheight10,
                 CustomDetailContainer(
                     content: reqMap['phoneNumber'], icon: Icons.call),
+                // kheight20,
+                // const TitleWidget(title: "User ID"),
+                // kheight20,
+                // ClipRRect(
+                //   borderRadius: BorderRadius.circular(10.0),
+                //   child: Container(
+                //     width: MediaQuery.of(context).size.width,
+                //     height: 180.0,
+                //     color: kwhiteColor,
+                //     child: Image.network(reqMap['idImage'], fit: BoxFit.cover,
+                //         loadingBuilder: (context, child, loadingProgress) {
+                //       if (loadingProgress == null) {
+                //         return child;
+                //       } else {
+                //         return Container(
+                //             decoration: BoxDecoration(
+                //               color: kgrey,
+                //               borderRadius: BorderRadius.circular(20.0),
+                //             ),
+                //             width: MediaQuery.of(context).size.width,
+                //             height: 180.0,
+                //             child: Center(
+                //               child: BlurHash(
+                //                 imageFit: BoxFit.cover,
+                //                 duration: const Duration(seconds: 4),
+                //                 curve: Curves.bounceInOut,
+                //                 hash: 'LHA-Vc_4s9ad4oMwt8t7RhXTNGRj',
+                //                 image: reqMap['idImage'],
+                //               ),
+                //             ));
+                //       }
+                //     }, errorBuilder: (context, error, stackTrace) {
+                //       return Container(
+                //         decoration: BoxDecoration(
+                //           color: kgrey,
+                //           borderRadius: BorderRadius.circular(20.0),
+                //         ),
+                //         width: MediaQuery.of(context).size.width,
+                //         height: 180.0,
+                //         child: const Center(
+                //           child: Icon(
+                //             Icons.error,
+                //             color: kwhiteColor,
+                //             size: 30.0,
+                //           ),
+                //         ),
+                //       );
+                //     }),
+                //   ),
+                // ),
                 kheight20,
-                const TitleWidget(title: "User ID"),
-                kheight20,
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(10.0),
-                  child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 180.0,
-                    color: kwhiteColor,
-                    child: Image.network(reqMap['idImage'], fit: BoxFit.cover,
-                        loadingBuilder: (context, child, loadingProgress) {
-                      if (loadingProgress == null) {
-                        return child;
-                      } else {
-                        return Container(
-                            decoration: BoxDecoration(
-                              color: kgrey,
-                              borderRadius: BorderRadius.circular(20.0),
-                            ),
-                            width: MediaQuery.of(context).size.width,
-                            height: 180.0,
-                            child: Center(
-                              child: BlurHash(
-                                imageFit: BoxFit.cover,
-                                duration: const Duration(seconds: 4),
-                                curve: Curves.bounceInOut,
-                                hash: 'LHA-Vc_4s9ad4oMwt8t7RhXTNGRj',
-                                image: reqMap['idImage'],
-                              ),
-                            ));
-                      }
-                    }, errorBuilder: (context, error, stackTrace) {
-                      return Container(
-                        decoration: BoxDecoration(
-                          color: kgrey,
-                          borderRadius: BorderRadius.circular(20.0),
-                        ),
-                        width: MediaQuery.of(context).size.width,
-                        height: 180.0,
-                        child: const Center(
-                          child: Icon(
-                            Icons.error,
-                            color: kwhiteColor,
-                            size: 30.0,
-                          ),
-                        ),
-                      );
-                    }),
-                  ),
-                ),
-                kheight20,
-                const TitleWidget(title: "User location"),
+                const TitleWidget(title: "User address"),
                 kheight10,
                 CustomDetailContainer(
-                    content: reqMap['location'], icon: Icons.location_on),
+                    height: 120.0,
+                    content:
+                        "${reqMap['address']['houseNo']}\n${reqMap['address']['area']}\n${reqMap['address']['city']}\n${reqMap['address']['pincode']}\n${reqMap['address']['state']}",
+                    icon: Icons.house),
                 kheight20,
                 Center(
                     child: Text("Product details",
@@ -112,7 +112,7 @@ class UserRequestDetails extends StatelessWidget {
                             .textTheme
                             .headlineSmall!
                             .copyWith(
-                                color: kwhiteColor,
+                                color: kblackColor,
                                 fontWeight: FontWeight.bold))),
                 kheight10,
                 Row(
@@ -175,26 +175,36 @@ class CustomDetailContainer extends StatelessWidget {
   final String content;
   final IconData icon;
   final double? width;
+  final double? height;
   const CustomDetailContainer(
-      {super.key, required this.content, required this.icon, this.width});
+      {super.key,
+      required this.content,
+      required this.icon,
+      this.width,
+      this.height});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(10.0),
       width: width ?? MediaQuery.of(context).size.width,
-      height: 40.0,
-      decoration: BoxDecoration(
-          color: kwhiteColor, borderRadius: BorderRadius.circular(20.0)),
+      height: height ?? 40.0,
+      decoration: BoxDecoration(boxShadow: const [
+        BoxShadow(color: Colors.grey, blurRadius: 1.0, spreadRadius: 1.0)
+      ], color: kwhiteColor, borderRadius: BorderRadius.circular(20.0)),
+      clipBehavior: Clip.hardEdge,
       child: Row(
         children: [
           Icon(icon),
           kwidth10,
-          Text(content,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyLarge!
-                  .copyWith(color: kblackColor, fontWeight: FontWeight.bold)),
+          Flexible(
+            child: Text(content,
+                overflow: TextOverflow.ellipsis,
+                style: Theme.of(context)
+                    .textTheme
+                    .subtitle2!
+                    .copyWith(color: kblackColor)),
+          ),
         ],
       ),
     );
@@ -211,6 +221,6 @@ class TitleWidget extends StatelessWidget {
         style: Theme.of(context)
             .textTheme
             .bodyLarge!
-            .copyWith(color: kwhiteColor, fontWeight: FontWeight.bold));
+            .copyWith(color: kblackColor));
   }
 }

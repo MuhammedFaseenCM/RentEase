@@ -1,12 +1,9 @@
-import 'dart:developer';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:rentease/controller/profile/fetch_profile_details.dart';
 import 'package:rentease/main.dart';
 import 'package:rentease/model/homemodel/gadgets.dart';
 import 'package:rentease/view/core/const_colors.dart';
@@ -22,7 +19,6 @@ class ItemModel extends GetxController {
   var dropdownValue = 'Electronics'.obs;
 
   final ImagePicker imagePicker = ImagePicker();
-  static ProfileControl profileControl = ProfileControl();
   void onDropdownChanged(String value) {
     dropdownValue.value = value;
   }
@@ -52,15 +48,8 @@ class ItemModel extends GetxController {
   }
 
   Future<void> storeToFirestore(
-      {required categoryValue, required email}) async {
+      {required categoryValue, required email, required address}) async {
     try {
-      if (imageFileList.length != 3) {
-        Get.snackbar(upload3imageText, "",
-            backgroundColor: kredColor,
-            colorText: kwhiteColor,
-            snackPosition: SnackPosition.BOTTOM);
-        return;
-      }
       Get.dialog(
         const Center(
           child: CircularProgressIndicator(),
@@ -85,15 +74,6 @@ class ItemModel extends GetxController {
       String weekPrice = weekController.text.trim();
       String monthPrice = monthController.text.trim();
       final docUser = FirebaseFirestore.instance.collection(appName);
-      final snapshot = profileControl.docRef
-          .doc(FirebaseAuth.instance.currentUser!.email.toString());
-      Map? data;
-      var docsnapshot = await snapshot.get();
-
-      if (docsnapshot.exists) {
-        data = docsnapshot.data();
-        log(data?['location']);
-      }
 
       Gadgets gadgetTosend = Gadgets(
           title: itemTitle,
@@ -105,9 +85,15 @@ class ItemModel extends GetxController {
           image3: image3Url,
           dayPrice: dayPrice,
           weekPrice: weekPrice,
+          address: address,
           monthPrice: monthPrice,
           available: 'true',
-          location: data?['location'] ?? locationNullText);
+         
+          area: address['area'],
+          city: address['city'],
+          pincode: address['pincode'],
+          houseNo: address['houseNo'],
+          state: address['state']);
 
       Map<String, dynamic> gadgetMap = gadgetTosend.toMap();
 

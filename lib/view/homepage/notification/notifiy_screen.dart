@@ -68,7 +68,7 @@ class NotifyContainer extends StatelessWidget {
             decoration: BoxDecoration(
                 color: kwhiteColor,
                 borderRadius: BorderRadius.circular(10.0),
-                boxShadow: const[
+                boxShadow: const [
                   BoxShadow(
                       color: Colors.grey, blurRadius: 5.0, spreadRadius: 5.0)
                 ]),
@@ -99,7 +99,7 @@ class NotifyContainer extends StatelessWidget {
                           children: [
                             const Icon(Icons.location_on),
                             Text(
-                              map['location'],
+                              map['address']['city'],
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: const TextStyle(fontSize: 16.0),

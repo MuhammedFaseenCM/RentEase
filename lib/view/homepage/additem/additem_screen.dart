@@ -1,8 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:rentease/controller/additem/add_item_fun.dart';
 import 'package:rentease/main.dart';
 import 'package:rentease/model/itemmodel/item_model.dart';
+import 'package:rentease/view/core/address_sheet.dart';
 import 'package:rentease/view/core/button_widget.dart';
 import 'package:rentease/view/core/const_colors.dart';
 import 'package:rentease/view/core/string_consts.dart';
@@ -34,7 +36,6 @@ class AddItemScreen extends StatelessWidget {
                   decoration: const InputDecoration(
                       prefixIcon: Icon(Icons.add_circle_outline_outlined),
                       labelText: titleText,
-                      
                       border: OutlineInputBorder()),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -114,10 +115,15 @@ class AddItemScreen extends StatelessWidget {
                       final isValid =
                           itemModel.itemformKey.currentState!.validate();
                       if (!isValid) return;
-                      itemModel.storeToFirestore(
-                          categoryValue: itemModel.dropdownValue.value,
-                          email: FirebaseAuth.instance.currentUser!.email
-                              .toString());
+                      if (itemModel.imageFileList.length != 3) {
+                        Get.snackbar(upload3imageText, "",
+                            backgroundColor: kredColor,
+                            colorText: kwhiteColor,
+                            snackPosition: SnackPosition.BOTTOM);
+                        return;
+                      }
+
+                      showAddressSheet(context: context, isAddItem: true);
                     },
                     color: kgreenColor,
                   ),

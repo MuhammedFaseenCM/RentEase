@@ -61,11 +61,8 @@ class StreamBuilderWidget extends StatelessWidget {
                         doc: documents[index].id,
                       )),
                   child: ItemContainer(
-                    gadget : gadget,
-                      image: gadget.image1,
-                      title: gadget.title,
-                      perday: gadget.dayPrice,
-                      location: gadget.location),
+                    gadget: gadget,
+                  ),
                 );
               },
             );

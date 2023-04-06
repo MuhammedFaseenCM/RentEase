@@ -6,8 +6,12 @@ import 'package:rentease/view/core/const_colors.dart';
 class RatingWidget extends StatelessWidget {
   final String ownerEmail;
   final String title;
+  final bool? isReviewContainer;
   const RatingWidget(
-      {super.key, required this.ownerEmail, required this.title});
+      {super.key,
+      required this.ownerEmail,
+      required this.title,
+      this.isReviewContainer = false});
 
   @override
   Widget build(BuildContext context) {
@@ -16,13 +20,14 @@ class RatingWidget extends StatelessWidget {
           .collection("Review&Rating")
           .where('ownerEmail', isEqualTo: ownerEmail)
           .where('title', isEqualTo: title)
+          // .where('rating', isNull: false)
           .snapshots(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           QuerySnapshot? querySnapshot = snapshot.data;
           List<QueryDocumentSnapshot>? documents = querySnapshot!.docs;
-          List<double>? fetchedRatings =
-              documents.map((doc) => doc['rating'] as double).toList();
+          List<num>? fetchedRatings =
+              documents.map((doc) => doc['rating'] as num).toList();
           if (fetchedRatings.isEmpty) {
             return Row(
               children: const [
@@ -38,10 +43,14 @@ class RatingWidget extends StatelessWidget {
               ],
             );
           } else {
+            num sum = fetchedRatings.reduce((a, b) => a + b);
+            num average = sum / fetchedRatings.length;
             return Row(
               children: [
                 Text(
-                  fetchedRatings[0].toString(),
+                  isReviewContainer == true
+                      ? fetchedRatings[0].toString()
+                      : average.toString(),
                   style: const TextStyle(color: kblackColor),
                 ),
                 const Icon(

@@ -66,7 +66,7 @@ Future<void> userSignupDetailsToFireStore(
     name: name,
     email: email,
     password: password,
-    location: 'location',
+    addresses: [],
     phoneNumber: phoneNumber,
     idImage: 'url',
   );

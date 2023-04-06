@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:rentease/controller/signout/signout_function.dart';
 import 'package:rentease/view/core/const_colors.dart';
 import 'package:rentease/view/core/string_consts.dart';
+import 'package:flutter_gen/gen_l10n/app_localization.dart';
 
 class LogoutButton extends StatelessWidget {
   const LogoutButton({super.key});
@@ -27,7 +28,7 @@ class LogoutButton extends StatelessWidget {
                       onPressed: () {
                         signOutFunc(context: context);
                       },
-                      child: const Text(logoutText))
+                      child: Text(AppLocalizations.of(context)!.logout))
                 ],
               ),
             );
@@ -36,9 +37,9 @@ class LogoutButton extends StatelessWidget {
               backgroundColor: kredColor,
               side: BorderSide.none,
               shape: const StadiumBorder()),
-          child: const Text(
-            logoutText,
-            style: TextStyle(color: kwhiteColor),
+          child: Text(
+            AppLocalizations.of(context)!.logout,
+            style: const TextStyle(color: kwhiteColor),
           )),
     );
   }

@@ -42,9 +42,12 @@ class ProfileControl extends GetxController {
       'email': FirebaseAuth.instance.currentUser!.email.toString(),
       'phoneNumber': phone,
       'location': location
-    }).then((value) => Get.snackbar("Details updated", "",
-        backgroundColor: kgreenColor,
-        colorText: kwhiteColor,
-        snackPosition: SnackPosition.BOTTOM));
+    }).then((value) {
+      Get.back();
+      Get.snackbar("Details updated", "",
+          backgroundColor: kgreenColor,
+          colorText: kwhiteColor,
+          snackPosition: SnackPosition.BOTTOM);
+    });
   }
 }

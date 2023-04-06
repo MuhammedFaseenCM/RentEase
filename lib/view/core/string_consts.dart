@@ -1,3 +1,5 @@
+import 'package:flutter_gen/gen_l10n/app_localization.dart';
+
 const logintext = "LOGIN";
 const logoutText = "Logout";
 const welcomeBack = "Welcome back";
@@ -135,7 +137,7 @@ List<String> categories = [
   'Travel gadgets',
   'Others'
 ];
-List<String> allCategories = [
+List<String> allcategories = [
   'All',
   'Electronics',
   'Clothing',
@@ -147,3 +149,18 @@ List<String> allCategories = [
   'Travel gadgets',
   'Others'
 ];
+
+List<String> allCategories({required context}) {
+  return [
+    AppLocalizations.of(context)!.all,
+    AppLocalizations.of(context)!.electronics,
+    AppLocalizations.of(context)!.clothing,
+    AppLocalizations.of(context)!.homeAppliances,
+    AppLocalizations.of(context)!.healthAndWellness,
+    AppLocalizations.of(context)!.gaming,
+    AppLocalizations.of(context)!.sports,
+    AppLocalizations.of(context)!.automotive,
+    AppLocalizations.of(context)!.travelGadgets,
+    AppLocalizations.of(context)!.others
+  ];
+}

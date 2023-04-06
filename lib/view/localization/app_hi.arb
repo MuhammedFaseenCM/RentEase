@@ -1,0 +1,31 @@
+{
+    "language": "मानक हिन्दी",
+    "welcome": "स्वागत",
+    "appName":"रेंटईज",
+    "order": "आदेश",
+    "notification": "सूचना",
+    "addItem": "आइटम जोड़ें",
+    "account": "खाता",
+    "home": "घर",
+    "editProfile":" प्रोफ़ाइल संपादित करें",
+    "logout": "लॉग आउट करें",
+    "login": "लॉग इन करें",
+    "about": "के बारे में",
+    "myGadget": "मेरी गैजेट",
+    "termsAndPolicies": "नियम और नीतियां",
+     "all": "सब",
+    "electronics": "इलेक्ट्रॉनिक्स",
+    "clothing": "कपड़े",
+    "homeAppliances": "घर के उपकरण",
+    "healthAndWellness": "स्वास्थ्य और सुखद",
+    "gaming": "गेमिंग", 
+    "sports": "खेल",
+    "automotive": " ऑटोमोटिव",
+    "travelGadgets": "यात्रा गैजेट्स",
+    "others": "अन्य",
+    "selectLanguage": "भाषा चुनें",
+    "myBookings": "मेरी बुकिंगें",
+    "savedAddresses": "सहेजे गए पते"
+    
+
+}

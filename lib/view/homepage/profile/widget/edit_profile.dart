@@ -6,7 +6,6 @@ import 'package:rentease/view/core/appbar_widget.dart';
 import 'package:rentease/view/core/button_widget.dart';
 import 'package:rentease/view/core/const_colors.dart';
 import 'package:rentease/view/core/string_consts.dart';
-import 'package:rentease/view/core/textformfield.dart';
 import 'package:rentease/view/core/widgets.dart';
 
 class EditProfile extends StatelessWidget {
@@ -28,7 +27,7 @@ class EditProfile extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             kheight20,
-            kheight10,
+            kheight20,
             GetBuilder<ProfileControl>(
                 init: ProfileControl(),
                 builder: (value) {
@@ -74,33 +73,6 @@ class EditProfile extends StatelessWidget {
               "   Location*",
               style: TextStyle(color: kwhiteColor),
             ),
-            kheight10,
-            GetBuilder<ProfileControl>(
-                init: ProfileControl(),
-                builder: (value) {
-                  return TextFormField(
-                    controller: value.locationController,
-                    validator: (location) {
-                      if (location == null || location.isEmpty) {
-                        return validNameText;
-                      }
-                      return null;
-                    },
-                    decoration: const InputDecoration(
-                      labelText: locationText,
-                      border: OutlineInputBorder(),
-                    ),
-                  );
-                  TextFieldWidget(
-                    hintText: locationText,
-                    controller: value.locationController,
-                    validator: (location) {
-                      if (location.isEmpty) {
-                        return validLocationText;
-                      }
-                    },
-                  );
-                }),
             kheight20,
             GetBuilder<ProfileControl>(
                 init: ProfileControl(),

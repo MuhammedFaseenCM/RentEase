@@ -12,23 +12,23 @@ class AppBarWidget extends StatelessWidget {
   static final HomeGetx controller = Get.put(HomeGetx());
   @override
   Widget build(BuildContext context) {
-    return Obx(() => AppBar(
-          iconTheme: const IconThemeData(color: kblackColor),
-          backgroundColor: kwhiteColor,
-          elevation: 0.0,
-          flexibleSpace: const AppBarContainer(),
-          title: Text(
-            title,
-            style: const TextStyle(color: kblackColor),
-          ),
-          actions: [
-            controller.selectedIndex.value == 0
-                ? IconButton(
-                    onPressed: () {},
-                    icon: const Icon(FontAwesomeIcons.searchengin))
-                : const SizedBox()
-          ],
-          centerTitle: true,
-        ));
+    return AppBar(
+      iconTheme: const IconThemeData(color: kblackColor),
+      backgroundColor: kwhiteColor,
+      elevation: 0.0,
+      flexibleSpace: const AppBarContainer(),
+      title: Text(
+        title,
+        style: const TextStyle(color: kblackColor),
+      ),
+      // actions: [
+      //   // controller.selectedIndex.value == 0
+      //   //     ? IconButton(
+      //   //         onPressed: () {},
+      //   //         icon: const Icon(FontAwesomeIcons.searchengin))
+      //   //     : const SizedBox()
+      // ],
+      centerTitle: true,
+    );
   }
 }

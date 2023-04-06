@@ -92,7 +92,7 @@ class GadgetContainer extends StatelessWidget {
         Container(
           padding: const EdgeInsets.all(5.0),
           margin: const EdgeInsets.all(5.0),
-          height: 180.0,
+          height: 140.0,
           width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
               color: kwhiteColor,
@@ -105,77 +105,84 @@ class GadgetContainer extends StatelessWidget {
             children: [
               MyGadgetImageContainer(
                 image: gadget.image1,
-                size: 150.0,
+                size: 100.0,
               ),
-              kwidth10,
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    gadget.title,
-                    style: const TextStyle(
-                        fontSize: 25.0, fontWeight: FontWeight.bold),
-                  ),
-                  kheight10,
-                  Text(
-                    "Rs.${gadget.dayPrice}/day",
-                    style: const TextStyle(
-                        fontSize: 20.0, fontWeight: FontWeight.w400),
-                  ),
-                  kheight20,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      SizedBox(
-                        width: 150.0,
-                        child: ElevatedButton(
-                            onPressed: () async {
-                              final itemMap = await updateGadget.itemMap(
-                                  doc: documents[index].id);
-                              if (itemMap != null) {
-                                Get.to(() => UpdateGadget(
-                                      gadget: gadget,
-                                      doc: documents[index].id,
-                                    ));
-                              }
-                            },
-                            style: ElevatedButton.styleFrom(
-                                backgroundColor: kgrey,
-                                side: BorderSide.none,
-                                shape: const StadiumBorder()),
-                            child: const Text(
-                              editGadgetText,
-                              style: TextStyle(
-                                  color: kwhiteColor,
-                                  fontWeight: FontWeight.bold),
-                            )),
+              kwidth20,
+              Flexible(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    kheight20,
+                    Text(
+                      gadget.title,
+                      maxLines: 1,
+                      style: const TextStyle(
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                      IconButton(
-                          onPressed: () {
-                            Get.dialog(AlertDialog(
-                              title: const Text(warningText),
-                              actions: [
-                                TextButton(
-                                    onPressed: () {
-                                      myGadget.deleteGadget(
-                                          doc: documents[index].id);
-                                      Get.back();
-                                    },
-                                    child: const Text(confirmText)),
-                                TextButton(
-                                    onPressed: () {
-                                      Get.back();
-                                    },
-                                    child: const Text(cancelText))
-                              ],
-                            ));
-                          },
-                          iconSize: 27.0,
-                          color: kredColor,
-                          icon: const Icon(Icons.delete))
-                    ],
-                  ),
-                ],
+                    ),
+                    kheight10,
+                    Text(
+                      "Rs.${gadget.dayPrice}/day",
+                      style: const TextStyle(
+                          fontSize: 15.0, fontWeight: FontWeight.w400),
+                    ),
+                    kheight10,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SizedBox(
+                          width: 150.0,
+                          child: ElevatedButton(
+                              onPressed: () async {
+                                final itemMap = await updateGadget.itemMap(
+                                    doc: documents[index].id);
+                                if (itemMap != null) {
+                                  Get.to(() => UpdateGadget(
+                                        gadget: gadget,
+                                        doc: documents[index].id,
+                                      ));
+                                }
+                              },
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: kgrey,
+                                  side: BorderSide.none,
+                                  shape: const StadiumBorder()),
+                              child: const Text(
+                                editGadgetText,
+                                style: TextStyle(
+                                    color: kwhiteColor,
+                                    fontWeight: FontWeight.bold),
+                              )),
+                        ),
+                        IconButton(
+                            onPressed: () {
+                              Get.dialog(AlertDialog(
+                                title: const Text(warningText),
+                                actions: [
+                                  TextButton(
+                                      onPressed: () {
+                                        myGadget.deleteGadget(
+                                            doc: documents[index].id);
+                                        Get.back();
+                                      },
+                                      child: const Text(confirmText)),
+                                  TextButton(
+                                      onPressed: () {
+                                        Get.back();
+                                      },
+                                      child: const Text(cancelText))
+                                ],
+                              ));
+                            },
+                            iconSize: 27.0,
+                            color: kredColor,
+                            icon: const Icon(Icons.delete))
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ],
           ),

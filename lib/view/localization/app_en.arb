@@ -1,0 +1,34 @@
+{
+    "language": "English",
+    "@language":{
+        "description": "The current Language"
+    },
+    "welcome": "welcome",
+    "appName": "RentEase",
+    "order":  "Order",
+    "notification": "Notifications",
+    "addItem": "Add item",
+    "account": "Account",
+    "home": "Home",
+    "editProfile": "Edit Profile",
+    "logout": "Logout",
+    "login": "Login",
+    "about": "About Us",
+    "myGadget": "My Gadgets",
+    "termsAndPolicies": "Terms and Policies",
+    "all": "All",
+    "electronics": "Electronics",
+    "clothing": "Clothing",
+    "homeAppliances": "Home Appliances",
+    "healthAndWellness": "Health and Wellness",
+    "gaming": "Gaming", 
+    "sports": "Sports",
+    "automotive": "Automotive",
+    "travelGadgets": "Travel Gadgets",
+    "others": "Others",
+    "selectLanguage": "Select Language",
+    "myBookings": "My Bookings",
+    "savedAddresses": "Saved Addresses"
+
+
+}

@@ -1,11 +1,8 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:rentease/controller/signup/signup_function.dart';
-import 'package:rentease/main.dart';
 import 'package:rentease/model/signupmodel/mobx/signup_model.dart';
 
-import 'package:rentease/view/core/appbar_widget.dart';
 import 'package:rentease/view/core/button_widget.dart';
 import 'package:rentease/view/core/const_colors.dart';
 import 'package:rentease/view/core/string_consts.dart';
@@ -14,6 +11,7 @@ import 'package:rentease/view/loginpage/widgets/fields.dart/email_field.dart';
 import 'package:rentease/view/loginpage/widgets/fields.dart/password_field.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:rentease/view/loginpage/widgets/login_page_widget.dart';
+import 'package:rentease/view/signuppage/widget/otp_screen.dart';
 
 Country country = Country(
     phoneCode: "91",
@@ -134,6 +132,7 @@ class SignUpScreen extends StatelessWidget {
                                   .signupformKey.currentState!
                                   .validate();
                               if (!isValid) return;
+                              
                               await signUp(
                                   context: context,
                                   email:

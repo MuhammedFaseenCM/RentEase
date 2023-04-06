@@ -3,20 +3,16 @@ import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rentease/model/homemodel/gadgets.dart';
 import 'package:rentease/view/core/const_colors.dart';
+import 'package:rentease/view/core/string_consts.dart';
 import 'package:rentease/view/homepage/home/widget/rating_widget.dart';
 
 class ItemContainer extends StatelessWidget {
-  final String image;
-  final String? title;
-  final String? perday;
-  final String? location;
-final Gadgets gadget;
+  final Gadgets gadget;
   const ItemContainer(
       {super.key,
-      required this.image,
-      required this.title,
-      required this.perday,
-      required this.location, required this.gadget});
+
+      //   required this.location,
+      required this.gadget});
 
   @override
   Widget build(BuildContext context) {
@@ -50,11 +46,11 @@ final Gadgets gadget;
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text("₹$perday/day",
+                        Text("$rupee${gadget.dayPrice}",
                             style: const TextStyle(
                               color: kblackColor,
                             )),
-                         RatingWidget(
+                        RatingWidget(
                           ownerEmail: gadget.email,
                           title: gadget.title,
                         )
@@ -66,7 +62,7 @@ final Gadgets gadget;
                           Icons.location_on,
                           color: kblackColor,
                         ),
-                        Text("$location",
+                        Text(gadget.city,
                             style: const TextStyle(
                               color: kblackColor,
                             )),
@@ -75,7 +71,7 @@ final Gadgets gadget;
                   ],
                 ),
                 title: Text(
-                  title!,
+                  gadget.title,
                   style: const TextStyle(
                       color: kblackColor,
                       fontSize: 17.0,
@@ -84,7 +80,7 @@ final Gadgets gadget;
               ),
             ),
             child: Hero(
-              tag: image,
+              tag: gadget.image1,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(20.0),
                 child: Container(
@@ -94,7 +90,7 @@ final Gadgets gadget;
                   width: 180.0,
                   height: 240.0,
                   child: Image.network(
-                    image,
+                    gadget.image1,
                     fit: BoxFit.cover,
                     loadingBuilder: (context, child, loadingProgress) {
                       if (loadingProgress == null) {
@@ -106,7 +102,7 @@ final Gadgets gadget;
                             duration: const Duration(seconds: 4),
                             curve: Curves.bounceInOut,
                             hash: 'LHA-Vc_4s9ad4oMwt8t7RhXTNGRj',
-                            image: image,
+                            image: gadget.image1,
                           ),
                         );
                       }

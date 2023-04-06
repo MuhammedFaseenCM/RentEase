@@ -8,9 +8,14 @@ import 'package:rentease/view/core/const_colors.dart';
 import 'package:rentease/view/core/logout_button.dart';
 import 'package:rentease/view/core/string_consts.dart';
 import 'package:rentease/view/core/widgets.dart';
+import 'package:rentease/view/homepage/profile/widget/about_us_widget.dart';
 import 'package:rentease/view/homepage/profile/widget/edit_profile.dart';
 import 'package:rentease/view/homepage/profile/widget/listtile_widget.dart';
 import 'package:rentease/view/homepage/profile/widget/my_gadgets.dart';
+import 'package:flutter_gen/gen_l10n/app_localization.dart';
+import 'package:rentease/view/homepage/profile/widget/terms_n_policies.dart';
+import 'package:rentease/view/homepage/widget/my_bookings.dart';
+import 'package:rentease/view/homepage/widget/saved_addresses.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -37,20 +42,28 @@ class ProfileScreen extends StatelessWidget {
                 child: Column(
                   children: [
                     kheight20,
-                    Text(
-                      "WELCOME",
-                      style: TextStyle(
-                          fontSize: 15.0,
-                          color: kOrange900,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    kheight10,
-                    Text(
-                      data![nameInMapText] ?? nameNullText,
-                      style: const TextStyle(
-                          fontSize: 20.0,
-                          color: kblackColor,
-                          fontWeight: FontWeight.bold),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          AppLocalizations.of(context)!.welcome.toUpperCase(),
+                          style: TextStyle(
+                              fontSize: 18.0,
+                              color: kOrange900,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        kwidth10,
+                        Flexible(
+                          child: Text(
+                            data![nameInMapText] ?? nameNullText,
+                            overflow: TextOverflow.fade,
+                            style: const TextStyle(
+                                fontSize: 20.0,
+                                color: kblackColor,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ],
                     ),
                     kheight10,
                     Text(
@@ -63,7 +76,7 @@ class ProfileScreen extends StatelessWidget {
                     ),
                     kheight20,
                     SizedBox(
-                      width: 200.0,
+                      width: 230.0,
                       child: ElevatedButton(
                           onPressed: () {
                             Get.to(() => const EditProfile());
@@ -72,30 +85,63 @@ class ProfileScreen extends StatelessWidget {
                               backgroundColor: kOrange900,
                               side: BorderSide.none,
                               shape: const StadiumBorder()),
-                          child: const Text(
-                            editProfText,
-                            style: TextStyle(color: kwhiteColor),
+                          child: Text(
+                            AppLocalizations.of(context)!.editProfile,
+                            maxLines: 1,
+                            style: const TextStyle(color: kwhiteColor),
                           )),
                     ),
                     kheight20,
                     ListTileWidget(
-                      title: myGadgetsText,
+                      title: AppLocalizations.of(context)!.myGadget,
                       icon: Icons.local_grocery_store_rounded,
                       onTap: () {
                         Get.to(() => const MyGadgetsScreen());
                       },
                     ),
                     kheight20,
+                    // ListTileWidget(
+                    //   title: AppLocalizations.of(context)!.selectLanguage,
+                    //   icon: Icons.assignment,
+                    //   onTap: () {
+                    //     Get.to(() => const SelectLanguageScreen());
+                    //   },
+                    // ),
                     ListTileWidget(
-                      title: termsText,
-                      icon: Icons.assignment,
-                      onTap: () {},
+                      title: AppLocalizations.of(context)!.myBookings,
+                      icon: Icons.menu_book_outlined,
+                      onTap: () {
+                        Get.to(() => const MyBookingScreen());
+                      },
                     ),
                     kheight20,
                     ListTileWidget(
-                      title: aboutText,
+                      title: AppLocalizations.of(context)!.savedAddresses,
+                      icon: Icons.location_on,
+                      onTap: () {
+                        Get.to(() => const SavedAddresses());
+                      },
+                    ),
+                    kheight20,
+                    ListTileWidget(
+                      title: AppLocalizations.of(context)!.termsAndPolicies,
+                      icon: Icons.assignment,
+                      onTap: () {
+                        Get.to(() => const TermsAndPoliciesScreen());
+                      },
+                    ),
+                    kheight20,
+                    ListTileWidget(
+                      title: AppLocalizations.of(context)!.about,
                       icon: Icons.info,
-                      onTap: () {},
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return const AboutUsWidget();
+                          },
+                        );
+                      },
                     ),
                     kheight20,
                     kheight20,

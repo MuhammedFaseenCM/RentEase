@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:rentease/model/homemodel/home_model.dart';
 import 'package:rentease/view/core/logout_button.dart';
 import 'package:rentease/view/core/string_consts.dart';
 import 'package:rentease/view/core/widgets.dart';
+import 'package:rentease/view/homepage/profile/widget/about_us_widget.dart';
 import 'package:rentease/view/homepage/profile/widget/listtile_widget.dart';
 import 'package:rentease/view/homepage/profile/widget/my_gadgets.dart';
+import 'package:flutter_gen/gen_l10n/app_localization.dart';
+import 'package:rentease/view/homepage/profile/widget/terms_n_policies.dart';
+import 'package:rentease/view/homepage/widget/my_bookings.dart';
 
 class DrawerWidget extends StatelessWidget {
   final String email;
   const DrawerWidget({super.key, required this.email});
-
+  static final HomeGetx controller = Get.put(HomeGetx());
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -33,43 +38,84 @@ class DrawerWidget extends StatelessWidget {
           kheight10,
           kheight20,
           ListTileWidget(
-            title: homeText,
+            height: 50.0,
+            title: AppLocalizations.of(context)!.home,
             icon: Icons.home,
-            onTap: () {},
+            onTap: () {
+              controller.selectedIndex.value = 0;
+              Get.back();
+            },
           ),
-          kheight20,
+          kheight10,
           ListTileWidget(
-            title: addItemText,
+            height: 50.0,
+            title: AppLocalizations.of(context)!.addItem,
             icon: Icons.add,
-            onTap: () {},
+            onTap: () {
+              controller.selectedIndex.value = 1;
+              Get.back();
+            },
           ),
-          kheight20,
+          kheight10,
           ListTileWidget(
-            title: notifyText,
+            height: 50.0,
+            title: AppLocalizations.of(context)!.notification,
             icon: Icons.notifications,
-            onTap: () {},
+            onTap: () {
+              controller.selectedIndex.value = 2;
+              Get.back();
+            },
           ),
-          kheight20,
+          kheight10,
           ListTileWidget(
-            title: myGadgetsText,
+            height: 50.0,
+            title: AppLocalizations.of(context)!.myGadget,
             icon: Icons.local_grocery_store_rounded,
             onTap: () {
               Get.to(() => const MyGadgetsScreen());
             },
           ),
-          kheight20,
+          kheight10,
           ListTileWidget(
-            title: termsText,
-            icon: Icons.assignment,
+            height: 50.0,
+            title: AppLocalizations.of(context)!.myBookings,
+            icon: Icons.menu_book_outlined,
             onTap: () {
-              // Get.to(() => NotifyScreen());
+              Get.to(() => const MyBookingScreen());
             },
           ),
-          kheight20,
+          kheight10,
           ListTileWidget(
-            title: aboutText,
+            height: 50.0,
+            title: AppLocalizations.of(context)!.account,
+            icon: Icons.person,
+            onTap: () {
+              controller.selectedIndex.value = 4;
+              Get.back();
+            },
+          ),
+          kheight10,
+          ListTileWidget(
+            height: 50.0,
+            title: AppLocalizations.of(context)!.termsAndPolicies,
+            icon: Icons.assignment,
+            onTap: () {
+              Get.to(() => const TermsAndPoliciesScreen());
+            },
+          ),
+          kheight10,
+          ListTileWidget(
+            height: 50.0,
+            title: AppLocalizations.of(context)!.about,
             icon: Icons.info,
-            onTap: () {},
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return const AboutUsWidget();
+                },
+              );
+            },
           ),
           kheight20,
           const LogoutButton(),
