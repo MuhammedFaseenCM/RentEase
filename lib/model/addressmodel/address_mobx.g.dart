@@ -8,9 +8,9 @@ part of 'address_mobx.dart';
 
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
-mixin _$AddressModel on _AddressModel, Store {
+mixin _$AddressMobx on _AddressMobx, Store {
   late final _$stateControllerAtom =
-      Atom(name: '_AddressModel.stateController', context: context);
+      Atom(name: '_AddressMobx.stateController', context: context);
 
   @override
   TextEditingController get stateController {
@@ -26,7 +26,7 @@ mixin _$AddressModel on _AddressModel, Store {
   }
 
   late final _$selectedStateAtom =
-      Atom(name: '_AddressModel.selectedState', context: context);
+      Atom(name: '_AddressMobx.selectedState', context: context);
 
   @override
   String get selectedState {
@@ -41,17 +41,17 @@ mixin _$AddressModel on _AddressModel, Store {
     });
   }
 
-  late final _$_AddressModelActionController =
-      ActionController(name: '_AddressModel', context: context);
+  late final _$_AddressMobxActionController =
+      ActionController(name: '_AddressMobx', context: context);
 
   @override
   void setSelectedState(String value) {
-    final _$actionInfo = _$_AddressModelActionController.startAction(
-        name: '_AddressModel.setSelectedState');
+    final _$actionInfo = _$_AddressMobxActionController.startAction(
+        name: '_AddressMobx.setSelectedState');
     try {
       return super.setSelectedState(value);
     } finally {
-      _$_AddressModelActionController.endAction(_$actionInfo);
+      _$_AddressMobxActionController.endAction(_$actionInfo);
     }
   }
 

@@ -8,14 +8,14 @@ import 'package:rentease/view/core/const_colors.dart';
 import 'package:rentease/view/core/logout_button.dart';
 import 'package:rentease/view/core/string_consts.dart';
 import 'package:rentease/view/core/widgets.dart';
+import 'package:rentease/view/homepage/profile/screens/booking_screen.dart';
+import 'package:rentease/view/homepage/profile/screens/edit_profile_screen.dart';
+import 'package:rentease/view/homepage/profile/screens/mygadgetscreen/my_gadget_screen.dart';
+import 'package:rentease/view/homepage/profile/screens/terms_n_policy_screen.dart';
 import 'package:rentease/view/homepage/profile/widget/about_us_widget.dart';
-import 'package:rentease/view/homepage/profile/widget/edit_profile.dart';
 import 'package:rentease/view/homepage/profile/widget/listtile_widget.dart';
-import 'package:rentease/view/homepage/profile/widget/my_gadgets.dart';
 import 'package:flutter_gen/gen_l10n/app_localization.dart';
-import 'package:rentease/view/homepage/profile/widget/terms_n_policies.dart';
-import 'package:rentease/view/homepage/widget/my_bookings.dart';
-import 'package:rentease/view/homepage/widget/saved_addresses.dart';
+import 'package:rentease/view/homepage/profile/screens/address_screen/saved_addresses.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});

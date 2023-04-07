@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:rentease/model/reviewratingmodel/review_model.dart';
 import 'package:rentease/view/core/const_colors.dart';
 import 'package:rentease/view/core/widgets.dart';
 import 'package:rentease/view/homepage/home/widget/rating_widget.dart';
@@ -28,8 +29,7 @@ class ReviewWidget extends StatelessWidget {
             List<QueryDocumentSnapshot>? documents = querySnapshot!.docs;
             List<String>? fetchedReviews =
                 documents.map((doc) => doc['review'] as String).toList();
-            List<Map<String, dynamic>> items =
-                documents.map((e) => e.data() as Map<String, dynamic>).toList();
+
             if (fetchedReviews.isEmpty) {
               return const Center(
                 child: Text("No reviews"),
@@ -39,11 +39,15 @@ class ReviewWidget extends StatelessWidget {
                 shrinkWrap: true,
                 itemCount: fetchedReviews.length,
                 itemBuilder: (context, index) {
-                  final reviewMap = items[index];
+                  final reviewModel =
+                      ReviewModel.fromSnapshot(documents[index]);
                   return Container(
+                    margin: const EdgeInsets.only(bottom: 20.0),
                     padding: const EdgeInsets.all(10.0),
-                    decoration:
-                        BoxDecoration(border: Border.all(color: Colors.grey)),
+                    decoration: BoxDecoration(
+                        border:
+                            Border.all(color: Colors.grey[300]!, width: 4.0),
+                        borderRadius: BorderRadius.circular(5.0)),
                     child: Column(
                       children: [
                         Row(
@@ -53,7 +57,7 @@ class ReviewWidget extends StatelessWidget {
                               children: [
                                 kwidth10,
                                 Text(
-                                  reviewMap['ownerEmail'],
+                                  reviewModel.userEmail,
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyMedium!

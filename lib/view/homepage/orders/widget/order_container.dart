@@ -1,19 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
+import 'package:rentease/controller/review/add_rating_function.dart';
+import 'package:rentease/controller/review/return_function.dart';
 import 'package:rentease/model/ordermodel/order_model.dart';
+import 'package:rentease/model/paidmodel/paidgadgetmodel.dart';
 import 'package:rentease/view/core/const_colors.dart';
 import 'package:rentease/view/core/string_consts.dart';
 import 'package:rentease/view/core/widgets.dart';
-import 'package:rentease/view/homepage/home/itemscreen/widget/review_widget.dart';
 import 'package:rentease/view/homepage/notification/widget/image_widget.dart';
 import 'package:rentease/view/homepage/orders/widget/review_screen.dart';
 
 class OrderContainer extends StatelessWidget {
-  final Map<String, dynamic> orderMap;
-  const OrderContainer({super.key, required this.orderMap});
+  final MyOrderModel myorder;
+  const OrderContainer({super.key, required this.myorder});
   static final OrderModel orderModel = OrderModel();
   @override
   Widget build(BuildContext context) {
@@ -40,13 +41,13 @@ class OrderContainer extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    ReqImageWidget(imageUrl: orderMap['image1']),
+                    ReqImageWidget(imageUrl: myorder.image1),
                     kwidth20,
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          orderMap['title'],
+                          myorder.title,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
@@ -71,31 +72,7 @@ class OrderContainer extends StatelessWidget {
                             );
                           },
                           onRatingUpdate: (value) async {
-                            final reviewRatingDoc = orderModel.collection.doc(
-                                "${FirebaseAuth.instance.currentUser!.email.toString()}_${orderMap['title']}");
-
-                            reviewRatingDoc.get().then((snapshot) {
-                              if (snapshot.exists) {
-                                reviewRatingDoc.update({
-                                  'rating': value,
-                                  'ownerEmail': orderMap['ownerEmail'],
-                                  'title': orderMap[titleInMapText]
-                                }).catchError((error) {
-                                  print(error);
-                                });
-                              } else {
-                                reviewRatingDoc.set({
-                                  'rating': value,
-                                  'ownerEmail': orderMap['ownerEmail'],
-                                  'title': orderMap[titleInMapText]
-                                });
-                              }
-                            });
-
-                            Get.snackbar("Thanks for the rating", "",
-                                snackPosition: SnackPosition.BOTTOM,
-                                backgroundColor: kgreenColor,
-                                colorText: kwhiteColor);
+                            addRating(myOrderModel: myorder, value: value);
                           },
                           unratedColor: Colors.grey[350],
                           itemSize: 30.0,
@@ -106,18 +83,17 @@ class OrderContainer extends StatelessWidget {
                             TextButton(
                                 onPressed: () {
                                   Get.to(() => ReviewScreen(
-                                        imageUrl: orderMap['image1'],
-                                        title: orderMap['title'],
-                                        ownerEmail: orderMap['ownerEmail'],
+                                        imageUrl: myorder.image1,
+                                        title: myorder.title,
+                                        ownerEmail: myorder.ownerEmail,
                                       ));
                                 },
                                 child: const Text("Write a review")),
                             StreamBuilder<DocumentSnapshot>(
                               stream: FirebaseFirestore.instance
                                   .collection(appName)
-                                  .where('title', isEqualTo: orderMap['title'])
-                                  .where('email',
-                                      isEqualTo: orderMap['ownerEmail'])
+                                  .where('title', isEqualTo: myorder.title)
+                                  .where('email', isEqualTo: myorder.ownerEmail)
                                   .snapshots()
                                   .map((querySnapshot) =>
                                       querySnapshot.docs.first),
@@ -130,13 +106,14 @@ class OrderContainer extends StatelessWidget {
                                   // Show a message if the document snapshot is empty
                                   return const Text("No data found");
                                 } else {
-                                  var docSnapshot = snapshot.data!;
-                                  var isReturned =
+                                  DocumentSnapshot<Object?> docSnapshot =
+                                      snapshot.data!;
+                                  bool isReturned =
                                       docSnapshot.get('available') == 'true';
-                                  var buttonChild = isReturned
+                                  Widget buttonChild = isReturned
                                       ? const Text("Returned")
                                       : const Text("Return");
-                                  var buttonEnabled = !isReturned;
+                                  bool buttonEnabled = !isReturned;
                                   return ElevatedButton(
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: kOrange900,
@@ -145,73 +122,16 @@ class OrderContainer extends StatelessWidget {
                                     ),
                                     onPressed: buttonEnabled
                                         ? () async {
-                                            showDialog(
-                                              context: context,
-                                              builder: (context) =>
-                                                  const Center(
-                                                child:
-                                                    CircularProgressIndicator(),
-                                              ),
-                                            );
-                                            try {
-                                              await docSnapshot.reference
-                                                  .update(
-                                                      {'available': 'true'});
-                                              Get.snackbar(
-                                                "Return info sent to owner ",
-                                                "",
-                                                backgroundColor: kgreenColor,
-                                                colorText: kwhiteColor,
-                                              );
-                                            } catch (e) {
-                                              print(
-                                                  "Error updating document: $e");
-                                            }
-                                            Get.back();
+                                            returnGadget(
+                                                context: context,
+                                                docSnapshot: docSnapshot);
                                           }
                                         : null, // Set the onPressed function to null when the button is disabled
                                     child: buttonChild,
                                   );
                                 }
                               },
-                            )
-
-                            // ElevatedButton(
-                            //     style: ElevatedButton.styleFrom(
-                            //         backgroundColor: kOrange900,
-                            //         side: BorderSide.none,
-                            //         shape: const StadiumBorder()),
-                            //     onPressed: () async {
-                            //       showDialog(
-                            //         context: context,
-                            //         builder: (context) => const Center(
-                            //           child: CircularProgressIndicator(),
-                            //         ),
-                            //       );
-                            //       var querySnapshot = await FirebaseFirestore
-                            //           .instance
-                            //           .collection(appName)
-                            //           .where('title',
-                            //               isEqualTo: orderMap['title'])
-                            //           .where('email',
-                            //               isEqualTo: orderMap['ownerEmail'])
-                            //           .get();
-
-                            //       var docSnapshot = querySnapshot.docs.first;
-                            //       if (docSnapshot.exists) {
-                            //         try {
-                            //           docSnapshot.reference
-                            //               .update({'available': 'true'}).then(
-                            //                   (value) => Get.snackbar(
-                            //                       "Return info sent to owner ",
-                            //                       "",
-                            //                       backgroundColor: kgreenColor,
-                            //                       colorText: kwhiteColor));
-                            //         } catch (e) {}
-                            //       }
-                            //       Get.back();
-                            //     },
-                            //     child: const Text("Return"))
+                            ),
                           ],
                         )
                       ],

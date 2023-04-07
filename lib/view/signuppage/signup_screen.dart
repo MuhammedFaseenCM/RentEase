@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:rentease/controller/signup/signup_function.dart';
 import 'package:rentease/model/signupmodel/mobx/signup_model.dart';
-
 import 'package:rentease/view/core/button_widget.dart';
 import 'package:rentease/view/core/const_colors.dart';
 import 'package:rentease/view/core/string_consts.dart';
@@ -10,8 +8,8 @@ import 'package:rentease/view/core/widgets.dart';
 import 'package:rentease/view/loginpage/widgets/fields.dart/email_field.dart';
 import 'package:rentease/view/loginpage/widgets/fields.dart/password_field.dart';
 import 'package:country_picker/country_picker.dart';
-import 'package:rentease/view/loginpage/widgets/login_page_widget.dart';
-import 'package:rentease/view/signuppage/widget/otp_screen.dart';
+import 'package:rentease/view/loginpage/widgets/header_section.dart';
+import 'package:rentease/view/signuppage/widget/country_code_widget.dart';
 
 Country country = Country(
     phoneCode: "91",
@@ -31,11 +29,7 @@ class SignUpScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    signupmodel.isEmailVerified = false;
     return Scaffold(
-      // appBar: const PreferredSize(
-      //     preferredSize: Size.fromHeight(60),
-      //     child: AppBarWidget(title: signupText)),
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
@@ -107,6 +101,7 @@ class SignUpScreen extends StatelessWidget {
                                   value.length != 10) {
                                 return validNumberText;
                               }
+                              return null;
                             },
                           ),
                           kheight20,
@@ -148,15 +143,6 @@ class SignUpScreen extends StatelessWidget {
                                       .trim(),
                                   phoneNumber:
                                       signupmodel.numberController.text.trim());
-
-                              //    signupmodel.sendSMS(context: context);
-
-                              // Navigator.of(context).push(MaterialPageRoute(
-                              //   builder: (context) => SignUpSecondScreen(
-                              //     password: signupmodel.passwordController.text.trim(),
-                              //     email: signupmodel.emailController.text.trim(),
-                              //   ),
-                              // ));
                             },
                           ),
                         ],
@@ -173,43 +159,4 @@ class SignUpScreen extends StatelessWidget {
   }
 }
 
-class SignUpTextFieldWidget extends StatelessWidget {
-  final String hintText;
-  const SignUpTextFieldWidget({super.key, required this.hintText});
 
-  @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      decoration: InputDecoration(
-          border: const OutlineInputBorder(), hintText: hintText),
-    );
-  }
-}
-
-class CountryCodeWidget extends StatelessWidget {
-  const CountryCodeWidget({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(12.0),
-      child: InkWell(
-        onTap: () {
-          showCountryPicker(
-            context: context,
-            countryListTheme:
-                const CountryListThemeData(bottomSheetHeight: 500),
-            onSelect: (value) {
-              country = value;
-            },
-          );
-        },
-        child: Text(
-          "${country.flagEmoji}  +${country.phoneCode}",
-          style: const TextStyle(
-              fontSize: 15, color: kblackColor, fontWeight: FontWeight.bold),
-        ),
-      ),
-    );
-  }
-}

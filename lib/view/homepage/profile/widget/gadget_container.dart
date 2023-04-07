@@ -1,77 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:get/get.dart';
 import 'package:rentease/controller/profile/mygadgets/mygadgets_control.dart';
 import 'package:rentease/controller/update/update_item.dart';
 import 'package:rentease/model/homemodel/gadgets.dart';
-import 'package:rentease/view/core/appbar_widget.dart';
 import 'package:rentease/view/core/const_colors.dart';
-import 'package:rentease/view/core/screen_container_widget.dart';
 import 'package:rentease/view/core/string_consts.dart';
 import 'package:rentease/view/core/widgets.dart';
-import 'package:rentease/view/homepage/profile/widget/update_gadgets.dart';
+import 'package:rentease/view/homepage/profile/widget/image_container.dart';
+import 'package:rentease/view/homepage/profile/screens/mygadgetscreen/update_gadgets_screen.dart';
 
-class MyGadgetsScreen extends StatelessWidget {
-  const MyGadgetsScreen({super.key});
-  static MyGadgetsController myGadget = MyGadgetsController();
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: const PreferredSize(
-          preferredSize: Size.fromHeight(60),
-          child: AppBarWidget(title: myGadgetsText),
-        ),
-        body: CustomContainer(
-          child: StreamBuilder<QuerySnapshot>(
-              stream: myGadget.query
-                  .where('email',
-                      isEqualTo:
-                          FirebaseAuth.instance.currentUser!.email.toString())
-                  .snapshots(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  QuerySnapshot? querySnapshot = snapshot.data;
-                  List<QueryDocumentSnapshot> documents = querySnapshot!.docs;
 
-                  if (documents.isEmpty) {
-                    return const Center(
-                      child: Text(
-                        noGadgetsText,
-                        style: TextStyle(
-                            color: kblackColor,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 25.0),
-                      ),
-                    );
-                  }
-                  return ListView.builder(
-                    itemCount: documents.length,
-                    itemBuilder: (context, index) {
-                      final gadget = Gadgets.fromSnapshot(documents[index]);
-
-                      return GadgetContainer(
-                          gadget: gadget, documents: documents, index: index);
-                    },
-                  );
-                } else if (snapshot.hasError) {
-                  return const Center(
-                    child: Text(
-                      wrongText,
-                      style: TextStyle(
-                          color: kblackColor,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 25.0),
-                    ),
-                  );
-                } else {
-                  return const CircularProgressIndicator();
-                }
-              }),
-        ));
-  }
-}
 
 class GadgetContainer extends StatelessWidget {
   final List<QueryDocumentSnapshot> documents;
@@ -192,62 +131,4 @@ class GadgetContainer extends StatelessWidget {
   }
 }
 
-class MyGadgetImageContainer extends StatelessWidget {
-  final double? size;
-  final String image;
-  const MyGadgetImageContainer({super.key, required this.image, this.size});
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20.0),
-          boxShadow: const [
-            BoxShadow(color: Colors.grey, blurRadius: 5.0, spreadRadius: 5.0)
-          ]),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(20.0),
-        child: Image.network(image,
-            fit: BoxFit.cover, height: size ?? 100.0, width: size ?? 100.0,
-            loadingBuilder: (context, child, loadingProgress) {
-          if (loadingProgress == null) {
-            return child;
-          } else {
-            return Container(
-                decoration: BoxDecoration(
-                  color: kgrey,
-                  borderRadius: BorderRadius.circular(20.0),
-                ),
-                width: size ?? 100.0,
-                height: size ?? 100.0,
-                child: Center(
-                  child: BlurHash(
-                    imageFit: BoxFit.cover,
-                    duration: const Duration(seconds: 4),
-                    curve: Curves.bounceInOut,
-                    hash: 'LHA-Vc_4s9ad4oMwt8t7RhXTNGRj',
-                    image: image,
-                  ),
-                ));
-          }
-        }, errorBuilder: (context, error, stackTrace) {
-          return Container(
-            decoration: BoxDecoration(
-              color: kgrey,
-              borderRadius: BorderRadius.circular(20.0),
-            ),
-            width: size ?? 100.0,
-            height: size ?? 100.0,
-            child: const Center(
-              child: Icon(
-                Icons.error,
-                color: kwhiteColor,
-                size: 30.0,
-              ),
-            ),
-          );
-        }),
-      ),
-    );
-  }
-}

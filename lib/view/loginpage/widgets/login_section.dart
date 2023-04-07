@@ -12,45 +12,6 @@ import 'package:rentease/view/loginpage/widgets/forgotpswd_screen.dart';
 import 'package:rentease/view/loginpage/widgets/google_widget.dart';
 import 'package:rentease/view/signuppage/signup_screen.dart';
 
-class HeaderSection extends StatelessWidget {
-  final String title;
-  final String subtitle;
-  const HeaderSection({super.key, required this.title, required this.subtitle});
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: Align(
-        alignment: Alignment.centerLeft,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                title,
-                style: const TextStyle(
-                    fontSize: 30.0,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 3.0,
-                    color: kwhiteColor),
-              ),
-              Text(
-                subtitle,
-                style: const TextStyle(
-                    fontSize: 10.0,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 3.0,
-                    color: kwhiteColor),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
 class LoginSection extends StatelessWidget {
   const LoginSection({super.key});
   static final loginFormKey = GlobalKey<FormState>();
@@ -104,8 +65,8 @@ class LoginSection extends StatelessWidget {
                     if (!isValid) return;
                     signIn(
                         context: context,
-                        email: loginModel.emailController.text.trim(),
-                        password: loginModel.passwordController.text.trim());
+                        email: loginModel.emailController,
+                        password: loginModel.passwordController);
                   },
                 ),
                 kheight20,

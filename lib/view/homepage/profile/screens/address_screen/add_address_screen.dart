@@ -16,7 +16,7 @@ class AddAddressWidget extends StatelessWidget {
   final int? index;
   const AddAddressWidget(
       {super.key, this.isEditAddress = false, this.addressMap, this.index});
-  static final AddressModel addressModel = AddressModel();
+  static final AddressMobx addressModel = AddressMobx();
   @override
   Widget build(BuildContext context) {
 

@@ -33,70 +33,6 @@ mixin _$SignUpModel on _SignUpModelBase, Store {
     });
   }
 
-  late final _$userOtpAtom =
-      Atom(name: '_SignUpModelBase.userOtp', context: context);
-
-  @override
-  String get userOtp {
-    _$userOtpAtom.reportRead();
-    return super.userOtp;
-  }
-
-  @override
-  set userOtp(String value) {
-    _$userOtpAtom.reportWrite(value, super.userOtp, () {
-      super.userOtp = value;
-    });
-  }
-
-  late final _$isEmailVerifiedAtom =
-      Atom(name: '_SignUpModelBase.isEmailVerified', context: context);
-
-  @override
-  bool get isEmailVerified {
-    _$isEmailVerifiedAtom.reportRead();
-    return super.isEmailVerified;
-  }
-
-  @override
-  set isEmailVerified(bool value) {
-    _$isEmailVerifiedAtom.reportWrite(value, super.isEmailVerified, () {
-      super.isEmailVerified = value;
-    });
-  }
-
-  late final _$canSendEmailAtom =
-      Atom(name: '_SignUpModelBase.canSendEmail', context: context);
-
-  @override
-  bool get canSendEmail {
-    _$canSendEmailAtom.reportRead();
-    return super.canSendEmail;
-  }
-
-  @override
-  set canSendEmail(bool value) {
-    _$canSendEmailAtom.reportWrite(value, super.canSendEmail, () {
-      super.canSendEmail = value;
-    });
-  }
-
-  late final _$timerAtom =
-      Atom(name: '_SignUpModelBase.timer', context: context);
-
-  @override
-  Timer? get timer {
-    _$timerAtom.reportRead();
-    return super.timer;
-  }
-
-  @override
-  set timer(Timer? value) {
-    _$timerAtom.reportWrite(value, super.timer, () {
-      super.timer = value;
-    });
-  }
-
   late final _$_passwordVisibleAtom =
       Atom(name: '_SignUpModelBase._passwordVisible', context: context);
 
@@ -145,33 +81,6 @@ mixin _$SignUpModel on _SignUpModelBase, Store {
     });
   }
 
-  late final _$verifyEmailAsyncAction =
-      AsyncAction('_SignUpModelBase.verifyEmail', context: context);
-
-  @override
-  Future<void> verifyEmail({required dynamic context}) {
-    return _$verifyEmailAsyncAction
-        .run(() => super.verifyEmail(context: context));
-  }
-
-  late final _$checkEmailVerifiedAsyncAction =
-      AsyncAction('_SignUpModelBase.checkEmailVerified', context: context);
-
-  @override
-  Future<void> checkEmailVerified({required dynamic context}) {
-    return _$checkEmailVerifiedAsyncAction
-        .run(() => super.checkEmailVerified(context: context));
-  }
-
-  late final _$sendVerificationEmailAsyncAction =
-      AsyncAction('_SignUpModelBase.sendVerificationEmail', context: context);
-
-  @override
-  Future<void> sendVerificationEmail() {
-    return _$sendVerificationEmailAsyncAction
-        .run(() => super.sendVerificationEmail());
-  }
-
   late final _$pickImageAsyncAction =
       AsyncAction('_SignUpModelBase.pickImage', context: context);
 
@@ -181,27 +90,8 @@ mixin _$SignUpModel on _SignUpModelBase, Store {
         .run(() => super.pickImage(source: source, context: context));
   }
 
-  late final _$sendSMSAsyncAction =
-      AsyncAction('_SignUpModelBase.sendSMS', context: context);
-
-  @override
-  Future<void> sendSMS({required dynamic context}) {
-    return _$sendSMSAsyncAction.run(() => super.sendSMS(context: context));
-  }
-
   late final _$_SignUpModelBaseActionController =
       ActionController(name: '_SignUpModelBase', context: context);
-
-  @override
-  void updateUserOtp(String value) {
-    final _$actionInfo = _$_SignUpModelBaseActionController.startAction(
-        name: '_SignUpModelBase.updateUserOtp');
-    try {
-      return super.updateUserOtp(value);
-    } finally {
-      _$_SignUpModelBaseActionController.endAction(_$actionInfo);
-    }
-  }
 
   @override
   void togglePasswordVisibility() {
@@ -226,24 +116,9 @@ mixin _$SignUpModel on _SignUpModelBase, Store {
   }
 
   @override
-  void verifyOTP() {
-    final _$actionInfo = _$_SignUpModelBaseActionController.startAction(
-        name: '_SignUpModelBase.verifyOTP');
-    try {
-      return super.verifyOTP();
-    } finally {
-      _$_SignUpModelBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   String toString() {
     return '''
 codeController: ${codeController},
-userOtp: ${userOtp},
-isEmailVerified: ${isEmailVerified},
-canSendEmail: ${canSendEmail},
-timer: ${timer},
 picture: ${picture},
 signupformKey: ${signupformKey},
 passwordVisible: ${passwordVisible}

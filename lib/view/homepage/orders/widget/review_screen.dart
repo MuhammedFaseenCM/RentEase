@@ -1,6 +1,5 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:rentease/controller/review/add_review_function.dart';
 import 'package:rentease/model/ordermodel/order_model.dart';
 import 'package:rentease/view/core/appbar_widget.dart';
 import 'package:rentease/view/core/widgets.dart';
@@ -70,40 +69,11 @@ class ReviewScreen extends StatelessWidget {
                 child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                         side: BorderSide.none, shape: const StadiumBorder()),
-                    onPressed: () async {
-                      Get.dialog(
-                        const Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                      );
-                      final reviewRatingDoc = orderModel.collection.doc(
-                          "${FirebaseAuth.instance.currentUser!.email.toString()}_$title");
-                      await reviewRatingDoc.get().then((snapshot) {
-                        if (snapshot.exists) {
-                          reviewRatingDoc.update({
-                            'review': reviewController.text,
-                            'ownerEmail': ownerEmail,
-                            'title': title
-                          }).catchError((error) {
-                            print(error);
-                          });
-                        } else {
-                          reviewRatingDoc.set({
-                            'review': reviewController.text,
-                            'ownerEmail': ownerEmail,
-                            'title': title
-                          });
-                        }
-                      });
-
-                      Get.back();
-                      Get.back();
-
-                      Get.snackbar(
-                        "Thanks for your valuable time",
-                        "",
-                        snackPosition: SnackPosition.BOTTOM,
-                      );
+                    onPressed: () {
+                      addReview(
+                          title: title,
+                          reviewController: reviewController,
+                          ownerEmail: ownerEmail);
                     },
                     child: const Text("Finish")),
               ),

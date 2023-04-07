@@ -7,11 +7,12 @@ class RatingWidget extends StatelessWidget {
   final String ownerEmail;
   final String title;
   final bool? isReviewContainer;
-  const RatingWidget(
-      {super.key,
-      required this.ownerEmail,
-      required this.title,
-      this.isReviewContainer = false});
+  const RatingWidget({
+    super.key,
+    required this.ownerEmail,
+    required this.title,
+    this.isReviewContainer = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +44,11 @@ class RatingWidget extends StatelessWidget {
               ],
             );
           } else {
-            num sum = fetchedRatings.reduce((a, b) => a + b);
+            num sum = 0;
+            for (var i = 0; i < fetchedRatings.length; i++) {
+              sum = sum + fetchedRatings[i];
+            }
+
             num average = sum / fetchedRatings.length;
             return Row(
               children: [
@@ -65,7 +70,7 @@ class RatingWidget extends StatelessWidget {
           return Row(
             children: const [
               Text(
-                '0.0',
+                '2.0',
                 style: TextStyle(color: kblackColor),
               ),
               Icon(

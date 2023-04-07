@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:rentease/model/languagemodel/lang_model.dart';
 import 'package:rentease/view/core/appbar_widget.dart';
 import 'package:rentease/view/core/string_consts.dart';
 import 'package:flutter_gen/gen_l10n/app_localization.dart';
@@ -27,10 +25,8 @@ class SelectLanguageScreen extends StatelessWidget {
             child: ListTile(
               title: Text(language),
               onTap: () {
-                final provider =
-                    Provider.of<LocaleProvider>(context, listen: false);
-
-                provider.setLocale(flag);
+                
+          
               },
             ),
           );

@@ -3,9 +3,9 @@ import 'package:mobx/mobx.dart';
 
 part 'address_mobx.g.dart';
 
-class AddressModel = _AddressModel with _$AddressModel;
+class AddressMobx = _AddressMobx with _$AddressMobx;
 
-abstract class _AddressModel with Store {
+abstract class _AddressMobx with Store {
   TextEditingController houseNameController = TextEditingController();
   TextEditingController areaController = TextEditingController();
   TextEditingController cityController = TextEditingController();

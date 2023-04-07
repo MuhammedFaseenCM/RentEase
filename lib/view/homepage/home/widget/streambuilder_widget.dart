@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 // ignore: unused_import
@@ -39,12 +37,19 @@ class StreamBuilderWidget extends StatelessWidget {
           } else if (snapshot.hasData) {
             QuerySnapshot? querySnapshot = snapshot.data;
             List<QueryDocumentSnapshot> documents = querySnapshot!.docs;
+
+            if (documents.isEmpty) {
+              return const Center(
+                child: Text(noGadgetsText,
+                    style: TextStyle(color: kblackColor, fontSize: 18.0)),
+              );
+            }
             List<Map<String, dynamic>> items =
                 documents.map((e) => e.data() as Map<String, dynamic>).toList();
             if (items.isEmpty) {
               return const Center(
                 child: Text(noGadgetsText,
-                    style: TextStyle(color: kwhiteColor, fontSize: 18.0)),
+                    style: TextStyle(color: kblackColor, fontSize: 18.0)),
               );
             }
 

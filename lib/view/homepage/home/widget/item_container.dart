@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blurhash/flutter_blurhash.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rentease/model/homemodel/gadgets.dart';
 import 'package:rentease/view/core/const_colors.dart';
 import 'package:rentease/view/core/string_consts.dart';

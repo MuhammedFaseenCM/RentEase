@@ -11,7 +11,8 @@ import 'package:rentease/view/core/const_colors.dart';
 import 'package:rentease/view/core/screen_container_widget.dart';
 import 'package:rentease/view/core/widgets.dart';
 import 'package:rentease/view/homepage/home_page.dart';
-import 'package:rentease/view/homepage/profile/widget/add_address.dart';
+import 'package:rentease/view/homepage/profile/screens/address_screen/add_address_screen.dart';
+
 
 class EditAddressScreen extends StatelessWidget {
   final bool? isEditAddress;
@@ -19,21 +20,21 @@ class EditAddressScreen extends StatelessWidget {
   final int? index;
   const EditAddressScreen(
       {super.key, this.isEditAddress = false, this.addressMap, this.index});
-  static final AddressModel addressModel = AddressModel();
+  static final AddressMobx addressModel = AddressMobx();
 
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      // if (isEditAddress == true) {
-      addressModel.houseNameController.text = addressMap!['houseNo'];
-      addressModel.areaController.text = addressMap!['area'];
-      addressModel.cityController.text = addressMap!['city'];
-      addressModel.pincodeController.text = addressMap!['pincode'];
-      addressModel.stateController.text = addressMap!['state'];
-      // } else {
-      //   clearAddress();
-      // }
-    });
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    // if (isEditAddress == true) {
+    addressModel.houseNameController.text = addressMap!['houseNo'] ?? '';
+    addressModel.areaController.text = addressMap!['area'] ?? '';
+    addressModel.cityController.text = addressMap!['city'] ?? '';
+    addressModel.pincodeController.text = addressMap!['pincode'] ?? '';
+    addressModel.stateController.text = addressMap!['state'] ?? '';
+    // } else {
+    //   clearAddress();
+    // }
+    //  });
     log("rebuilding");
 
     return Scaffold(

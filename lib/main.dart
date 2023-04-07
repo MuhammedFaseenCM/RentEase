@@ -1,9 +1,9 @@
+// ignore_for_file: implementation_imports, depend_on_referenced_packages
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:provider/provider.dart';
-import 'package:rentease/model/languagemodel/lang_model.dart';
 import 'package:rentease/view/core/const_colors.dart';
 import 'package:rentease/view/core/string_consts.dart';
 import 'package:rentease/view/core/utils.dart';
@@ -65,14 +65,5 @@ class MyApp extends StatelessWidget {
 }
 
 const boxDecoration = BoxDecoration(
-  gradient: LinearGradient(
-    begin: Alignment.topLeft,
-    end: Alignment.bottomRight,
-    colors: [
-      // Colors.orange[900]!,
-      // Colors.orange[800]!,
-      // Colors.orange[400]!,
-      kwhiteColor, kwhiteColor
-    ],
-  ),
+  color: kwhiteColor,
 );

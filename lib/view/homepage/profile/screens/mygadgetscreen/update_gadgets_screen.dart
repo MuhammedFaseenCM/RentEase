@@ -1,9 +1,8 @@
-import 'dart:developer';
+
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:rentease/controller/update/update_item.dart';
 import 'package:rentease/model/homemodel/gadgets.dart';
 import 'package:rentease/model/itemmodel/item_model.dart';
@@ -12,15 +11,13 @@ import 'package:rentease/view/core/button_widget.dart';
 import 'package:rentease/view/core/const_colors.dart';
 import 'package:rentease/view/core/screen_container_widget.dart';
 import 'package:rentease/view/core/string_consts.dart';
-import 'package:rentease/view/core/textformfield.dart';
 import 'package:rentease/view/core/widgets.dart';
 import 'package:rentease/view/homepage/additem/widgets/amount_widget.dart';
 import 'package:rentease/view/homepage/additem/widgets/details_field.dart';
 import 'package:rentease/view/homepage/additem/widgets/dropdownlist_widget.dart';
-import 'package:rentease/view/homepage/profile/widget/my_gadgets.dart';
+import 'package:rentease/view/homepage/profile/widget/image_container.dart';
 
 class UpdateGadget extends StatelessWidget {
-  // final Map<String, dynamic> itemMap;
   final String? doc;
   final Gadgets gadget;
   const UpdateGadget({super.key, required this.doc, required this.gadget});
@@ -213,7 +210,7 @@ class EditImageContainer extends StatelessWidget {
                     await updateGadget.updateImage(image: imageToUpload);
                     image3FromFile = imageToUpload.value;
                   } else {
-                    log("error");
+                    // log("error");
                   }
                 },
                 icon: const Icon(
@@ -250,7 +247,7 @@ class EditImageContainer extends StatelessWidget {
                   await updateGadget.updateImage(image: imageToUpload);
                   image3FromFile = imageToUpload.value;
                 } else {
-                  log("error");
+                 // log("error");
                 }
               },
               icon: const Icon(

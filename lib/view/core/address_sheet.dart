@@ -6,7 +6,7 @@ import 'package:rentease/controller/additem/add_item_fun.dart';
 import 'package:rentease/controller/bookgadget/add_address_fun.dart';
 import 'package:rentease/view/core/const_colors.dart';
 import 'package:rentease/view/core/widgets.dart';
-import 'package:rentease/view/homepage/profile/widget/add_address.dart';
+import 'package:rentease/view/homepage/profile/screens/address_screen/add_address_screen.dart';
 
 void showAddressSheet(
     {required BuildContext context,

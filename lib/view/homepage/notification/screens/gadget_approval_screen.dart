@@ -2,18 +2,19 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:rentease/controller/notification/notify_control.dart';
+import 'package:rentease/model/acceptmodel/accept_model.dart';
 import 'package:rentease/view/core/const_colors.dart';
 import 'package:rentease/view/core/screen_container_widget.dart';
-import 'package:rentease/view/homepage/notification/notifiy_screen.dart';
+import 'package:rentease/view/homepage/notification/widget/accept_container.dart';
 
-class GadgetRequests extends StatelessWidget {
-  const GadgetRequests({super.key});
+class GadgetApprovalScreen extends StatelessWidget {
+  const GadgetApprovalScreen({super.key});
   static final notifyControl = NotifyController();
   @override
   Widget build(BuildContext context) {
     return CustomContainer(
       child: StreamBuilder(
-        stream: notifyControl.reqStream,
+        stream: notifyControl.resStream,
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             return Center(
@@ -28,13 +29,13 @@ class GadgetRequests extends StatelessWidget {
           if (snapshot.hasData) {
             QuerySnapshot? querySnapshot = snapshot.data;
             List<QueryDocumentSnapshot> documents = querySnapshot!.docs;
-            notifyControl.items = documents
+            List<Map<String, dynamic>> items = documents
                 .map((e) => e.data() as Map<String, dynamic>)
                 .where((map) =>
-                    map['ownerEmail'] ==
+                    map['userEmail'] ==
                     FirebaseAuth.instance.currentUser!.email.toString())
                 .toList();
-            if (notifyControl.items.isEmpty) {
+            if (items.isEmpty) {
               return Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -56,12 +57,12 @@ class GadgetRequests extends StatelessWidget {
               );
             }
             return ListView.builder(
-              itemCount: notifyControl.items.length,
+              itemCount: items.length,
               itemBuilder: (context, index) {
-                final itemMap = notifyControl.items[index];
-                return NotifyContainer(
-                  map: itemMap,
+                final response = SendAcceptModel.fromSnapshot(documents[index]);
+                return AcceptContainer(
                   docId: documents[index].id,
+                  sendAccept: response,
                 );
               },
             );

@@ -1,88 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:rentease/controller/notification/notify_control.dart';
+import 'package:rentease/model/acceptmodel/accept_model.dart';
 import 'package:rentease/view/core/const_colors.dart';
-import 'package:rentease/view/core/screen_container_widget.dart';
 import 'package:rentease/view/core/string_consts.dart';
 import 'package:rentease/view/core/widgets.dart';
 
-class GadgetApproval extends StatelessWidget {
-  const GadgetApproval({super.key});
-  static final notifyControl = NotifyController();
-  @override
-  Widget build(BuildContext context) {
-    return CustomContainer(
-      child: StreamBuilder(
-        stream: notifyControl.resStream,
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            return Center(
-              child: Text("Some error occured ${snapshot.error}"),
-            );
-          }
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          if (snapshot.hasData) {
-            QuerySnapshot? querySnapshot = snapshot.data;
-            List<QueryDocumentSnapshot> documents = querySnapshot!.docs;
-            List<Map<String, dynamic>> items = documents
-                .map((e) => e.data() as Map<String, dynamic>)
-                .where((map) =>
-                    map['userEmail'] ==
-                    FirebaseAuth.instance.currentUser!.email.toString())
-                .toList();
-            if (items.isEmpty) {
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Icon(
-                      Icons.notifications,
-                      color: kblackColor,
-                      size: 25.0,
-                    ),
-                    Text(
-                      "No notification yet",
-                      style: TextStyle(
-                          fontSize: 20.0,
-                          color: kblackColor,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-              );
-            }
-            return ListView.builder(
-              itemCount: items.length,
-              itemBuilder: (context, index) {
-                final itemMap = items[index];
-                return AcceptContainer(
-                  docId: documents[index].id,
-                  resMap: itemMap,
-                );
-              },
-            );
-          } else {
-            return const Center(
-              child: Text("No notification yet"),
-            );
-          }
-        },
-      ),
-    );
-  }
-}
-
 class AcceptContainer extends StatelessWidget {
   final String docId;
-  final Map resMap;
-  AcceptContainer({super.key, required this.docId, required this.resMap});
+  //final Map resMap;
+  final SendAcceptModel sendAccept;
+  AcceptContainer({super.key, required this.docId, required this.sendAccept});
   static final notifyControl = NotifyController();
   final razorPay = Razorpay();
   @override
@@ -107,9 +37,9 @@ class AcceptContainer extends StatelessWidget {
                 children: [
                   kheight10,
                   Text(
-                    resMap['status'] == 'accept'
-                        ? "${resMap['ownerEmail']} accepted the request"
-                        : "${resMap['ownerEmail']} rejected the request",
+                    sendAccept.status == 'accept'
+                        ? "${sendAccept.ownerEmail} accepted the request"
+                        : "${sendAccept.ownerEmail} rejected the request",
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(fontSize: 15.0),
@@ -120,7 +50,7 @@ class AcceptContainer extends StatelessWidget {
                     children: [
                       ClipRRect(
                         borderRadius: BorderRadius.circular(10.0),
-                        child: Image.network(resMap['image1'],
+                        child: Image.network(sendAccept.image1,
                             height: 100.0, width: 120.0, fit: BoxFit.cover,
                             loadingBuilder: (context, child, loadingProgress) {
                           if (loadingProgress == null) {
@@ -139,7 +69,7 @@ class AcceptContainer extends StatelessWidget {
                                     duration: const Duration(seconds: 4),
                                     curve: Curves.bounceInOut,
                                     hash: 'LHA-Vc_4s9ad4oMwt8t7RhXTNGRj',
-                                    image: resMap['image1'],
+                                    image: sendAccept.image1,
                                   ),
                                 ));
                           }
@@ -165,27 +95,27 @@ class AcceptContainer extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            resMap['title'],
+                            sendAccept.title,
                             style: const TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 20.0),
+                                fontWeight: FontWeight.bold, fontSize: 18.0),
                           ),
                           kheight5,
                           Text(
-                            "$rupee${resMap['plan']}",
+                            "$rupee${sendAccept.plan}",
                             style: const TextStyle(
                                 fontWeight: FontWeight.w400, fontSize: 15.0),
                           ),
-                          resMap['status'] == 'accept'
+                          sendAccept.status == 'accept'
                               ? SizedBox(
                                   width: 130.0,
                                   child: ElevatedButton(
                                     onPressed: () async {
-                                      var amount = int.parse(resMap['plan']);
-                                      if (resMap['payment'] != 'success') {
+                                      var amount = int.parse(sendAccept.plan);
+                                      if (sendAccept.payment != 'success') {
                                         await checkout(
                                             amount: amount,
-                                            title: resMap['title']);
-                                      } else if (resMap['payment'] ==
+                                            title: sendAccept.title);
+                                      } else if (sendAccept.payment ==
                                           'success') {
                                         try {
                                           FirebaseFirestore.instance
@@ -193,28 +123,26 @@ class AcceptContainer extends StatelessWidget {
                                               .doc(docId)
                                               .set({
                                             'payment': 'success',
-                                            'title': resMap['title'],
-                                            'plan': resMap['plan'],
-                                            'ownerEmail': resMap['ownerEmail'],
-                                            'userEmail': resMap['userEmail'],
-                                            'image1': resMap['image1']
+                                            'title': sendAccept.title,
+                                            'plan': sendAccept.plan,
+                                            'ownerEmail': sendAccept.ownerEmail,
+                                            'userEmail': sendAccept.userEmail,
+                                            'image1': sendAccept.image1
                                           });
                                         } catch (e) {}
                                       }
                                     },
                                     style: ElevatedButton.styleFrom(
-                                      
                                         backgroundColor:
-                                            // resMap['payment'] != 'success'
-                                            //     ?
-                                            kBlue900,
-                                        //  : kgreenColor,
+                                            sendAccept.payment != 'success'
+                                                ? kBlue900
+                                                : kgrey,
                                         side: BorderSide.none,
                                         shape: const StadiumBorder()),
                                     child: Text(
-                                      resMap['payment'] != 'success'
+                                      sendAccept.payment != 'success'
                                           ? "Payments"
-                                          : "Review",
+                                          : "Paid",
                                       maxLines: 1,
                                     ),
                                   ),
@@ -257,7 +185,7 @@ class AcceptContainer extends StatelessWidget {
                 ),
               ),
             ),
-            resMap['payment'] == 'success'
+            sendAccept.payment == 'success'
                 ? Positioned(
                     bottom: 0.0,
                     child: Container(
@@ -320,20 +248,23 @@ class AcceptContainer extends StatelessWidget {
 
   _handlePaymentSuccess(PaymentSuccessResponse response) {
     try {
+      final sendResponse = SendAcceptModel(
+              title: sendAccept.title,
+              userEmail: sendAccept.userEmail,
+              image1: sendAccept.image1,
+              ownerEmail: sendAccept.ownerEmail,
+              payment: 'success',
+              plan: sendAccept.plan,
+              status: "accept")
+          .acceptToMap();
       FirebaseFirestore.instance
           .collection("SendRes")
           .doc(docId)
-          .update({'payment': 'success'}).then((value) =>   FirebaseFirestore.instance
-                                              .collection("PaidGadgets")
-                                              .doc(docId)
-                                              .set({
-                                            'payment': 'success',
-                                            'title': resMap['title'],
-                                            'plan': resMap['plan'],
-                                            'ownerEmail': resMap['ownerEmail'],
-                                            'userEmail': resMap['userEmail'],
-                                            'image1': resMap['image1']
-                                          }));
+          .update({'payment': 'success'}).then((value) => FirebaseFirestore
+              .instance
+              .collection("PaidGadgets")
+              .doc(docId)
+              .set(sendResponse));
     } catch (e) {
       //
     }

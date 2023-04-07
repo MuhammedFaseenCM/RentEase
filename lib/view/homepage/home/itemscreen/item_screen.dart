@@ -12,7 +12,7 @@ import 'package:rentease/view/homepage/home/itemscreen/widget/image_card.dart';
 import 'package:rentease/view/homepage/home/itemscreen/widget/review_widget.dart';
 import 'package:rentease/view/homepage/home/itemscreen/widget/selectplan_screen.dart';
 import 'package:rentease/view/homepage/home/widget/rating_widget.dart';
-import 'package:rentease/view/homepage/profile/widget/update_gadgets.dart';
+import 'package:rentease/view/homepage/profile/screens/mygadgetscreen/update_gadgets_screen.dart';
 
 class ItemScreen extends StatelessWidget {
   final String doc;

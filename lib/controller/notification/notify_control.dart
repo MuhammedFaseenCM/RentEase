@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
+import 'package:rentease/model/acceptmodel/accept_model.dart';
+import 'package:rentease/model/requestmodel/sendreqmodel.dart';
 import 'package:rentease/view/core/const_colors.dart';
 
 class NotifyController extends GetxController {
@@ -16,19 +18,29 @@ class NotifyController extends GetxController {
     resStream = resQuery.snapshots();
   }
 
-  Future<void> deleteNotify({required docId, required Map map}) async {
+  Future<void> sendResp(
+      {required docId, required SendRequestModel sendReq,bool accept=true,required String status}) async {
     final docName =
-        "${FirebaseAuth.instance.currentUser!.email.toString()}_${map['title']}";
-    await reqQuery.doc(docName).update({'status': 'reject'});
-    final docUser = resQuery.doc(docName);
-    docUser.set({
-      'ownerEmail': FirebaseAuth.instance.currentUser!.email.toString(),
-      'userEmail': map['userEmail'],
-      'title': map['title'],
-      'image1': map['image1'],
-      'plan': map['price'],
-      'status': 'reject'
-    });
+        "${FirebaseAuth.instance.currentUser!.email.toString()}_${sendReq.title}";
+ final docUser = resQuery.doc(docName);
+    final sendResponse = SendAcceptModel(
+            title: sendReq.title,
+            userEmail: sendReq.userEmail,
+            image1: sendReq.image1,
+            ownerEmail: sendReq.ownerEmail,
+            payment: "Waiting",
+            plan: sendReq.plan,
+            status: status)
+        .acceptToMap();
+    docUser.set(sendResponse);
+        if (accept==true) {
+          await reqQuery.doc(docName).update({'status': 'accept'});
+        } else {
+          await reqQuery.doc(docName).update({'status': 'reject'});
+        }
+    
+
+   
   }
 
   Future<void> deleteRes({required docId}) async {
@@ -41,25 +53,6 @@ class NotifyController extends GetxController {
         colorText: kwhiteColor);
   }
 
-  Future<void> acceptNotify(
-      {required title,
-      required email,
-      required image1,
-      required price,
-      required docId}) async {
-    final docUser = resQuery.doc(docId);
-    final reqUser = reqQuery.doc(docId);
-    reqUser.update({'status': 'accept'});
-    docUser.set({
-      'ownerEmail': FirebaseAuth.instance.currentUser!.email.toString(),
-      'userEmail': email,
-      'title': title,
-      'image1': image1,
-      'plan': price,
-      'status': 'accept',
-      'payment': 'waiting'
-    });
-  }
 
   bool notify = true;
 

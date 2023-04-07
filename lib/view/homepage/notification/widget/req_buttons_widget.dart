@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rentease/controller/notification/notify_control.dart';
+import 'package:rentease/model/requestmodel/sendreqmodel.dart';
 import 'package:rentease/view/core/const_colors.dart';
 import 'package:rentease/view/core/string_consts.dart';
 import 'package:rentease/view/core/widgets.dart';
 
 class ReqButtonsWidget extends StatelessWidget {
-  final Map map;
   final String docId;
-  const ReqButtonsWidget({super.key, required this.map, required this.docId});
+  final SendRequestModel sendreq;
+  const ReqButtonsWidget(
+      {super.key, required this.docId, required this.sendreq});
   static final notifyControl = NotifyController();
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        map['status'] == 'waiting'
+        sendreq.status == 'waiting'
             ? Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -23,12 +25,8 @@ class ReqButtonsWidget extends StatelessWidget {
                       width: 100.0,
                       child: ElevatedButton(
                         onPressed: () async {
-                          await notifyControl.acceptNotify(
-                              docId: docId,
-                              email: map['userEmail'],
-                              image1: map['image1'],
-                              price: map['price'],
-                              title: map['title']);
+                          await notifyControl.sendResp(
+                              docId: docId, sendReq: sendreq, status: "accept");
                           Get.snackbar("Request accepted", "",
                               snackPosition: SnackPosition.BOTTOM,
                               backgroundColor: kgreenColor,
@@ -55,8 +53,10 @@ class ReqButtonsWidget extends StatelessWidget {
                                 child: const Text(cancelText)),
                             TextButton(
                                 onPressed: () async {
-                                  await notifyControl.deleteNotify(
-                                      docId: docId, map: map);
+                                  await notifyControl.sendResp(
+                                      docId: docId,
+                                      sendReq: sendreq,
+                                      status: "reject");
                                   Get.back();
                                   Get.snackbar("Rejected", "",
                                       snackPosition: SnackPosition.BOTTOM,
@@ -83,18 +83,15 @@ class ReqButtonsWidget extends StatelessWidget {
                     width: 150.0,
                     child: TextButton.icon(
                       onPressed: () {},
-                      icon: map['status'] == 'accept'
+                      icon: sendreq.status == 'accept'
                           ? const Icon(Icons.check)
                           : const Icon(Icons.close),
                       style: ElevatedButton.styleFrom(
-                        // backgroundColor: map['status'] == 'accept'
-                        //     ? kBlue900
-                        //     : kredColor,
                         side: BorderSide.none,
                         shape: const StadiumBorder(),
                       ),
                       label: Text(
-                          map['status'] == 'accept' ? "Accepted" : "Rejected"),
+                          sendreq.status == 'accept' ? "Accepted" : "Rejected"),
                     ),
                   ),
                 ],

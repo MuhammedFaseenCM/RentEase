@@ -6,8 +6,8 @@ import 'package:get/get.dart';
 import 'package:rentease/view/core/appbar_widget.dart';
 import 'package:rentease/view/core/const_colors.dart';
 import 'package:rentease/view/core/widgets.dart';
-import 'package:rentease/view/homepage/profile/widget/add_address.dart';
-import 'package:rentease/view/homepage/profile/widget/edit_address.dart';
+import 'package:rentease/view/homepage/profile/screens/address_screen/add_address_screen.dart';
+import 'package:rentease/view/homepage/profile/screens/address_screen/edit_address.dart';
 
 class SavedAddresses extends StatelessWidget {
   const SavedAddresses({super.key});
