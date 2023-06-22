@@ -1,9 +1,11 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:rentease/controller/profile/fetch_profile_details.dart';
 import 'package:rentease/main.dart';
 import 'package:rentease/model/homemodel/gadgets.dart';
 import 'package:rentease/view/core/const_colors.dart';
@@ -22,6 +24,8 @@ class ItemModel extends GetxController {
   void onDropdownChanged(String value) {
     dropdownValue.value = value;
   }
+
+  ProfileControl profileControl = ProfileControl();
 
   String image1Url = '';
   String image2Url = '';
@@ -50,6 +54,21 @@ class ItemModel extends GetxController {
   Future<void> storeToFirestore(
       {required categoryValue, required email, required address}) async {
     try {
+      final snapshot = profileControl.docRef
+          .doc(FirebaseAuth.instance.currentUser!.email.toString());
+      Map? data;
+      var docsnapshot = await snapshot.get();
+
+      if (docsnapshot.exists) {
+        data = docsnapshot.data();
+      }
+      if (data == null) {
+        Get.snackbar("You are location is not available", "",
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: kredColor,
+            colorText: kwhiteColor);
+        return;
+      }
       Get.dialog(
         const Center(
           child: CircularProgressIndicator(),
@@ -88,7 +107,7 @@ class ItemModel extends GetxController {
           address: address,
           monthPrice: monthPrice,
           available: 'true',
-         
+          name: data['name'],
           area: address['area'],
           city: address['city'],
           pincode: address['pincode'],

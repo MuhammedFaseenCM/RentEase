@@ -4,6 +4,7 @@ import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:rentease/controller/notification/notify_control.dart';
 import 'package:rentease/model/acceptmodel/accept_model.dart';
+import 'package:rentease/view/chats/message_screen.dart';
 import 'package:rentease/view/core/const_colors.dart';
 import 'package:rentease/view/core/string_consts.dart';
 import 'package:rentease/view/core/widgets.dart';
@@ -38,8 +39,8 @@ class AcceptContainer extends StatelessWidget {
                   kheight10,
                   Text(
                     sendAccept.status == 'accept'
-                        ? "${sendAccept.ownerEmail} accepted the request"
-                        : "${sendAccept.ownerEmail} rejected the request",
+                        ? "${sendAccept.ownerName.toUpperCase()} accepted the request"
+                        : "${sendAccept.ownerName.toUpperCase()} rejected the request",
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(fontSize: 15.0),
@@ -117,32 +118,25 @@ class AcceptContainer extends StatelessWidget {
                                             title: sendAccept.title);
                                       } else if (sendAccept.payment ==
                                           'success') {
-                                        try {
-                                          FirebaseFirestore.instance
-                                              .collection("PaidGadgets")
-                                              .doc(docId)
-                                              .set({
-                                            'payment': 'success',
-                                            'title': sendAccept.title,
-                                            'plan': sendAccept.plan,
-                                            'ownerEmail': sendAccept.ownerEmail,
-                                            'userEmail': sendAccept.userEmail,
-                                            'image1': sendAccept.image1
-                                          });
-                                        } catch (e) {}
+                                        Navigator.of(context)
+                                            .push(MaterialPageRoute(
+                                          builder: (context) => MessageScreen(
+                                            recieverEmail:
+                                                sendAccept.ownerEmail,
+                                                recieverName: sendAccept.ownerName,
+                                                senderName: sendAccept.userName,
+                                          ),
+                                        ));
                                       }
                                     },
                                     style: ElevatedButton.styleFrom(
-                                        backgroundColor:
-                                            sendAccept.payment != 'success'
-                                                ? kBlue900
-                                                : kgrey,
+                                        backgroundColor: kBlue900,
                                         side: BorderSide.none,
                                         shape: const StadiumBorder()),
                                     child: Text(
                                       sendAccept.payment != 'success'
                                           ? "Payments"
-                                          : "Paid",
+                                          : "Message",
                                       maxLines: 1,
                                     ),
                                   ),
@@ -255,7 +249,9 @@ class AcceptContainer extends StatelessWidget {
               ownerEmail: sendAccept.ownerEmail,
               payment: 'success',
               plan: sendAccept.plan,
-              status: "accept")
+              status: "accept",
+              ownerName: sendAccept.ownerName,
+              userName: sendAccept.userName)
           .acceptToMap();
       FirebaseFirestore.instance
           .collection("SendRes")

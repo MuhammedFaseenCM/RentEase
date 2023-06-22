@@ -9,8 +9,6 @@ class ItemContainer extends StatelessWidget {
   final Gadgets gadget;
   const ItemContainer(
       {super.key,
-
-      //   required this.location,
       required this.gadget});
 
   @override

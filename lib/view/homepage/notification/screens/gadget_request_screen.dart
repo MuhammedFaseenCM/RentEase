@@ -30,13 +30,13 @@ class GadgetRequestScreen extends StatelessWidget {
           if (snapshot.hasData) {
             QuerySnapshot? querySnapshot = snapshot.data;
             List<QueryDocumentSnapshot> documents = querySnapshot!.docs;
-            notifyControl.items = documents
+            List<Map<String, dynamic>> items = documents
                 .map((e) => e.data() as Map<String, dynamic>)
                 .where((map) =>
                     map['ownerEmail'] ==
                     FirebaseAuth.instance.currentUser!.email.toString())
                 .toList();
-            if (notifyControl.items.isEmpty) {
+            if (items.isEmpty) {
               return Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -59,15 +59,13 @@ class GadgetRequestScreen extends StatelessWidget {
             }
 
             return ListView.builder(
-              itemCount: notifyControl.items.length,
+              itemCount: items.length,
               itemBuilder: (context, index) {
-             
                 final address = AddressModel.fromSnapshot(documents[index]);
                 final sendReq = SendRequestModel.fromSnapshot(documents[index]);
                 return RequestContainer(
                   sendReq: sendReq,
                   address: address,
-                 
                   docId: documents[index].id,
                 );
               },

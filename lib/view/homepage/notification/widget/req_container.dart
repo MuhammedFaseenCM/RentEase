@@ -10,14 +10,12 @@ import 'package:rentease/view/homepage/notification/screens/user_details_screen.
 import 'package:rentease/view/homepage/notification/widget/req_buttons_widget.dart';
 
 class RequestContainer extends StatelessWidget {
-  
   final String docId;
   final AddressModel address;
   final SendRequestModel sendReq;
   const RequestContainer(
       {super.key,
       required this.docId,
-     
       required this.address,
       required this.sendReq});
   static final notifyControl = NotifyController();
@@ -31,7 +29,6 @@ class RequestContainer extends StatelessWidget {
           onTap: () {
             Get.to(() => UserRequestDetailsScreen(
                   docId: docId,
-                
                   address: address,
                   sendReq: sendReq,
                 ));
@@ -61,11 +58,12 @@ class RequestContainer extends StatelessWidget {
                   // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Expanded(
+                      flex: 2,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            sendReq.userEmail,
+                            sendReq.userName,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: const TextStyle(
@@ -103,6 +101,7 @@ class RequestContainer extends StatelessWidget {
                     ),
                     kwidth10,
                     Expanded(
+                      flex: 1,
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(10.0),
                         child: Image.network(sendReq.image1,

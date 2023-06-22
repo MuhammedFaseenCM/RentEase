@@ -1,17 +1,22 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:rentease/model/reviewratingmodel/review_model.dart';
 import 'package:rentease/view/core/const_colors.dart';
 
 class RatingWidget extends StatelessWidget {
   final String ownerEmail;
   final String title;
   final bool? isReviewContainer;
+  final ReviewModel? reviewModel;
   const RatingWidget({
     super.key,
     required this.ownerEmail,
     required this.title,
     this.isReviewContainer = false,
+    this.reviewModel,
   });
 
   @override
@@ -44,17 +49,18 @@ class RatingWidget extends StatelessWidget {
               ],
             );
           } else {
-            num sum = 0;
+            double sum = 0;
             for (var i = 0; i < fetchedRatings.length; i++) {
               sum = sum + fetchedRatings[i];
             }
 
-            num average = sum / fetchedRatings.length;
+            double average = sum / fetchedRatings.length;
+
             return Row(
               children: [
                 Text(
                   isReviewContainer == true
-                      ? fetchedRatings[0].toString()
+                      ? reviewModel!.rating.toString()
                       : average.toString(),
                   style: const TextStyle(color: kblackColor),
                 ),

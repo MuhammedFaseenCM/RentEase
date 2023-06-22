@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:rentease/model/languagemodel/lang_model.dart';
+
 import 'package:rentease/view/core/const_colors.dart';
+import 'package:rentease/view/localization/l10n.dart';
 
 const kheight20 = SizedBox(
   height: 20,
@@ -49,5 +53,37 @@ class AppBarContainer extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class LanguagePickerWidget extends StatelessWidget {
+  const LanguagePickerWidget({super.key});
+  @override
+  Widget build(BuildContext context) {
+    final provider = Provider.of<LocaleProvider>(context, listen: false);
+    final locale = provider.locales;
+    return DropdownButtonHideUnderline(
+        child: DropdownButton(
+      value: locale,
+      items: L10n.all.map(
+        (locales) {
+          final lang = L10n.getFlag(locales.languageCode);
+          return DropdownMenuItem(
+            value: locales,
+            onTap: () {
+              final provider =
+                  Provider.of<LocaleProvider>(context, listen: false);
+              provider.setLocale(locales);
+            },
+            child: Text(lang),
+          );
+        },
+      ).toList(),
+      onChanged: (value) {
+        final provider = Provider.of<LocaleProvider>(context, listen: false);
+        provider.setLocale(Locale(value.toString()));
+        print(value.toString());
+      },
+    ));
   }
 }

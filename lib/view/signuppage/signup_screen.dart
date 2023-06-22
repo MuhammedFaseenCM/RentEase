@@ -25,7 +25,7 @@ Country country = Country(
 
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({super.key});
-  static final SignUpModel signupmodel = SignUpModel();
+ static final SignUpModel signupmodel = SignUpModel();
 
   @override
   Widget build(BuildContext context) {

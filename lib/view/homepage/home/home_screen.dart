@@ -26,6 +26,7 @@ class HomeScreen extends StatelessWidget {
                       child: Text(allCategories(context: context)[index])))),
         ),
         body: TabBarView(
+          physics: const BouncingScrollPhysics(),
           children: List.generate(
             allCategories(context: context).length,
             (index) => StreamBuilderWidget(category: allcategories[index]),

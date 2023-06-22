@@ -43,22 +43,6 @@ Future<void> userSignupDetailsToFireStore(
   );
 
   final SignUpModel signupmodel = SignUpModel();
-  // final name = signupmodel.fullnameController.text.trim();
-  // final email = signupmodel.emailController.text.trim();
-  // final phoneNumber = signupmodel.numberController.text.trim();
-  // // final location = signupmodel.locationController.text.trim();
-  // final password = signupmodel.passwordController.text.trim();
-
-  ///
-  ///
-  ///
-
-  // final metaData = SettableMetadata(contentType: 'image/jpeg');
-  // final storageRef = FirebaseStorage.instance.ref("userIDs");
-  // Reference ref = storageRef.child("$email.jpg");
-  // final uploadTask = ref.putFile(File(signupmodel.picture), metaData);
-  // final taskSnapshot = await uploadTask.whenComplete(() => null);
-  // String url = await taskSnapshot.ref.getDownloadURL();
 
   final docUser = FirebaseFirestore.instance.collection("Users").doc(email);
 

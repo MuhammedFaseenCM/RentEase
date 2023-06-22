@@ -55,9 +55,13 @@ class ReviewWidget extends StatelessWidget {
                           children: [
                             Row(
                               children: [
+                                const CircleAvatar(
+                                  radius: 15.0,
+                                  child: Icon(Icons.person),
+                                ),
                                 kwidth10,
                                 Text(
-                                  reviewModel.userEmail,
+                                  reviewModel.userName ?? "Name not available",
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyMedium!
@@ -70,6 +74,7 @@ class ReviewWidget extends StatelessWidget {
                             ),
                             RatingWidget(
                               ownerEmail: ownerEmail,
+                              reviewModel: reviewModel,
                               title: title,
                               isReviewContainer: true,
                             )

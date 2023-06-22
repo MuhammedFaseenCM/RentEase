@@ -30,7 +30,6 @@ class ProfileControl extends GetxController {
   void updateDetails() async {
     nameController.text = await userDetails(key: "name");
     phoneController.text = await userDetails(key: "phoneNumber");
-    locationController.text = await userDetails(key: "location");
   }
 
   Future<void> updateDoc(
@@ -41,7 +40,6 @@ class ProfileControl extends GetxController {
       'name': name,
       'email': FirebaseAuth.instance.currentUser!.email.toString(),
       'phoneNumber': phone,
-      'location': location
     }).then((value) {
       Get.back();
       Get.snackbar("Details updated", "",

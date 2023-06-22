@@ -20,7 +20,7 @@ class PasswordField extends StatelessWidget {
       return TextFormField(
         controller: passwordController,
         decoration: InputDecoration(
-            label: const Text(passwordText),
+            label:isConfirm!? const Text(confirmPassText):const Text(passwordText),
             border: const OutlineInputBorder(),
             suffixIcon: GestureDetector(
                 onTap: loginModel.toggleObscureText,

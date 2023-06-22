@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -34,10 +36,23 @@ class ProfileScreen extends StatelessWidget {
             );
           }
           if (snapshot.hasData) {
-            var data = snapshot.data!.data();
+            DocumentSnapshot<Map<String, dynamic>>? querySnapshot =
+                snapshot.data;
+            Map<String, dynamic>? data = querySnapshot!.data();
+            print(data);
+
+            //var data = snapshot.data!.data();
+            // if (data==null) {
+            //   print(data.toString());
+            //   return const Center(
+            //   child: Text(wrongText),
+            // );
+            // }
+
             return Container(
                 padding: const EdgeInsets.all(10.0),
                 width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
                 decoration: boxDecoration,
                 child: Column(
                   children: [

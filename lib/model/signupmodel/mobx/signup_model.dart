@@ -16,8 +16,7 @@ abstract class _SignUpModelBase with Store {
   TextEditingController confirmpasswordController = TextEditingController();
   TextEditingController locationController = TextEditingController();
 
-  @observable
-  TextEditingController codeController = TextEditingController();
+
 
 
 

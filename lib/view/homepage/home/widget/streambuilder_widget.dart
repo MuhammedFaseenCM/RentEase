@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get/get.dart';
 import 'package:rentease/model/homemodel/gadgets.dart';
-import 'package:rentease/model/homemodel/mobx/home_mobx.dart';
 import 'package:rentease/view/core/const_colors.dart';
 import 'package:rentease/view/core/string_consts.dart';
 import 'package:rentease/view/homepage/home/itemscreen/item_screen.dart';
@@ -14,7 +13,7 @@ class StreamBuilderWidget extends StatelessWidget {
   final String category;
   const StreamBuilderWidget({super.key, required this.category});
 
-  static final HomeMobx homeMobx = HomeMobx();
+ 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(

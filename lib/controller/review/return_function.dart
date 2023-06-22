@@ -13,7 +13,8 @@ Future<void> returnGadget(
     ),
   );
   try {
-    await docSnapshot.reference.update({'available': 'true'});
+    await docSnapshot.reference
+        .update({'available': 'true'}).then((value) => Get.back());
     Get.snackbar(
       "Return info sent to owner ",
       "",

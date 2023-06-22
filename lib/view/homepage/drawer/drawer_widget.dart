@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rentease/model/homemodel/home_model.dart';
@@ -108,7 +109,7 @@ class DrawerWidget extends StatelessWidget {
             height: 50.0,
             title: AppLocalizations.of(context)!.about,
             icon: Icons.info,
-            onTap: () {
+            onTap: () async {
               showDialog(
                 context: context,
                 builder: (context) {

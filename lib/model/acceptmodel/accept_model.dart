@@ -3,6 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class SendAcceptModel {
   final String title;
   final String userEmail;
+  final String userName;
+  final String ownerName;
   final String status;
   final String plan;
   final String payment;
@@ -15,7 +17,9 @@ class SendAcceptModel {
       required this.ownerEmail,
       required this.payment,
       required this.plan,
-      required this.status});
+      required this.status,
+      required this.ownerName,
+      required this.userName});
 
   Map<String, dynamic> acceptToMap() {
     return {
@@ -26,6 +30,8 @@ class SendAcceptModel {
       'status': status,
       'plan': plan,
       'payment': payment,
+      'ownerName':ownerName,
+      'userName':userName
     };
   }
 
@@ -38,6 +44,8 @@ class SendAcceptModel {
         ownerEmail: data['ownerEmail'],
         payment: data['payment'],
         plan: data['plan'],
-        status: data['status']);
+        status: data['status'],
+        ownerName: data['ownerName'],
+        userName: data['userName']);
   }
 }

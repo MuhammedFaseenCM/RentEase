@@ -19,7 +19,7 @@ Future signIn(
         .signInWithEmailAndPassword(
             email: email.text.trim(), password: password.text.trim())
         .then((value) async => {
-               Get.snackbar(
+              Get.snackbar(
                 "Signed in as ${email.text}",
                 "",
                 backgroundColor: kgreenColor,
@@ -30,7 +30,7 @@ Future signIn(
             });
   } on FirebaseAuthException catch (e) {
     Get.snackbar(
-      e.toString(),
+      "Username/password is incorrect",
       "",
       backgroundColor: kredColor,
       colorText: kwhiteColor,

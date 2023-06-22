@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SendRequestModel {
   final String title;
+  final String userName;
   final String plan;
   final String price;
   final String userEmail;
@@ -12,6 +13,7 @@ class SendRequestModel {
   final Map<String, dynamic> address;
   SendRequestModel({
     required this.title,
+    required this.userName,
     required this.plan,
     required this.price,
     required this.userEmail,
@@ -31,7 +33,9 @@ class SendRequestModel {
       'ownerEmail': ownerEmail,
       'phoneNumber': phoneNumber,
       'address': address,
-      'image1': image1
+      'image1': image1,
+      'status':status,
+      'userName': userName
     };
   }
 
@@ -46,6 +50,7 @@ class SendRequestModel {
         phoneNumber: data['phoneNumber'],
         address: data['address'],
         image1: data['image1'],
-        status: data['status']);
+        status: data['status'],
+        userName: data['userName']);
   }
 }

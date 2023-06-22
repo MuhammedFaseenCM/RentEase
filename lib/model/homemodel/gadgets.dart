@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class Gadgets {
   final String title;
   final String email;
+  final String name;
   final String category;
   final String details;
   final String image1;
@@ -37,6 +38,7 @@ class Gadgets {
     required this.city,
     required this.pincode,
     required this.state,
+    required this.name,
   });
 
   factory Gadgets.fromSnapshot(DocumentSnapshot snapshot) {
@@ -53,6 +55,7 @@ class Gadgets {
         weekPrice: data['weekPrice'],
         monthPrice: data['monthPrice'],
         available: data['available'],
+        name: data['name'],
         address: data['address'],
         houseNo: data['address']['houseNo'],
         area: data['address']['area'],
@@ -67,6 +70,7 @@ class Gadgets {
       'email': email,
       'category': category,
       'details': details,
+      'name': name,
       'image1': image1,
       'image2': image2,
       'image3': image3,
@@ -79,7 +83,8 @@ class Gadgets {
         'area': area,
         'city': city,
         'pincode': pincode,
-        'state': state
+        'state': state,
+        'name': name
       }
     };
   }

@@ -17,22 +17,6 @@ mixin _$SignUpModel on _SignUpModelBase, Store {
               name: '_SignUpModelBase.passwordVisible'))
           .value;
 
-  late final _$codeControllerAtom =
-      Atom(name: '_SignUpModelBase.codeController', context: context);
-
-  @override
-  TextEditingController get codeController {
-    _$codeControllerAtom.reportRead();
-    return super.codeController;
-  }
-
-  @override
-  set codeController(TextEditingController value) {
-    _$codeControllerAtom.reportWrite(value, super.codeController, () {
-      super.codeController = value;
-    });
-  }
-
   late final _$_passwordVisibleAtom =
       Atom(name: '_SignUpModelBase._passwordVisible', context: context);
 
@@ -118,7 +102,6 @@ mixin _$SignUpModel on _SignUpModelBase, Store {
   @override
   String toString() {
     return '''
-codeController: ${codeController},
 picture: ${picture},
 signupformKey: ${signupformKey},
 passwordVisible: ${passwordVisible}
