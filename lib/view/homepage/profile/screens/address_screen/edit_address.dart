@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get/get.dart';
 import 'package:rentease/model/addressmodel/address_mobx.dart';
 import 'package:rentease/view/core/appbar_widget.dart';
@@ -20,7 +19,7 @@ class EditAddressScreen extends StatelessWidget {
   final int? index;
   const EditAddressScreen(
       {super.key, this.isEditAddress = false, this.addressMap, this.index});
-  static final AddressMobx addressModel = AddressMobx();
+  static final AddressController addressModel = AddressController();
 
   @override
   Widget build(BuildContext context) {
@@ -107,8 +106,7 @@ class EditAddressScreen extends StatelessWidget {
                     ),
                   ),
                   kwidth20,
-                  Observer(builder: (_) {
-                    return SizedBox(
+                SizedBox(
                       width: 120.0,
                       child: TextFormField(
                         controller: addressModel.stateController,
@@ -126,8 +124,8 @@ class EditAddressScreen extends StatelessWidget {
                           return null;
                         },
                       ),
-                    );
-                  }),
+                    
+                  ),
                 ],
               ),
               kheight20,

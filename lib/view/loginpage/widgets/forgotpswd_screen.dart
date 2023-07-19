@@ -14,7 +14,7 @@ GlobalKey formKey2 = GlobalKey<FormState>();
 
 class ForgotPasswordScreen extends StatelessWidget {
   const ForgotPasswordScreen({super.key});
-  static LoginModel loginmodel = Get.put(LoginModel());
+  static LoginController loginController = Get.put(LoginController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,7 +39,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                   kheight20,
                   TextFieldWidget(
                     hintText: mailText,
-                    controller: loginmodel.emailController,
+                    controller: loginController.emailController.value,
                     isEmail: true,
                     keyboardType: TextInputType.emailAddress,
                   ),
@@ -48,7 +48,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                     text:resetPassText ,
                     onpressed: (context) {
                       resetPassword(
-                          email: loginmodel.emailController.text.trim(),
+                          email: loginController.emailController.value.text.trim(),
                           context: context);
                     },
                     color: kbluegreyColor,

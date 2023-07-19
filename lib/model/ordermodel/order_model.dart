@@ -1,35 +1,34 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:mobx/mobx.dart';
+import 'package:get/get.dart';
 
-part 'order_model.g.dart';
 
-class OrderModel = _OrderModel with _$OrderModel;
 
-abstract class _OrderModel with Store {
-  @observable
+
+ class OrderModel extends GetxController {
+ 
   double rating = 0;
 
   final collection = FirebaseFirestore.instance.collection("Review&Rating");
 
-  @action
+ 
   void setRating(double value) {
     rating = value;
   }
 
-  @observable
-  ObservableList<double> ratings = ObservableList<double>();
 
-  @computed
-  double get averageRating {
-    if (ratings.isEmpty) {
-      return 0;
-    }
+  List<double> ratings = [];
 
-    double totalRating = ratings.fold(0, (sum, rating) => sum + rating);
-    return totalRating / ratings.length;
-  }
+  // @computed
+  // double get averageRating {
+  //   if (ratings.isEmpty) {
+  //     return 0;
+  //   }
 
-  @action
+  //   double totalRating = ratings.fold(0, (sum, rating) => sum + rating);
+  //   return totalRating / ratings.length;
+  // }
+
+  
   Future<void> fetchRatings({required ownerEmail, required title}) async {
     final ratingRef = FirebaseFirestore.instance.collection("Review&Rating");
 

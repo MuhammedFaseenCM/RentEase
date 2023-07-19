@@ -20,7 +20,7 @@ class TextFieldWidget extends StatelessWidget {
   final IconData? icon;
   final dynamic? prefixIcon;
   final Function(String value)? validator;
-  const TextFieldWidget({
+   TextFieldWidget({
     super.key,
     required this.hintText,
     required this.controller,
@@ -38,7 +38,7 @@ class TextFieldWidget extends StatelessWidget {
     this.validator,
   });
   static final SignUpModel signupmodel = Get.put(SignUpModel());
-  static LoginModel loginmodel = Get.put(LoginModel());
+  final LoginController loginController = Get.put(LoginController());
   @override
   Widget build(BuildContext context) {
     return Container(

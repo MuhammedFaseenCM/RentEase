@@ -24,11 +24,11 @@ class LoginPage extends StatelessWidget {
             ],
           ),
         ),
-        child: SafeArea(
+        child: const SafeArea(
           child: Padding(
-            padding: const EdgeInsets.all(0.0),
+            padding: EdgeInsets.all(0.0),
             child: Column(
-              children: const [HeaderSection(
+              children: [HeaderSection(
                 title: logintext,
                 subtitle: welcomeBack,
               ), LoginSection()],

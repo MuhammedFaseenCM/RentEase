@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:rentease/model/loginmodel/mobx/login_mobx.dart';
 import 'package:rentease/view/core/button_widget.dart';
 import 'package:rentease/view/core/const_colors.dart';
@@ -15,7 +16,7 @@ import 'package:rentease/view/signuppage/signup_screen.dart';
 class LoginSection extends StatelessWidget {
   const LoginSection({super.key});
   static final loginFormKey = GlobalKey<FormState>();
-  static final LoginModel loginModel = LoginModel();
+  static LoginController loginController = Get.put(LoginController());
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -37,10 +38,10 @@ class LoginSection extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                EmailField(emailController: loginModel.emailController),
+                EmailField(emailController: loginController.emailController.value),
                 kheight20,
                 PasswordField(
-                  passwordController: loginModel.passwordController,
+                  passwordController: loginController.passwordController.value,
                 ),
                 kheight20,
                 kheight20,
@@ -65,8 +66,8 @@ class LoginSection extends StatelessWidget {
                     if (!isValid) return;
                     signIn(
                         context: context,
-                        email: loginModel.emailController,
-                        password: loginModel.passwordController);
+                        email: loginController.emailController.value,
+                        password: loginController.passwordController.value);
                   },
                 ),
                 kheight20,

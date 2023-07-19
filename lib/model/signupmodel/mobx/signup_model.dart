@@ -1,13 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:mobx/mobx.dart';
 
-part 'signup_model.g.dart';
-
-class SignUpModel = _SignUpModelBase with _$SignUpModel;
-
-abstract class _SignUpModelBase with Store {
+class SignUpModel extends GetxController {
   TextEditingController signupemailController = TextEditingController();
   TextEditingController signuppasswordController = TextEditingController();
   TextEditingController fullnameController = TextEditingController();
@@ -16,30 +12,22 @@ abstract class _SignUpModelBase with Store {
   TextEditingController confirmpasswordController = TextEditingController();
   TextEditingController locationController = TextEditingController();
 
-
-
-
-
-
-
-
-  @observable
   bool _passwordVisible = false;
 
-  @computed
+  
   bool get passwordVisible => _passwordVisible;
 
   final ImagePicker picker = ImagePicker();
 
-  @action
+ 
   void togglePasswordVisibility() {
     _passwordVisible = !_passwordVisible;
   }
 
-  @observable
+
   String picture = '';
 
-  @action
+  
   Future<void> pickImage({required source, required context}) async {
     final image = await picker.pickImage(source: source);
     if (image == null) {
@@ -49,7 +37,7 @@ abstract class _SignUpModelBase with Store {
     Navigator.of(context).pop();
   }
 
-  @action
+  
   void clearAll() {
     fullnameController.clear();
     numberController.clear();
@@ -60,7 +48,7 @@ abstract class _SignUpModelBase with Store {
     picture = '';
   }
 
-  @observable
+  
   GlobalKey<FormState> signupformKey = GlobalKey<FormState>();
 
 

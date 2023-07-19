@@ -8,9 +8,10 @@ import 'package:flutter_gen/gen_l10n/app_localization.dart';
 
 var selectedPage = 0;
 
-class BottomNavigationBarWidget extends GetView<HomeGetx> {
+class BottomNavigationBarWidget extends StatelessWidget {
   const BottomNavigationBarWidget({super.key});
   static final notifycontrol = NotifyController();
+  static HomeGetx homeController = Get.put(HomeGetx());
   @override
   Widget build(BuildContext context) {
     return Obx(
@@ -18,8 +19,8 @@ class BottomNavigationBarWidget extends GetView<HomeGetx> {
           backgroundColor: Colors.orange[900],
           selectedItemColor: kblackColor,
           iconSize: 30.0,
-          currentIndex: controller.selectedIndex.value,
-          onTap: controller.changeTabIndex,
+          currentIndex: homeController.selectedIndex.value,
+          onTap: homeController.changeTabIndex,
           items: [
             BottomNavigationBarItem(
                 //  backgroundColor: Colors.orange[900],

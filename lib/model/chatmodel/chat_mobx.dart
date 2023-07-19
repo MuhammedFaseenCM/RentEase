@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mobx/mobx.dart';
-part 'chat_mobx.g.dart';
+import 'package:get/get.dart';
 
-class ChatModel = _ChatModel with _$ChatModel;
 
-abstract class _ChatModel with Store {
+class ChatModel extends GetxController {
   TextEditingController sendMessageController = TextEditingController();
 
   FocusNode focusNode = FocusNode();

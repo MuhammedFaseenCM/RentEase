@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:mobx/mobx.dart';
+import 'package:get/get.dart';
 
-part 'address_mobx.g.dart';
 
-class AddressMobx = _AddressMobx with _$AddressMobx;
 
-abstract class _AddressMobx with Store {
+class AddressController extends GetxController {
   TextEditingController houseNameController = TextEditingController();
   TextEditingController areaController = TextEditingController();
   TextEditingController cityController = TextEditingController();
@@ -13,15 +11,14 @@ abstract class _AddressMobx with Store {
 
   GlobalKey<FormState> addressKey = GlobalKey<FormState>();
 
-  @observable
+  
   TextEditingController stateController = TextEditingController();
 
   FocusNode focusNode = FocusNode();
 
-  @observable
   String selectedState = '';
 
-  @action
+
   void setSelectedState(String value) {
     stateController.text = value;
   }

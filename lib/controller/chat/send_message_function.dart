@@ -61,11 +61,11 @@ String getChatId(String email1, String email2) {
   }
 }
 
-Stream<List<QueryDocumentSnapshot>> getChatMessages(String chatId) {
+Stream<List<QueryDocumentSnapshot>> getChatMessages(String chatId)async* {
   final chatCollection = FirebaseFirestore.instance.collection('chat');
   final messagesCollection = chatCollection.doc(chatId).collection('messages');
 
-  return messagesCollection
+  yield* messagesCollection
       .orderBy('time', descending: true)
       .snapshots()
       .map((querySnapshot) => querySnapshot.docs);

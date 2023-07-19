@@ -1,7 +1,5 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:rentease/controller/additem/add_item_fun.dart';
 import 'package:rentease/main.dart';
 import 'package:rentease/model/itemmodel/item_model.dart';
 import 'package:rentease/view/core/address_sheet.dart';

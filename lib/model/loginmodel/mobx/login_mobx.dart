@@ -1,21 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:mobx/mobx.dart';
-part 'login_mobx.g.dart';
+import 'package:get/get.dart';
 
-class LoginModel = _LoginModel with _$LoginModel;
+class LoginController extends GetxController {
+  final Rx<TextEditingController> emailController = TextEditingController().obs;
+  final Rx<TextEditingController> passwordController = TextEditingController().obs;
+  final RxBool obscureText = true.obs;
 
-abstract class _LoginModel with Store {
-
-   @observable
-  TextEditingController emailController = TextEditingController();
-
-  @observable
-  TextEditingController passwordController = TextEditingController();
-  @observable
-  bool obscureText = true;
-
-  @action
   void toggleObscureText() {
-    obscureText = !obscureText;
+    obscureText.toggle();
   }
+
+  
 }
