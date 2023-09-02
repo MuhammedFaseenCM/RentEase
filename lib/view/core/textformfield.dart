@@ -1,9 +1,9 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:rentease/model/loginmodel/mobx/login_mobx.dart';
 import 'package:rentease/model/signupmodel/mobx/signup_model.dart';
 import 'package:rentease/view/core/string_consts.dart';
+import 'package:rentease/view/loginpage/login_controller.dart';
 
 class TextFieldWidget extends StatelessWidget {
   final String hintText;
@@ -18,7 +18,7 @@ class TextFieldWidget extends StatelessWidget {
   final bool isEmail;
   final bool isPswd;
   final IconData? icon;
-  final dynamic? prefixIcon;
+  final dynamic prefixIcon;
   final Function(String value)? validator;
    TextFieldWidget({
     super.key,

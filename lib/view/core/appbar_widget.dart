@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:rentease/model/homemodel/home_model.dart';
 import 'package:rentease/view/core/const_colors.dart';
 import 'package:rentease/view/core/widgets.dart';
+import 'package:rentease/view/homepage/main_controller.dart';
 
-class AppBarWidget extends StatelessWidget {
+class AppBarWidget extends GetView<MainController> {
   final String title;
   final int indexValue;
   final List<Widget>? actions;
@@ -16,7 +15,6 @@ class AppBarWidget extends StatelessWidget {
       this.indexValue = 1,
       this.actions,
       this.isHome = false});
-  static final HomeGetx controller = Get.put(HomeGetx());
   @override
   Widget build(BuildContext context) {
     return AppBar(

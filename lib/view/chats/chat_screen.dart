@@ -1,10 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:rentease/view/chats/message_screen.dart';
-import 'package:rentease/view/core/appbar_widget.dart';
+import 'chat.dart';
 
-class ChatScreen extends StatelessWidget {
+class ChatScreen extends GetWidget<ChatController> {
   const ChatScreen({super.key});
 
   @override

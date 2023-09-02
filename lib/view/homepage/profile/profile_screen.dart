@@ -1,32 +1,14 @@
-import 'dart:developer';
+import 'package:rentease/view/homepage/profile/profile_controller.dart';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:rentease/controller/profile/fetch_profile_details.dart';
-import 'package:rentease/main.dart';
-import 'package:rentease/view/core/const_colors.dart';
-import 'package:rentease/view/core/logout_button.dart';
-import 'package:rentease/view/core/string_consts.dart';
-import 'package:rentease/view/core/widgets.dart';
-import 'package:rentease/view/homepage/profile/screens/booking_screen.dart';
-import 'package:rentease/view/homepage/profile/screens/edit_profile_screen.dart';
-import 'package:rentease/view/homepage/profile/screens/mygadgetscreen/my_gadget_screen.dart';
-import 'package:rentease/view/homepage/profile/screens/terms_n_policy_screen.dart';
-import 'package:rentease/view/homepage/profile/widget/about_us_widget.dart';
-import 'package:rentease/view/homepage/profile/widget/listtile_widget.dart';
-import 'package:flutter_gen/gen_l10n/app_localization.dart';
-import 'package:rentease/view/homepage/profile/screens/address_screen/saved_addresses.dart';
+import 'profile.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends GetWidget<ProfileController> {
   const ProfileScreen({super.key});
 
-  static ProfileControl profile = ProfileControl();
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-        stream: profile.docRef
+        stream: controller.docRef
             .doc(FirebaseAuth.instance.currentUser!.email.toString())
             .snapshots(),
         builder: (context, snapshot) {
@@ -39,15 +21,6 @@ class ProfileScreen extends StatelessWidget {
             DocumentSnapshot<Map<String, dynamic>>? querySnapshot =
                 snapshot.data;
             Map<String, dynamic>? data = querySnapshot!.data();
-            print(data);
-
-            //var data = snapshot.data!.data();
-            // if (data==null) {
-            //   print(data.toString());
-            //   return const Center(
-            //   child: Text(wrongText),
-            // );
-            // }
 
             return Container(
                 padding: const EdgeInsets.all(10.0),
@@ -115,13 +88,6 @@ class ProfileScreen extends StatelessWidget {
                       },
                     ),
                     kheight20,
-                    // ListTileWidget(
-                    //   title: AppLocalizations.of(context)!.selectLanguage,
-                    //   icon: Icons.assignment,
-                    //   onTap: () {
-                    //     Get.to(() => const SelectLanguageScreen());
-                    //   },
-                    // ),
                     ListTileWidget(
                       title: AppLocalizations.of(context)!.myBookings,
                       icon: Icons.menu_book_outlined,
@@ -134,7 +100,7 @@ class ProfileScreen extends StatelessWidget {
                       title: AppLocalizations.of(context)!.savedAddresses,
                       icon: Icons.location_on,
                       onTap: () {
-                        Get.to(() => const SavedAddresses());
+                        Get.toNamed(RoutesName.address);
                       },
                     ),
                     kheight20,

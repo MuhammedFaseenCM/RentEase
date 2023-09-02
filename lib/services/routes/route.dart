@@ -1,0 +1,13 @@
+export 'package:get/get.dart';
+export 'package:rentease/services/routes/route_names.dart';
+export 'package:rentease/view/loginpage/login_binding.dart';
+export 'package:rentease/view/loginpage/login_screen.dart';
+export 'package:rentease/view/signuppage/signup_binding.dart';
+export 'package:rentease/view/signuppage/signup_screen.dart';
+export 'package:rentease/view/splash_screen/splash_binding.dart';
+export 'package:rentease/view/splash_screen/splash_screen.dart';
+export 'package:rentease/view/address/address_screen.dart';
+export 'package:rentease/view/chats/chat_binding.dart';
+export 'package:rentease/view/chats/chat_screen.dart';
+export 'package:rentease/view/homepage/main_binding.dart';
+export 'package:rentease/view/homepage/main_screen.dart';

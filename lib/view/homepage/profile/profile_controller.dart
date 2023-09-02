@@ -1,12 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
+import 'profile.dart';
 
-import 'package:get/get.dart';
-import 'package:rentease/view/core/const_colors.dart';
-
-class ProfileControl extends GetxController {
-  final docRef = FirebaseFirestore.instance.collection("Users");
+class ProfileController extends GetxController {
+    final docRef = FirebaseFirestore.instance.collection("Users");
   Future<String> userDetails({required key}) async {
     final userDoc =
         docRef.doc(FirebaseAuth.instance.currentUser!.email.toString());

@@ -4,6 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:rentease/services/routes/route_names.dart';
+import 'package:rentease/services/routes/routes.dart';
 import 'package:rentease/view/core/const_colors.dart';
 import 'package:rentease/view/core/string_consts.dart';
 import 'package:rentease/view/core/utils.dart';
@@ -30,32 +32,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) => GetMaterialApp(
             scaffoldMessengerKey: Utils.messengerKey,
+            getPages: Routes.instance.getGetxPages(),
+            initialRoute:RoutesName.splash ,
             navigatorKey: navigatorKey,
             debugShowCheckedModeBanner: false,
             title: appName,
             theme: ThemeData(primarySwatch: Colors.blueGrey),
-            home: StreamBuilder<User?>(
-              stream: FirebaseAuth.instance.authStateChanges(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2.0,
-                    ),
-                  );
-                } else if (snapshot.hasError) {
-                  return const Center(
-                    child: Text(wrongText),
-                  );
-                } else if (snapshot.hasData) {
             
-                  return const VerifyEmailScreen();
-                } else {
-                  return const LoginPage();
-                  //AuthPage();
-                }
-              },
-            ),
           
             supportedLocales: L10n.all,
             localizationsDelegates: const [

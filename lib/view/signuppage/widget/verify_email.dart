@@ -7,7 +7,7 @@ import 'package:rentease/view/core/appbar_widget.dart';
 import 'package:rentease/view/core/const_colors.dart';
 import 'package:rentease/view/core/string_consts.dart';
 import 'package:rentease/view/core/widgets.dart';
-import 'package:rentease/view/homepage/home_page.dart';
+import 'package:rentease/view/homepage/main_screen.dart';
 
 class VerifyEmailScreen extends StatefulWidget {
   const VerifyEmailScreen({super.key});

@@ -5,11 +5,11 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:rentease/controller/profile/fetch_profile_details.dart';
 import 'package:rentease/main.dart';
 import 'package:rentease/model/homemodel/gadgets.dart';
 import 'package:rentease/view/core/const_colors.dart';
 import 'package:rentease/view/core/string_consts.dart';
+import 'package:rentease/view/homepage/profile/profile_controller.dart';
 
 class ItemModel extends GetxController {
   TextEditingController itemTitleController = TextEditingController();
@@ -25,7 +25,7 @@ class ItemModel extends GetxController {
     dropdownValue.value = value;
   }
 
-  ProfileControl profileControl = ProfileControl();
+  ProfileController profileControl = ProfileController();
 
   String image1Url = '';
   String image2Url = '';

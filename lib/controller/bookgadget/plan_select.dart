@@ -1,13 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
-import 'package:rentease/controller/profile/fetch_profile_details.dart';
 import 'package:rentease/model/homemodel/gadgets.dart';
 import 'package:rentease/model/requestmodel/sendreqmodel.dart';
 import 'package:rentease/view/core/const_colors.dart';
+import 'package:rentease/view/homepage/profile/profile_controller.dart';
 
 class SelectPlan extends GetxController {
-  ProfileControl profileControl = ProfileControl();
+  ProfileController controller = ProfileController();
   final docRef = FirebaseFirestore.instance.collection("Users");
 
   Future<void> sendReq(
@@ -16,7 +16,7 @@ class SelectPlan extends GetxController {
       required planType,
       required price,
       required doc}) async {
-    final snapshot = profileControl.docRef
+    final snapshot = controller.docRef
         .doc(FirebaseAuth.instance.currentUser!.email.toString());
     Map? data;
     var docsnapshot = await snapshot.get();

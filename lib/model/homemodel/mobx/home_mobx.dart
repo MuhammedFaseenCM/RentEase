@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:rentease/view/core/string_consts.dart';
 
 class HomeController extends GetxController {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirestoreService _firestoreService = FirestoreService();
  
 

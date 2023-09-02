@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-class HomeGetx extends GetxController {
+class MainController extends GetxController {
 
   var selectedIndex = 0.obs;
 

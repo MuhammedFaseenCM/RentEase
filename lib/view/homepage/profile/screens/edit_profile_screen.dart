@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:rentease/controller/profile/fetch_profile_details.dart';
 import 'package:rentease/main.dart';
 import 'package:rentease/view/core/appbar_widget.dart';
 import 'package:rentease/view/core/button_widget.dart';
 import 'package:rentease/view/core/const_colors.dart';
 import 'package:rentease/view/core/string_consts.dart';
 import 'package:rentease/view/core/widgets.dart';
+import 'package:rentease/view/homepage/profile/profile_controller.dart';
 
-class EditProfile extends StatelessWidget {
+class EditProfile extends GetView<ProfileController> {
   const EditProfile({super.key});
-  static ProfileControl profile = Get.find<ProfileControl>();
-  static ProfileControl profileControl = ProfileControl();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,8 +26,8 @@ class EditProfile extends StatelessWidget {
           children: [
             kheight20,
             kheight20,
-            GetBuilder<ProfileControl>(
-                init: ProfileControl(),
+            GetBuilder<ProfileController>(
+                init: ProfileController(),
                 builder: (value) {
                   return TextFormField(
                     controller: value.nameController,
@@ -51,8 +49,8 @@ class EditProfile extends StatelessWidget {
               style: TextStyle(color: kwhiteColor),
             ),
             kheight10,
-            GetBuilder<ProfileControl>(
-                init: ProfileControl(),
+            GetBuilder<ProfileController>(
+                init: ProfileController(),
                 builder: (value) {
                   return TextFormField(
                     controller: value.phoneController,
@@ -74,13 +72,13 @@ class EditProfile extends StatelessWidget {
               style: TextStyle(color: kwhiteColor),
             ),
             kheight20,
-            GetBuilder<ProfileControl>(
-                init: ProfileControl(),
+            GetBuilder<ProfileController>(
+                init: ProfileController(),
                 builder: (value) {
                   return ButtonWidget(
                     text: saveText,
                     onpressed: (p0) {
-                      profileControl.updateDoc(
+                      controller.updateDoc(
                           name: value.nameController.text,
                           phone: value.phoneController.text,
                           location: value.locationController.text);

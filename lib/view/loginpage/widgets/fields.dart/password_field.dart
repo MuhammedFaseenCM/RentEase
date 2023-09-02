@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:rentease/model/loginmodel/mobx/login_mobx.dart';
 import 'package:rentease/view/core/string_consts.dart';
+import 'package:rentease/view/loginpage/login_controller.dart';
 
 class PasswordField extends StatelessWidget {
   final TextEditingController passwordController;

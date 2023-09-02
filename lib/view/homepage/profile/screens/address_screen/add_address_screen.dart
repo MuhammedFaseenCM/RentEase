@@ -7,7 +7,7 @@ import 'package:rentease/view/core/appbar_widget.dart';
 import 'package:rentease/view/core/const_colors.dart';
 import 'package:rentease/view/core/screen_container_widget.dart';
 import 'package:rentease/view/core/widgets.dart';
-import 'package:rentease/view/homepage/home_page.dart';
+import 'package:rentease/view/homepage/main_screen.dart';
 
 class AddAddressWidget extends StatelessWidget {
   final bool? isEditAddress;

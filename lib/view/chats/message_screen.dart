@@ -1,13 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:rentease/controller/chat/send_message_function.dart';
-import 'package:rentease/model/chatmodel/chat_mobx.dart';
-import 'package:rentease/view/core/appbar_widget.dart';
-import 'package:rentease/view/core/const_colors.dart';
-import 'package:rentease/view/core/widgets.dart';
+import 'chat.dart';
 
-class MessageScreen extends StatelessWidget {
+class MessageScreen extends GetWidget<ChatController> {
   final String recieverEmail;
   final String? recieverName;
   final String? senderName;
@@ -16,7 +9,6 @@ class MessageScreen extends StatelessWidget {
       required this.recieverEmail,
       this.recieverName,
       this.senderName});
-  static final ChatModel chatModel = ChatModel();
   static FocusNode focusNode = FocusNode();
   @override
   Widget build(BuildContext context) {
@@ -26,85 +18,95 @@ class MessageScreen extends StatelessWidget {
         child: AppBarWidget(title: recieverName ?? "name"),
       ),
       body: Column(
-        children: <Widget>[
+        children: [
           Expanded(
-            child: StreamBuilder(
-                stream: FirebaseFirestore.instance
-                    .collection("chat")
-                    .doc(getChatId(
-                        FirebaseAuth.instance.currentUser!.email.toString(),
-                        recieverEmail))
-                    .collection("messages")
-                    .orderBy('dateTimeNow', descending: true)
-                    .snapshots(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    QuerySnapshot? querySnapshot = snapshot.data;
-                    List<QueryDocumentSnapshot> documents = querySnapshot!.docs;
-                    List<Map<String, dynamic>> items = documents
-                        .map((e) => e.data() as Map<String, dynamic>)
-                        .toList();
-                    if (items.isEmpty) {
-                      return const Center(
-                        child: Text("No messages yet"),
-                      );
-                    }
-
-                    return ListView.builder(
-                      physics: const BouncingScrollPhysics(),
-                      shrinkWrap: true,
-                      reverse: true,
-                      itemCount: items.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        final messageField = items[index];
-                        return messagesCard(messageField['senderEmail'],
-                            messageField["message"], messageField["time"]);
-                      },
-                    );
-                  }
-                  return const Center(
-                    child: Text("No messages yet"),
-                  );
-                }),
+            child: _messagesList(),
           ),
           Container(
             padding: const EdgeInsets.all(8.0),
             child: Row(
-              children: <Widget>[
-                Expanded(
-                  child: TextFormField(
-                    controller: chatModel.sendMessageController,
-                    focusNode: focusNode,
-                    decoration: const InputDecoration(
-                      hintText: 'Type a message...',
-                      border: OutlineInputBorder(),
-                    ),
-                  ),
-                ),
+              children: [
+                _messageTextField(),
                 kwidth10,
-                FloatingActionButton(
-                  backgroundColor: kOrange900,
-                  child: const Icon(
-                    Icons.send,
-                    color: kwhiteColor,
-                  ),
-                  onPressed: () async {
-                    if (chatModel.sendMessageController.text.isEmpty) {
-                      return;
-                    }
-                    await sendMessage(
-                        receiverEmail: recieverEmail,
-                        message: chatModel.sendMessageController.text,
-                        recieverName: recieverName!,
-                        senderName: senderName!);
-                    chatModel.sendMessageController.clear();
-                    focusNode.unfocus();
-                  },
-                ),
+                _sendButton(),
               ],
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  StreamBuilder<QuerySnapshot<Map<String, dynamic>>> _messagesList() {
+    return StreamBuilder(
+        stream: FirebaseFirestore.instance
+            .collection("chat")
+            .doc(getChatId(FirebaseAuth.instance.currentUser!.email.toString(),
+                recieverEmail))
+            .collection("messages")
+            .orderBy('dateTimeNow', descending: true)
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            QuerySnapshot? querySnapshot = snapshot.data;
+            List<QueryDocumentSnapshot> documents = querySnapshot!.docs;
+            List<Map<String, dynamic>> items =
+                documents.map((e) => e.data() as Map<String, dynamic>).toList();
+            if (items.isEmpty) {
+              return const Center(
+                child: Text("No messages yet"),
+              );
+            }
+
+            return ListView.builder(
+              physics: const BouncingScrollPhysics(),
+              shrinkWrap: true,
+              reverse: true,
+              itemCount: items.length,
+              itemBuilder: (BuildContext context, int index) {
+                final messageField = items[index];
+                return messagesCard(messageField['senderEmail'],
+                    messageField["message"], messageField["time"]);
+              },
+            );
+          }
+          return const Center(
+            child: Text("No messages yet"),
+          );
+        });
+  }
+
+  FloatingActionButton _sendButton() {
+    return FloatingActionButton(
+      backgroundColor: kOrange900,
+      child: const Icon(
+        Icons.send,
+        color: kwhiteColor,
+      ),
+      onPressed: () async {
+        if (controller.sendMessageController.text.isEmpty) {
+          return;
+        }
+        await sendMessage(
+            receiverEmail: recieverEmail,
+            message: controller.sendMessageController.text,
+            recieverName: recieverName!,
+            senderName: senderName!);
+        controller.sendMessageController.clear();
+        focusNode.unfocus();
+      },
+    );
+  }
+
+  Expanded _messageTextField() {
+    return Expanded(
+      child: TextFormField(
+        controller: controller.sendMessageController,
+        focusNode: focusNode,
+        decoration: const InputDecoration(
+          hintText: 'Type a message...',
+          border: OutlineInputBorder(),
+        ),
       ),
     );
   }
