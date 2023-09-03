@@ -1,6 +1,4 @@
-
-
-import 'package:rentease/view/address/address_binding.dart';
+import 'package:rentease/view/homepage/profile/profile_binding.dart';
 
 import 'route.dart';
 
@@ -39,9 +37,13 @@ class Routes {
       ),
       GetPage(
         name: RoutesName.address,
-       page: () => const AddressScreen(),
-        transition: Transition.rightToLeft,
+        page: () => const AddressScreen(),
         binding: AddressBinding(),
+      ),
+      GetPage(
+        name: RoutesName.profile,
+        page: () => const ProfileScreen(),
+        binding: ProfileBinding(),
       )
     ];
   }

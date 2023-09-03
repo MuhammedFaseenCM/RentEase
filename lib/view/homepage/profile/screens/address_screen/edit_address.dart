@@ -1,10 +1,8 @@
-import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:rentease/model/addressmodel/address_mobx.dart';
+import 'package:rentease/view/address/address_controller.dart';
 import 'package:rentease/view/core/appbar_widget.dart';
 import 'package:rentease/view/core/const_colors.dart';
 import 'package:rentease/view/core/screen_container_widget.dart';
@@ -23,18 +21,11 @@ class EditAddressScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-    // if (isEditAddress == true) {
     addressModel.houseNameController.text = addressMap!['houseNo'] ?? '';
     addressModel.areaController.text = addressMap!['area'] ?? '';
     addressModel.cityController.text = addressMap!['city'] ?? '';
     addressModel.pincodeController.text = addressMap!['pincode'] ?? '';
     addressModel.stateController.text = addressMap!['state'] ?? '';
-    // } else {
-    //   clearAddress();
-    // }
-    //  });
-    log("rebuilding");
 
     return Scaffold(
       appBar: const PreferredSize(

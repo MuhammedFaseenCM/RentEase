@@ -1,8 +1,23 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:get/get.dart';
+import 'address.dart';
 
 class AddressController extends GetxController {
+  TextEditingController houseNameController = TextEditingController();
+  TextEditingController areaController = TextEditingController();
+  TextEditingController cityController = TextEditingController();
+  TextEditingController pincodeController = TextEditingController();
+
+  GlobalKey<FormState> addressKey = GlobalKey<FormState>();
+
+  TextEditingController stateController = TextEditingController();
+
+  FocusNode focusNode = FocusNode();
+
+  String selectedState = '';
+
+  void setSelectedState(String value) {
+    stateController.text = value;
+  }
+
   Stream<DocumentSnapshot<Map<String, dynamic>>>? stream = FirebaseFirestore
       .instance
       .collection("Users")

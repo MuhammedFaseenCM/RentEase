@@ -1,13 +1,13 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:rentease/model/signupmodel/mobx/signup_model.dart';
 import 'package:rentease/view/core/string_consts.dart';
 import 'package:rentease/view/loginpage/login_controller.dart';
+import 'package:rentease/view/signuppage/signup_controller.dart';
 
-class TextFieldWidget extends StatelessWidget {
+class TextFieldWidget extends GetView<SignupController> {
   final String hintText;
-  final TextEditingController controller;
+  final TextEditingController editingController;
   final double? radiusleft;
   final double? radiusRight;
   final double? radiusBottomLeft;
@@ -23,7 +23,7 @@ class TextFieldWidget extends StatelessWidget {
    TextFieldWidget({
     super.key,
     required this.hintText,
-    required this.controller,
+    required this.editingController,
     this.radiusleft,
     this.radiusBottomLeft,
     this.radiusBottomRight,
@@ -37,7 +37,6 @@ class TextFieldWidget extends StatelessWidget {
     this.prefixIcon,
     this.validator,
   });
-  static final SignUpModel signupmodel = Get.put(SignUpModel());
   final LoginController loginController = Get.put(LoginController());
   @override
   Widget build(BuildContext context) {
@@ -64,49 +63,49 @@ class TextFieldWidget extends StatelessWidget {
             bottomLeft: Radius.circular(radiusBottomLeft ?? 20.0),
             bottomRight: Radius.circular(radiusBottomRight ?? 20.0)),
       ),
-      child: TextFormField(
-        controller: controller,
-        keyboardType: keyboardType,
-        obscureText: obscureText,
-        autovalidateMode: AutovalidateMode.onUserInteraction,
-        validator: isEmail
-            ? (value) {
-                if (isEmail) {
-                  if (value != null && !EmailValidator.validate(value)) {
-                    return validEmailText;
-                  } else {
-                    return null;
+      child: _textFormField(),
+    );
+  }
+
+  GetBuilder<GetxController> _textFormField() {
+    return GetBuilder(
+      builder: (context) {
+        return TextFormField(
+          controller: editingController,
+          keyboardType: keyboardType,
+          obscureText: obscureText,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          validator: isEmail
+              ? (value) {
+                  if (isEmail) {
+                    if (value != null && !EmailValidator.validate(value)) {
+                      return validEmailText;
+                    } else {
+                      return null;
+                    }
                   }
+                  return null;
                 }
-                return null;
-              }
-            : ((value) => validator!(value!)),
-        decoration: InputDecoration(
-            border: InputBorder.none,
-            hintText: hintText,
-            //   hintStyle: TextStyle(color: Colors.white54),
-            prefixIcon: isEmail
-                ? const Icon(
-                    Icons.mail,
-                  )
-                : prefixIcon,
-            // fillColor: Colors.white,
-            suffixIcon: suffixIcon
-                ? IconButton(
-                    //color: Colors.white,
-                    onPressed: () {
-                      // loginmodel.passwordVisible = !loginmodel.passwordVisible;
-                      // signupmodel.passwordVisible =
-                      //     !signupmodel.passwordVisible;
-                    },
-                    icon: signupmodel.passwordVisible 
-                    //||
-                           // loginmodel.passwordVisible
-                        ? const Icon(Icons.visibility)
-                        : const Icon(Icons.visibility_off),
-                  )
-                : null),
-      ),
+              : ((value) => validator!(value!)),
+          decoration: InputDecoration(
+              border: InputBorder.none,
+              hintText: hintText,
+              prefixIcon: isEmail
+                  ? const Icon(
+                      Icons.mail,
+                    )
+                  : prefixIcon,
+              suffixIcon: suffixIcon
+                  ? IconButton(
+                      onPressed: () {
+                      },
+                      icon: controller.passwordVisible 
+                          ? const Icon(Icons.visibility)
+                          : const Icon(Icons.visibility_off),
+                    )
+                  : null),
+        );
+      }
     );
   }
 }

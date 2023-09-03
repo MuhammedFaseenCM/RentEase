@@ -2,6 +2,8 @@ import 'profile.dart';
 
 class ProfileController extends GetxController {
     final docRef = FirebaseFirestore.instance.collection("Users");
+
+    
   Future<String> userDetails({required key}) async {
     final userDoc =
         docRef.doc(FirebaseAuth.instance.currentUser!.email.toString());

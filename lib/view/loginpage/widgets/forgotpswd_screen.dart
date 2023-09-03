@@ -39,9 +39,9 @@ class ForgotPasswordScreen extends StatelessWidget {
                   kheight20,
                   TextFieldWidget(
                     hintText: mailText,
-                    controller: loginController.emailController.value,
+                  
                     isEmail: true,
-                    keyboardType: TextInputType.emailAddress,
+                    keyboardType: TextInputType.emailAddress, editingController: loginController.emailController.value,
                   ),
                   kheight20,
                   ButtonWidget(

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:rentease/controller/signup/signup_function.dart';
-import 'package:rentease/model/signupmodel/mobx/signup_model.dart';
 import 'package:rentease/view/core/button_widget.dart';
 import 'package:rentease/view/core/const_colors.dart';
 import 'package:rentease/view/core/string_consts.dart';
@@ -9,7 +8,9 @@ import 'package:rentease/view/loginpage/widgets/fields.dart/email_field.dart';
 import 'package:rentease/view/loginpage/widgets/fields.dart/password_field.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:rentease/view/loginpage/widgets/header_section.dart';
+import 'package:rentease/view/signuppage/signup_controller.dart';
 import 'package:rentease/view/signuppage/widget/country_code_widget.dart';
+import 'package:get/get.dart';
 
 Country country = Country(
     phoneCode: "91",
@@ -23,9 +24,8 @@ Country country = Country(
     displayNameNoCountryCode: "IN",
     e164Key: "");
 
-class SignUpScreen extends StatelessWidget {
+class SignUpScreen extends GetWidget<SignupController> {
   const SignUpScreen({super.key});
- static final SignUpModel signupmodel = SignUpModel();
 
   @override
   Widget build(BuildContext context) {
@@ -66,12 +66,12 @@ class SignUpScreen extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: Form(
-                      key: signupmodel.signupformKey,
+                      key: controller.signupformKey,
                       child: Column(
                         children: [
                           kheight20,
                           TextFormField(
-                            controller: signupmodel.fullnameController,
+                            controller: controller.fullnameController,
                             decoration: const InputDecoration(
                               label: Text(fullnameText),
                               border: OutlineInputBorder(),
@@ -89,7 +89,7 @@ class SignUpScreen extends StatelessWidget {
                           ),
                           kheight20,
                           TextFormField(
-                            controller: signupmodel.numberController,
+                            controller: controller.numberController,
                             decoration: const InputDecoration(
                                 label: Text(numberText),
                                 border: OutlineInputBorder(),
@@ -106,24 +106,24 @@ class SignUpScreen extends StatelessWidget {
                           ),
                           kheight20,
                           EmailField(
-                              emailController: signupmodel.emailController),
+                              emailController: controller.emailController),
                           kheight20,
                           PasswordField(
                               passwordController:
-                                  signupmodel.passwordController),
+                                  controller.passwordController),
                           kheight20,
                           PasswordField(
                             passwordController:
-                                signupmodel.confirmpasswordController,
+                                controller.confirmpasswordController,
                             isConfirm: true,
-                            confirmPassword: signupmodel.passwordController,
+                            confirmPassword: controller.passwordController,
                           ),
                           kheight20,
                           ButtonWidget(
                             text: "Verify",
                             color: kOrange900,
                             onpressed: (context) async {
-                              final isValid = signupmodel
+                              final isValid = controller
                                   .signupformKey.currentState!
                                   .validate();
                               if (!isValid) return;
@@ -131,18 +131,18 @@ class SignUpScreen extends StatelessWidget {
                               await signUp(
                                   context: context,
                                   email:
-                                      signupmodel.emailController.text.trim(),
-                                  password: signupmodel.passwordController.text
+                                      controller.emailController.text.trim(),
+                                  password: controller.passwordController.text
                                       .trim());
                               await userSignupDetailsToFireStore(
                                   email:
-                                      signupmodel.emailController.text.trim(),
-                                  name: signupmodel.fullnameController.text
+                                      controller.emailController.text.trim(),
+                                  name: controller.fullnameController.text
                                       .trim(),
-                                  password: signupmodel.passwordController.text
+                                  password: controller.passwordController.text
                                       .trim(),
                                   phoneNumber:
-                                      signupmodel.numberController.text.trim());
+                                      controller.numberController.text.trim());
                             },
                           ),
                         ],

@@ -11,3 +11,5 @@ export 'package:rentease/view/chats/chat_binding.dart';
 export 'package:rentease/view/chats/chat_screen.dart';
 export 'package:rentease/view/homepage/main_binding.dart';
 export 'package:rentease/view/homepage/main_screen.dart';
+export 'package:rentease/view/address/address_binding.dart';
+export 'package:rentease/view/homepage/profile/profile_screen.dart';

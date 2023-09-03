@@ -3,10 +3,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rentease/main.dart';
-import 'package:rentease/model/signupmodel/mobx/signup_model.dart';
 import 'package:rentease/model/signupmodel/user_model.dart';
 import 'package:rentease/view/core/const_colors.dart';
 import 'package:rentease/view/core/utils.dart';
+import 'package:rentease/view/signuppage/signup_controller.dart';
 
 Future<void> signUp(
     {required context, required email, required password}) async {
@@ -42,9 +42,8 @@ Future<void> userSignupDetailsToFireStore(
     ),
   );
 
-  final SignUpModel signupmodel = SignUpModel();
-
   final docUser = FirebaseFirestore.instance.collection("Users").doc(email);
+  SignupController controller = SignupController();
 
   CreateUser createUser = CreateUser(
     name: name,
@@ -57,6 +56,6 @@ Future<void> userSignupDetailsToFireStore(
 
   Map<String, dynamic> userDataToSend = createUser.toMap();
   await docUser.set(userDataToSend);
-  signupmodel.clearAll();
+  controller.clearAll();
   navigatorKey.currentState!.popUntil((route) => route.isFirst);
 }
