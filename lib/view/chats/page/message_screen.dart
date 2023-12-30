@@ -1,21 +1,19 @@
-import 'chat.dart';
+import 'package:rentease/view/chats/page/message_controller.dart';
 
-class MessageScreen extends GetWidget<ChatController> {
-  final String recieverEmail;
-  final String? recieverName;
-  final String? senderName;
-  const MessageScreen(
-      {super.key,
-      required this.recieverEmail,
-      this.recieverName,
-      this.senderName});
-  static FocusNode focusNode = FocusNode();
+import '../chat.dart';
+
+class MessageScreen extends GetView<MessageController> {
+
+  const MessageScreen({
+    super.key,
+
+  });
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60),
-        child: AppBarWidget(title: recieverName ?? "name"),
+        child: AppBarWidget(title: controller.getReceiverName()),
       ),
       body: Column(
         children: [
@@ -37,38 +35,35 @@ class MessageScreen extends GetWidget<ChatController> {
     );
   }
 
-  StreamBuilder<QuerySnapshot<Map<String, dynamic>>> _messagesList() {
+  StreamBuilder _messagesList() {
     return StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection("chat")
-            .doc(getChatId(FirebaseAuth.instance.currentUser!.email.toString(),
-                recieverEmail))
+            .doc(controller.getChatId(
+                FirebaseAuth.instance.currentUser!.email.toString(),
+                controller.getReceiverMail()))
             .collection("messages")
             .orderBy('dateTimeNow', descending: true)
             .snapshots(),
-        builder: (context, snapshot) {
+        builder: (_, snapshot) {
           if (snapshot.hasData) {
             QuerySnapshot? querySnapshot = snapshot.data;
             List<QueryDocumentSnapshot> documents = querySnapshot!.docs;
             List<Map<String, dynamic>> items =
                 documents.map((e) => e.data() as Map<String, dynamic>).toList();
-            if (items.isEmpty) {
-              return const Center(
-                child: Text("No messages yet"),
+            if (items.isNotEmpty) {
+              return ListView.builder(
+                physics: const BouncingScrollPhysics(),
+                shrinkWrap: true,
+                reverse: true,
+                itemCount: items.length,
+                itemBuilder: (BuildContext context, int index) {
+                  final messageField = items[index];
+                  return messagesCard(messageField['senderEmail'],
+                      messageField["message"], messageField["time"]);
+                },
               );
             }
-
-            return ListView.builder(
-              physics: const BouncingScrollPhysics(),
-              shrinkWrap: true,
-              reverse: true,
-              itemCount: items.length,
-              itemBuilder: (BuildContext context, int index) {
-                final messageField = items[index];
-                return messagesCard(messageField['senderEmail'],
-                    messageField["message"], messageField["time"]);
-              },
-            );
           }
           return const Center(
             child: Text("No messages yet"),
@@ -87,13 +82,13 @@ class MessageScreen extends GetWidget<ChatController> {
         if (controller.sendMessageController.text.isEmpty) {
           return;
         }
-        await sendMessage(
-            receiverEmail: recieverEmail,
+        await controller.sendMessage(
+            receiverEmail: controller.getReceiverMail(),
             message: controller.sendMessageController.text,
-            recieverName: recieverName!,
-            senderName: senderName!);
+            recieverName: controller.getSenderName(),
+            senderName: controller.getSenderName(),);
         controller.sendMessageController.clear();
-        focusNode.unfocus();
+        controller.focusNode.unfocus();
       },
     );
   }
@@ -102,7 +97,7 @@ class MessageScreen extends GetWidget<ChatController> {
     return Expanded(
       child: TextFormField(
         controller: controller.sendMessageController,
-        focusNode: focusNode,
+        focusNode:controller.focusNode,
         decoration: const InputDecoration(
           hintText: 'Type a message...',
           border: OutlineInputBorder(),

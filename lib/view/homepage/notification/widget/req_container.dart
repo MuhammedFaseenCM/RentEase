@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:get/get.dart';
-import 'package:rentease/controller/notification/notify_control.dart';
 import 'package:rentease/model/addressmodel/address_model.dart';
 import 'package:rentease/model/requestmodel/sendreqmodel.dart';
 import 'package:rentease/view/core/const_colors.dart';
 import 'package:rentease/view/core/widgets.dart';
+import 'package:rentease/view/homepage/notification/notify_controller.dart';
 import 'package:rentease/view/homepage/notification/screens/user_details_screen.dart';
 import 'package:rentease/view/homepage/notification/widget/req_buttons_widget.dart';
 
-class RequestContainer extends StatelessWidget {
+class RequestContainer extends GetView<NotifyController> {
   final String docId;
   final AddressModel address;
   final SendRequestModel sendReq;
@@ -17,8 +16,7 @@ class RequestContainer extends StatelessWidget {
       {super.key,
       required this.docId,
       required this.address,
-      required this.sendReq});
-  static final notifyControl = NotifyController();
+      required this.sendReq,});
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -118,13 +116,13 @@ class RequestContainer extends StatelessWidget {
                                 width: 100.0,
                                 height: 100.0,
                                 child: Center(
-                                  child: BlurHash(
-                                    imageFit: BoxFit.cover,
-                                    duration: const Duration(seconds: 4),
-                                    curve: Curves.bounceInOut,
-                                    hash: 'LHA-Vc_4s9ad4oMwt8t7RhXTNGRj',
-                                    image: sendReq.image1,
-                                  ),
+                                  // child: BlurHash(
+                                  //   imageFit: BoxFit.cover,
+                                  //   duration: const Duration(seconds: 4),
+                                  //   curve: Curves.bounceInOut,
+                                  //   hash: 'LHA-Vc_4s9ad4oMwt8t7RhXTNGRj',
+                                  //   image: sendReq.image1,
+                                  // ),
                                 ));
                           }
                         }, errorBuilder: (context, error, stackTrace) {

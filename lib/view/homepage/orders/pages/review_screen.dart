@@ -1,21 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:rentease/controller/review/add_review_function.dart';
-import 'package:rentease/model/ordermodel/order_model.dart';
+import 'package:get/get.dart';
 import 'package:rentease/view/core/appbar_widget.dart';
 import 'package:rentease/view/core/widgets.dart';
 import 'package:rentease/view/homepage/notification/widget/image_widget.dart';
+import 'package:rentease/view/homepage/orders/pages/review_controller.dart';
 
-class ReviewScreen extends StatelessWidget {
-  final String imageUrl;
-  final String title;
-  final String ownerEmail;
-  const ReviewScreen(
-      {super.key,
-      required this.imageUrl,
-      required this.title,
-      required this.ownerEmail});
-  static final OrderModel orderModel = OrderModel();
-  static TextEditingController reviewController = TextEditingController();
+class ReviewScreen extends GetView<ReviewController> {
+  const ReviewScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,10 +27,10 @@ class ReviewScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                ReqImageWidget(imageUrl: imageUrl),
+                ReqImageWidget(imageUrl: controller.order.image1),
                 kwidth10,
                 Text(
-                  title,
+                  controller.order.title,
                   style: const TextStyle(
                       fontSize: 20.0, fontWeight: FontWeight.bold),
                 )
@@ -51,7 +43,7 @@ class ReviewScreen extends StatelessWidget {
             ),
             kheight10,
             TextFormField(
-              controller: reviewController,
+              controller: controller.reviewController,
               decoration: const InputDecoration(
                   labelText: "Review",
                   border: OutlineInputBorder(),
@@ -70,10 +62,11 @@ class ReviewScreen extends StatelessWidget {
                     style: ElevatedButton.styleFrom(
                         side: BorderSide.none, shape: const StadiumBorder()),
                     onPressed: () {
-                      addReview(
-                          title: title,
-                          reviewController: reviewController,
-                          ownerEmail: ownerEmail);
+                      controller.addReview(
+                        title: controller.order.title,
+                        reviewController: controller.reviewController,
+                        ownerEmail: controller.order.ownerEmail,
+                      );
                     },
                     child: const Text("Finish")),
               ),

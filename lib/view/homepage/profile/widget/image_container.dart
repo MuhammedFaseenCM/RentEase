@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:rentease/view/core/const_colors.dart';
 
 class MyGadgetImageContainer extends StatelessWidget {
@@ -30,14 +29,14 @@ class MyGadgetImageContainer extends StatelessWidget {
                 ),
                 width: size ?? 100.0,
                 height: size ?? 100.0,
-                child: Center(
-                  child: BlurHash(
-                    imageFit: BoxFit.cover,
-                    duration: const Duration(seconds: 4),
-                    curve: Curves.bounceInOut,
-                    hash: 'LHA-Vc_4s9ad4oMwt8t7RhXTNGRj',
-                    image: image,
-                  ),
+                child: const Center(
+                  // child: BlurHash(
+                  //   imageFit: BoxFit.cover,
+                  //   duration: const Duration(seconds: 4),
+                  //   curve: Curves.bounceInOut,
+                  //   hash: 'LHA-Vc_4s9ad4oMwt8t7RhXTNGRj',
+                  //   image: image,
+                  // ),
                 ));
           }
         }, errorBuilder: (context, error, stackTrace) {

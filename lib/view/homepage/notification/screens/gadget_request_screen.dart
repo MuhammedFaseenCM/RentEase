@@ -1,21 +1,21 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:rentease/controller/notification/notify_control.dart';
+import 'package:get/get.dart';
 import 'package:rentease/model/addressmodel/address_model.dart';
 import 'package:rentease/model/requestmodel/sendreqmodel.dart';
 import 'package:rentease/view/core/const_colors.dart';
 import 'package:rentease/view/core/screen_container_widget.dart';
+import 'package:rentease/view/homepage/notification/notify_controller.dart';
 import 'package:rentease/view/homepage/notification/widget/req_container.dart';
 
-class GadgetRequestScreen extends StatelessWidget {
+class GadgetRequestScreen extends GetView<NotifyController> {
   const GadgetRequestScreen({super.key});
-  static final notifyControl = NotifyController();
   @override
   Widget build(BuildContext context) {
     return CustomContainer(
       child: StreamBuilder(
-        stream: notifyControl.reqStream,
+        stream: controller.reqStream,
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             return Center(
@@ -36,47 +36,51 @@ class GadgetRequestScreen extends StatelessWidget {
                     map['ownerEmail'] ==
                     FirebaseAuth.instance.currentUser!.email.toString())
                 .toList();
-            if (items.isEmpty) {
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Icon(
-                      Icons.notifications,
-                      color: kblackColor,
-                      size: 25.0,
-                    ),
-                    Text(
-                      "No notification yet",
-                      style: TextStyle(
-                          fontSize: 20.0,
-                          color: kblackColor,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-              );
+            if (items.isNotEmpty) {
+              return _buildNotifyList(items, documents);
             }
-
-            return ListView.builder(
-              itemCount: items.length,
-              itemBuilder: (context, index) {
-                final address = AddressModel.fromSnapshot(documents[index]);
-                final sendReq = SendRequestModel.fromSnapshot(documents[index]);
-                return RequestContainer(
-                  sendReq: sendReq,
-                  address: address,
-                  docId: documents[index].id,
-                );
-              },
-            );
-          } else {
-            return const Center(
-              child: Text("No notification yet"),
-            );
           }
+          return _buildEmpty();
         },
       ),
+    );
+  }
+
+  Center _buildEmpty() {
+    return const Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.notifications,
+            color: kblackColor,
+            size: 25.0,
+          ),
+          Text(
+            "No notification yet",
+            style: TextStyle(
+                fontSize: 20.0,
+                color: kblackColor,
+                fontWeight: FontWeight.bold),
+          ),
+        ],
+      ),
+    );
+  }
+
+  ListView _buildNotifyList(List<Map<String, dynamic>> items,
+      List<QueryDocumentSnapshot<Object?>> documents) {
+    return ListView.builder(
+      itemCount: items.length,
+      itemBuilder: (context, index) {
+        final address = AddressModel.fromSnapshot(documents[index]);
+        final sendReq = SendRequestModel.fromSnapshot(documents[index]);
+        return RequestContainer(
+          sendReq: sendReq,
+          address: address,
+          docId: documents[index].id,
+        );
+      },
     );
   }
 }

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:rentease/view/core/appbar_widget.dart';
 import 'package:rentease/view/core/string_consts.dart';
 import 'package:flutter_gen/gen_l10n/app_localization.dart';
-import 'package:rentease/view/localization/l10n.dart';
 
 class SelectLanguageScreen extends StatelessWidget {
   const SelectLanguageScreen({super.key});
@@ -20,7 +19,6 @@ class SelectLanguageScreen extends StatelessWidget {
         itemCount: languages.length,
         itemBuilder: (context, index) {
           final language = languages[index];
-          final flag = L10n.all[index];
           return Card(
             child: ListTile(
               title: Text(language),

@@ -13,7 +13,6 @@ import 'package:rentease/view/loginpage/login_controller.dart';
 import 'package:rentease/view/loginpage/widgets/fields.dart/password_field.dart';
 import 'package:rentease/view/loginpage/widgets/forgotpswd_screen.dart';
 import 'package:rentease/view/loginpage/widgets/google_widget.dart';
-import 'package:rentease/view/signuppage/signup_screen.dart';
 
 class LoginSection extends GetView<LoginController> {
   const LoginSection({super.key});

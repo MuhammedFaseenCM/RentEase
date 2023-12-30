@@ -18,23 +18,23 @@ class AboutUsWidget extends StatelessWidget {
             const Text('entEase'),
           ],
         ),
-        children: [
+        children: const [
           Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: EdgeInsets.all(16.0),
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
+                    Text(
                       'RentEase is a rental app where you can post your rental gadgets for rent and other users can rent them.',
                     ),
                     kheight10,
-                    const Text(
+                    Text(
                       'Version: 1.0.0',
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     kheight10,
                     Row(
-                      children: const [
+                      children: [
                         Text(
                           'Developed by :',
                         ),

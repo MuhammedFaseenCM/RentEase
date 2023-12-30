@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:rentease/controller/notification/notify_control.dart';
 import 'package:rentease/view/core/const_colors.dart';
 import 'package:flutter_gen/gen_l10n/app_localization.dart';
 import 'package:rentease/view/homepage/main_controller.dart';
@@ -10,7 +9,6 @@ var selectedPage = 0;
 
 class BottomNavigationBarWidget extends GetView<MainController> {
   const BottomNavigationBarWidget({super.key});
-  static final notifycontrol = NotifyController();
   @override
   Widget build(BuildContext context) {
     return Obx(

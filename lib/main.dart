@@ -1,6 +1,5 @@
 // ignore_for_file: implementation_imports, depend_on_referenced_packages
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,8 +10,6 @@ import 'package:rentease/view/core/string_consts.dart';
 import 'package:rentease/view/core/utils.dart';
 import 'package:flutter_gen/gen_l10n/app_localization.dart';
 import 'package:rentease/view/localization/l10n.dart';
-import 'package:rentease/view/loginpage/login_screen.dart';
-import 'package:rentease/view/signuppage/widget/verify_email.dart';
 import 'package:flutter_localizations/src/material_localizations.dart';
 import 'package:flutter_localizations/src/cupertino_localizations.dart';
 import 'package:flutter_localizations/src/widgets_localizations.dart';

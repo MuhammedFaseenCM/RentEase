@@ -2,10 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:rentease/model/acceptmodel/accept_model.dart';
-import 'package:rentease/model/addressmodel/edit_mobx.dart/edit_address_getx.dart';
 import 'package:rentease/model/requestmodel/sendreqmodel.dart';
 import 'package:rentease/view/core/const_colors.dart';
 import 'package:rentease/view/core/string_consts.dart';
+import 'package:rentease/view/homepage/profile/profile_controller.dart';
 
 class NotifyController extends GetxController {
   final reqQuery = FirebaseFirestore.instance.collection("SendReq");
@@ -13,19 +13,23 @@ class NotifyController extends GetxController {
   late Stream<QuerySnapshot<Object?>> reqStream;
   late Stream<QuerySnapshot<Object?>> resStream;
 
-  
+  static const String reBuildDelete = "reBuildDelete";
+
+  static const String reBuildResponse = "reBuildResponse";
+
   int itemsLength = 0;
   NotifyController() {
     reqStream = reqQuery.snapshots();
     resStream = resQuery.snapshots();
   }
-  ProfileControl profileControl = ProfileControl();
-  Future<void> sendResp(
-      {required docId,
-      required SendRequestModel sendReq,
-      bool accept = true,
-      required String status}) async {
-    final snapshot = profileControl.docRef
+  Future<void> sendResp({
+    required docId,
+    required SendRequestModel sendReq,
+    bool accept = true,
+    required String status,
+  }) async {
+    final snapshot = Get.find<ProfileController>()
+        .docRef
         .doc(FirebaseAuth.instance.currentUser!.email.toString());
     Map? data;
     var docsnapshot = await snapshot.get();
@@ -57,16 +61,21 @@ class NotifyController extends GetxController {
     } else {
       await reqQuery.doc(docName).update({'status': 'reject'});
     }
+    update([reBuildResponse]);
   }
 
   Future<void> deleteRes({required docId}) async {
     await resQuery.doc(docId).delete();
     final reqUser = reqQuery.doc(docId);
     reqUser.update({'status': 'reject'});
-    Get.snackbar("Deleted", "",
-        backgroundColor: kgreenColor,
-        snackPosition: SnackPosition.BOTTOM,
-        colorText: kwhiteColor);
+    Get.snackbar(
+      "Deleted",
+      "",
+      backgroundColor: kgreenColor,
+      snackPosition: SnackPosition.BOTTOM,
+      colorText: kwhiteColor,
+    );
+    update([reBuildDelete]);
   }
 
   bool notify = true;

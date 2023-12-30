@@ -2,7 +2,7 @@ import 'package:rentease/view/homepage/profile/profile_controller.dart';
 
 import 'profile.dart';
 
-class ProfileScreen extends GetWidget<ProfileController> {
+class ProfileScreen extends GetView<ProfileController> {
   const ProfileScreen({super.key});
 
   @override

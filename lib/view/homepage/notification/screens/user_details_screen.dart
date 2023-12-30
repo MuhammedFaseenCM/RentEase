@@ -10,16 +10,16 @@ import 'package:rentease/view/homepage/notification/widget/image_widget.dart';
 import 'package:rentease/view/homepage/notification/widget/user_details_container.dart';
 
 class UserRequestDetailsScreen extends StatelessWidget {
-  
   final String docId;
   final AddressModel address;
   final SendRequestModel sendReq;
 
-  const UserRequestDetailsScreen(
-      {super.key,
-      required this.docId,
-      required this.address,
-      required this.sendReq});
+  const UserRequestDetailsScreen({
+    super.key,
+    required this.docId,
+    required this.address,
+    required this.sendReq,
+  });
 
   @override
   Widget build(BuildContext context) {

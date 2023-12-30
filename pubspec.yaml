@@ -20,7 +20,6 @@ dependencies:
   firebase_storage: ^11.0.15
   flutter:
     sdk: flutter
-  flutter_blurhash: ^0.7.0
   flutter_localization: ^0.1.12
   flutter_otp_text_field: ^1.1.1
   flutter_rating_bar: ^4.0.1

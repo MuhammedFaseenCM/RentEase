@@ -1,4 +1,7 @@
-import 'package:rentease/view/homepage/profile/profile_binding.dart';
+import 'package:rentease/view/chats/page/message_binding.dart';
+import 'package:rentease/view/chats/page/message_screen.dart';
+import 'package:rentease/view/homepage/orders/pages/review_binding.dart';
+import 'package:rentease/view/homepage/orders/pages/review_screen.dart';
 
 import 'route.dart';
 
@@ -41,9 +44,14 @@ class Routes {
         binding: AddressBinding(),
       ),
       GetPage(
-        name: RoutesName.profile,
-        page: () => const ProfileScreen(),
-        binding: ProfileBinding(),
+        name: RoutesName.review,
+        page: () => const ReviewScreen(),
+        binding: ReviewBindings(),
+      ),
+      GetPage(
+        name: RoutesName.message,
+        page: () => const MessageScreen(),
+        binding: MessageBinding(),
       )
     ];
   }

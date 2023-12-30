@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:rentease/model/languagemodel/lang_model.dart';
 
 import 'package:rentease/view/core/const_colors.dart';
-import 'package:rentease/view/localization/l10n.dart';
 
 const kheight20 = SizedBox(
   height: 20,

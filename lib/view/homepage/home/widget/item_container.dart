@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:rentease/model/homemodel/gadgets.dart';
 import 'package:rentease/view/core/const_colors.dart';
 import 'package:rentease/view/core/string_consts.dart';
@@ -94,13 +93,13 @@ class ItemContainer extends StatelessWidget {
                         return child;
                       } else {
                         return Center(
-                          child: BlurHash(
-                            imageFit: BoxFit.cover,
-                            duration: const Duration(seconds: 4),
-                            curve: Curves.bounceInOut,
-                            hash: 'LHA-Vc_4s9ad4oMwt8t7RhXTNGRj',
-                            image: gadget.image1,
-                          ),
+                          // child: BlurHash(
+                          //   imageFit: BoxFit.cover,
+                          //   duration: const Duration(seconds: 4),
+                          //   curve: Curves.bounceInOut,
+                          //   hash: 'LHA-Vc_4s9ad4oMwt8t7RhXTNGRj',
+                          //   image: gadget.image1,
+                          // ),
                         );
                       }
                     },

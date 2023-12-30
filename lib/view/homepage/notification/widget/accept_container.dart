@@ -1,20 +1,18 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
-import 'package:rentease/controller/notification/notify_control.dart';
 import 'package:rentease/model/acceptmodel/accept_model.dart';
-import 'package:rentease/view/chats/message_screen.dart';
-import 'package:rentease/view/core/const_colors.dart';
-import 'package:rentease/view/core/string_consts.dart';
-import 'package:rentease/view/core/widgets.dart';
+import 'package:rentease/model/chat_model.dart';
+import 'package:rentease/view/chats/page/message_controller.dart';
+import 'package:rentease/view/homepage/notification/notify_controller.dart';
+import 'package:rentease/view/homepage/profile/profile.dart';
 
-class AcceptContainer extends StatelessWidget {
+class AcceptContainer extends GetView<NotifyController> {
   final String docId;
-  //final Map resMap;
   final SendAcceptModel sendAccept;
-  AcceptContainer({super.key, required this.docId, required this.sendAccept});
-  static final notifyControl = NotifyController();
+  AcceptContainer({
+    super.key,
+    required this.docId,
+    required this.sendAccept,
+  });
   final razorPay = Razorpay();
   @override
   Widget build(BuildContext context) {
@@ -64,15 +62,16 @@ class AcceptContainer extends StatelessWidget {
                                 ),
                                 width: 120.0,
                                 height: 100.0,
-                                child: Center(
-                                  child: BlurHash(
-                                    imageFit: BoxFit.cover,
-                                    duration: const Duration(seconds: 4),
-                                    curve: Curves.bounceInOut,
-                                    hash: 'LHA-Vc_4s9ad4oMwt8t7RhXTNGRj',
-                                    image: sendAccept.image1,
-                                  ),
-                                ));
+                                // child: Center(
+                                //   child: BlurHash(
+                                //     imageFit: BoxFit.cover,
+                                //     duration: const Duration(seconds: 4),
+                                //     curve: Curves.bounceInOut,
+                                //     hash: 'LHA-Vc_4s9ad4oMwt8t7RhXTNGRj',
+                                //     image: sendAccept.image1,
+                                //   ),
+                                // ),
+                                );
                           }
                         }, errorBuilder: (context, error, stackTrace) {
                           return Container(
@@ -118,15 +117,19 @@ class AcceptContainer extends StatelessWidget {
                                             title: sendAccept.title);
                                       } else if (sendAccept.payment ==
                                           'success') {
-                                        Navigator.of(context)
-                                            .push(MaterialPageRoute(
-                                          builder: (context) => MessageScreen(
-                                            recieverEmail:
-                                                sendAccept.ownerEmail,
-                                                recieverName: sendAccept.ownerName,
-                                                senderName: sendAccept.userName,
-                                          ),
-                                        ));
+                                        Get.find<MessageController>().chat =
+                                            Chat(
+                                                message: '',
+                                                dateTime: DateTime.now(),
+                                                names: [
+                                              sendAccept.ownerName,
+                                              sendAccept.userName
+                                            ],
+                                                participants: [
+                                              sendAccept.ownerEmail,
+                                              sendAccept.userEmail
+                                            ],);
+                                        Get.toNamed(RoutesName.message);
                                       }
                                     },
                                     style: ElevatedButton.styleFrom(
@@ -152,33 +155,7 @@ class AcceptContainer extends StatelessWidget {
                 ],
               ),
             ),
-            Positioned(
-              top: 0.0,
-              right: 0.0,
-              child: Container(
-                width: 40.0,
-                height: 40.0,
-                decoration: BoxDecoration(
-                  boxShadow: const [
-                    BoxShadow(
-                        color: Colors.grey, blurRadius: 5.0, spreadRadius: 5.0)
-                  ],
-                  color: kgrey,
-                  borderRadius: const BorderRadius.only(
-                      bottomLeft: Radius.circular(50.0)),
-                ),
-                child: Center(
-                  child: IconButton(
-                      onPressed: () {
-                        notifyControl.deleteRes(docId: docId);
-                      },
-                      icon: const Icon(
-                        Icons.close,
-                        color: kwhiteColor,
-                      )),
-                ),
-              ),
-            ),
+            _buildDelete(),
             sendAccept.payment == 'success'
                 ? Positioned(
                     bottom: 0.0,
@@ -195,10 +172,10 @@ class AcceptContainer extends StatelessWidget {
                                 blurRadius: 5.0,
                                 spreadRadius: 5.0)
                           ]),
-                      child: Center(
+                      child: const Center(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
+                          children: [
                             Icon(
                               Icons.check,
                               color: kwhiteColor,
@@ -219,6 +196,40 @@ class AcceptContainer extends StatelessWidget {
         kheight20
       ],
     );
+  }
+
+  GetBuilder _buildDelete() {
+    return GetBuilder<NotifyController>(
+        id: NotifyController.reBuildDelete,
+        builder: (context) {
+          return Positioned(
+            top: 0.0,
+            right: 0.0,
+            child: Container(
+              width: 40.0,
+              height: 40.0,
+              decoration: BoxDecoration(
+                boxShadow: const [
+                  BoxShadow(
+                      color: Colors.grey, blurRadius: 5.0, spreadRadius: 5.0)
+                ],
+                color: kgrey,
+                borderRadius:
+                    const BorderRadius.only(bottomLeft: Radius.circular(50.0)),
+              ),
+              child: Center(
+                child: IconButton(
+                    onPressed: () {
+                      controller.deleteRes(docId: docId);
+                    },
+                    icon: const Icon(
+                      Icons.close,
+                      color: kwhiteColor,
+                    )),
+              ),
+            ),
+          );
+        });
   }
 
   checkout({required amount, required title}) {

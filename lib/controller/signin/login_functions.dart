@@ -28,7 +28,7 @@ Future signIn(
               email.clear(),
               password.clear()
             });
-  } on FirebaseAuthException catch (e) {
+  } on FirebaseAuthException catch (_) {
     Get.snackbar(
       "Username/password is incorrect",
       "",
